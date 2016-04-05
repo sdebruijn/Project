@@ -1,4 +1,4 @@
-package nl.project.users;
+package nl.project.user;
 
 public class User {
 	

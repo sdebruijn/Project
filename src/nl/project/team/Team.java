@@ -2,7 +2,7 @@ package nl.project.team;
 
 import java.util.List;
 
-//import nl.project.users;
+import nl.project.user.User;
 public class Team {
 	private String teamId; // or int?
 	private String name;
@@ -17,6 +17,3 @@ public class Team {
 		this.manager = manager;		
 	}
 }
-
-
-class User {}
