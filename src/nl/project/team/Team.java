@@ -62,7 +62,7 @@ public class Team {
 			this.manager = manager;
 		}
 		else {
-			throw new NullPointerException("Er is geen manager");
+			throw new NullPointerException("Er is geen manager meegegeven");
 		}
 	}
 
