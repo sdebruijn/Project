@@ -6,7 +6,7 @@ public class DefaultEvent extends Event{
 	
 	private LocalDateTime start, end;
 	private String title, location, description;
-	
+		
 	public LocalDateTime getStart() {
 		return start;
 	}
@@ -15,7 +15,7 @@ public class DefaultEvent extends Event{
 			throw new NullPointerException();
 		}
 		this.start = start;
-		if (this.end.isBefore(this.start)){
+		if (this.end == null || this.end.isBefore(this.start)){
 			this.end = this.start.plusHours(1);
 		}
 	}
@@ -24,6 +24,9 @@ public class DefaultEvent extends Event{
 	}
 	public void setEnd(LocalDateTime end) {
 		if (end == null){
+			throw new NullPointerException();
+		}
+		if (this.start == null){
 			throw new NullPointerException();
 		}
 		if (end.isBefore(this.start)){
