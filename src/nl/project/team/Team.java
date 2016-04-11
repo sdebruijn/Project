@@ -1,5 +1,6 @@
 package nl.project.team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import nl.project.user.User;
@@ -9,6 +10,21 @@ public class Team {
 	private String name;
 	private List<User> members; // TODO: List or Set?
 	private User manager;
+	private User coach;
+
+	public Team (){
+		teamId = "";
+	}
+	
+	public Team (String teamId){
+		this.teamId = teamId;
+	}
+	
+	public	Team (String teamId, String name, User manager){
+		this.teamId = teamId;
+		this.name = name;
+		this.manager = manager;
+	}
 
 	public Team(String teamId, String name, List<User> members, User manager) {
 		this.teamId = teamId;
@@ -17,6 +33,14 @@ public class Team {
 		this.manager = manager;
 	}
 
+	public User getCoach() {
+		return coach;
+	}
+
+	public void setCoach(User coach) {
+		this.coach = coach;
+	}
+	
 	public String getName() {
 		return this.name;
 	}
@@ -31,6 +55,23 @@ public class Team {
 	
 	public User getManager() {
 		return this.manager;
+	}
+	
+	public void setManager(User manager) {
+		if (manager != null){
+			this.manager = manager;
+		}
+		else {
+			throw new NullPointerException("Er is geen manager");
+		}
+	}
+
+	public String getTeamId() {
+		return teamId;
+	}
+
+	public List<User> getMembers() {
+		return new ArrayList<>(members);
 	}
 
 	public boolean addMember(User member) {
@@ -47,6 +88,10 @@ public class Team {
 	
 	public boolean removeMember(User member) {
 		return members.remove(member);
+	}
+	
+	public void clearMembers(){
+		members.clear();
 	}
 	
 	@Override

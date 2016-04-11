@@ -3,11 +3,32 @@ package nl.project.user;
 public class User {
 	
 	final private String userId;
-	private String name;
+	private String name, surname;
 	
-	User (String userId, String name){
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		if (surname == null){
+			throw new NullPointerException();
+		}
+		else if (surname.isEmpty()){
+			throw new IllegalArgumentException();
+		}
+		this.surname = surname;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public User(){userId="";}
+	
+	public User (String userId, String name, String surname){
 		this.userId = userId;
 		this.name = name;
+		this.surname = surname;
 	}
 	
 	public String getName (){
@@ -15,6 +36,12 @@ public class User {
 	}
 	
 	public void setName(String name){
+		if (name == null){
+			throw new NullPointerException();
+		}
+		else if (name.isEmpty()){
+			throw new IllegalArgumentException();
+		}
 		this.name = name;
 	}
 	
