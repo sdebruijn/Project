@@ -1,11 +1,16 @@
 package nl.project.event;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import nl.project.team.Team;
 
 public class DefaultEvent extends Event{
 	
 	private LocalDateTime start, end;
 	private String title, location, description;
+	private List<Team> attendingTeams;
 	
 	public LocalDateTime getStart() {
 		return start;
@@ -67,4 +72,24 @@ public class DefaultEvent extends Event{
 		}
 		this.description = description;
 	}
+	
+	public List<Team> getAttendingTeams() {
+		return new ArrayList<>(attendingTeams);
+	}
+	
+	public boolean addAttendingTeam(Team team) {
+		if (team == null) { 
+			return false;
+		}
+		if (!attendingTeams.contains(team)) {
+			return attendingTeams.add(team);
+		}		
+		return false;
+	}
+	
+	public void clearAttendingTeams() {
+		attendingTeams.clear();
+	}
+	
+	
 }
