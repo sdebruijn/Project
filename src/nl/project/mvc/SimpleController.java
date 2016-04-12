@@ -1,4 +1,4 @@
-package nl.zwolle.mvc;
+package nl.project.mvc;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,5 +11,4 @@ public class SimpleController {
 	public @ResponseBody String simple() {
 		return "Hello world! Test for the project.";
 	}
-
 }
