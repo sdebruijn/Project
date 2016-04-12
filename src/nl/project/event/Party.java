@@ -11,9 +11,9 @@ public class Party extends DefaultEvent {
 	@Override
 	public void setEnd(LocalDateTime end) {
 		
-		if (super.getStart().getHour() < 6){
+		if (super.getStart().getHour() < 6) {
 			super.setEnd(super.getStart().withHour(6).withMinute(30));
-		}else {
+		} else {
 			super.setEnd(super.getStart().plusDays(1).withHour(6).withMinute(30));
 		}
 		
