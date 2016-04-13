@@ -1,4 +1,4 @@
-package nl.project.inlog;
+package nl.project.util;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
