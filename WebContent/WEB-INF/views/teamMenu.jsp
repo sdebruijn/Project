@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Mainmenu</title>
+  <title>Teammenu</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -15,13 +15,17 @@
 </head>
 <body>
 <div class="container">
-  <h2>Welkom username</h2>
-  <div class="btn-group-vertical">
-    <a href="newTeam"><button type="button" class="btn btn-primary">New team</button></a>
-    
-    <c:forEach items="${teams }" var="i">
-    <br><a href="<c:url value="/team/${i.id}" />"><button type="button" class="btn btn-primary">${i.name }</button></a>
+  <h2>${team.name }</h2>
+  <p>Sport: ${team.sport }</p>
+  <p>Members:</p>
+  
+  <c:forEach items="${users}" var="i">
+    <li>${i.team}</li>
     </c:forEach>
     
+  <div class="btn-group-vertical">
+    <a href="<c:url value="/addmember/${team.id}" />"><button type="button" class="btn btn-primary">Add member</button></a>
+    <button type="button" class="btn btn-primary">Remove member</button>
+    <a href="<c:url value="/delete/${team.id}" />"><button type="button" class="btn btn-primary">Remove team</button></a> 
   </div>
 </div>

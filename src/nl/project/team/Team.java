@@ -1,51 +1,69 @@
 package nl.project.team;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import nl.project.user.User;
-
 @Entity
 public class Team {
 	
-	private Long teamId;
+	@Column(name="id")
+	private Long id;
 	
 	private String name;
-	private List<User> members; // TODO: List or Set?
+	private String sport;
+	
+//	@OneToMany
+//	private List<User> members;
+//	
+/*	private List<User> members; // TODO: List or Set?
 	private User manager;
-	private User coach;
+	private User coach;*/
+
+/*	public List<User> getMembers() {
+		return members;
+	}
+
+	public void setMembers(List<User> members) {
+		this.members = members;
+	}
+*/
+	public String getSport() {
+		return sport;
+	}
+
+	public void setSport(String sport) {
+		this.sport = sport;
+	}
 
 	@Id
 	@GeneratedValue(generator="increment")
 	@GenericGenerator(name="increment", strategy = "increment")
-	public Long getTeamId() {
-		return teamId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setTeamId(Long teamId) {
-		this.teamId = teamId;
+	public void setId(Long teamId) {
+		this.id = teamId;
 	}
 
 	public Team (){
 	}
 	
-	public Team (Long teamId){
-		this.teamId = teamId;
+	public Team (Long id){
+		this.id = id;
 	}
 	
-	public	Team (Long teamId, String name, User manager){
+/*	public	Team (Long id, String name, User manager){
 		this.teamId = teamId;
 		this.name = name;
 		this.manager = manager;
 	}
 
-	public Team(Long teamId, String name, List<User> members, User manager) {
+	public Team(Long id, String name, List<User> members, User manager) {
 		this.teamId = teamId;
 		this.name = name;
 		this.members = members;
@@ -58,7 +76,7 @@ public class Team {
 
 	public void setCoach(User coach) {
 		this.coach = coach;
-	}
+	}*/
 	
 	public String getName() {
 		return this.name;
@@ -67,7 +85,7 @@ public class Team {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+/*	
 	public User getManager() {
 		return this.manager;
 	}
@@ -103,7 +121,7 @@ public class Team {
 	
 	public void clearMembers(){
 		members.clear();
-	}
+	}*/
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -116,12 +134,12 @@ public class Team {
 		}
 		
 		Team other = (Team) obj;
-		return this.teamId.equals(other.teamId) && this.name.equals(other.name);
+		return this.id.equals(other.id) && this.name.equals(other.name);
 	}
 	
 	@Override
 	public String toString() {
-		return "Team " + this.name + " (manager: " + this.manager.getName() + ")";
+		return "Team " + this.name;
 		
 	}
 }

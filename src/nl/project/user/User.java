@@ -1,26 +1,42 @@
 package nl.project.user;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import nl.project.team.Team;
 
 @Entity
 public class User {
 	
-	private Long userId;
+	private Long id;
 	private String name, surname;
 	
+	private Team team;
+	
+	@ManyToOne
+	public Team getTeam() {
+		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
+	}
+
 	@Id
 	@GeneratedValue(generator="increment")
 	@GenericGenerator(name="increment", strategy = "increment")
-	public Long getUserId() {
-		return userId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	public String getSurname() {
@@ -39,8 +55,8 @@ public class User {
 
 	public User(){}
 	
-	public User (Long userId, String name, String surname){
-		this.userId = userId;
+	public User (Long id, String name, String surname){
+		this.id = id;
 		this.name = name;
 		this.surname = surname;
 	}
@@ -68,7 +84,7 @@ public class User {
 			return false;
 		}
 		User u = (User)o;
-		if (this.userId.equals(u.userId)){
+		if (this.id.equals(u.id)){
 			if (this.name.equals(u.name)){
 				return true;
 			}

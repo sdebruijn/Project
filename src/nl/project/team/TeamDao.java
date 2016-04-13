@@ -1,20 +1,24 @@
 package nl.project.team;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import nl.project.user.User;
+
 public abstract class TeamDao {
-	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("teams");
+	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("teamapp");
 	
 	/**
 	 * Maak een nieuw team aan en sla die op in de database
-	 */
-	
-	public static Team create(String name){
+	 */	
+	public static Team create(String name, String sport){
 		Team team = new Team();
 		team.setName(name);
+		team.setSport(sport);
 		
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction t = em.getTransaction();
@@ -26,5 +30,44 @@ public abstract class TeamDao {
 		return team;
 	}
 	
-
+	/**
+	 * Verwijder een team uit de database
+	 */
+	public static void remove(Long id){
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		Team team = em.find(Team.class, id);
+		if(team != null){
+			em.remove( team );
+		}
+		t.commit();
+		em.close();
+	}
+	
+	/**
+	 * Haal een team op a.d.h.v. zijn id
+	 */
+	public static Team find(Long id){
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		Team team = em.find(Team.class, id);
+		t.commit();
+		em.close();
+		return team;
+	}
+	
+	/**
+	 * Haal alle ritten op uit de database
+	 */	
+	public static List<Team> all(){
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		List<Team> teams = em.createQuery("from Team", Team.class).getResultList();
+		t.commit();
+		em.close();
+		return teams;
+	}
 }
