@@ -3,30 +3,49 @@ package nl.project.team;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
 import nl.project.user.User;
 
+@Entity
 public class Team {
-	private final String teamId; // or int?
+	
+	private Long teamId;
+	
 	private String name;
 	private List<User> members; // TODO: List or Set?
 	private User manager;
 	private User coach;
 
+	@Id
+	@GeneratedValue(generator="increment")
+	@GenericGenerator(name="increment", strategy = "increment")
+	public Long getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(Long teamId) {
+		this.teamId = teamId;
+	}
+
 	public Team (){
-		teamId = "";
 	}
 	
-	public Team (String teamId){
+	public Team (Long teamId){
 		this.teamId = teamId;
 	}
 	
-	public	Team (String teamId, String name, User manager){
+	public	Team (Long teamId, String name, User manager){
 		this.teamId = teamId;
 		this.name = name;
 		this.manager = manager;
 	}
 
-	public Team(String teamId, String name, List<User> members, User manager) {
+	public Team(Long teamId, String name, List<User> members, User manager) {
 		this.teamId = teamId;
 		this.name = name;
 		this.members = members;
@@ -49,10 +68,6 @@ public class Team {
 		this.name = name;
 	}
 	
-	public String getId() {
-		return this.teamId;
-	}
-	
 	public User getManager() {
 		return this.manager;
 	}
@@ -64,10 +79,6 @@ public class Team {
 		else {
 			throw new NullPointerException("Er is geen manager meegegeven");
 		}
-	}
-
-	public String getTeamId() {
-		return teamId;
 	}
 
 	public List<User> getMembers() {

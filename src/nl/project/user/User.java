@@ -1,9 +1,27 @@
 package nl.project.user;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
 public class User {
 	
-	final private String userId;
+	private Long userId;
 	private String name, surname;
+	
+	@Id
+	@GeneratedValue(generator="increment")
+	@GenericGenerator(name="increment", strategy = "increment")
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 	
 	public String getSurname() {
 		return surname;
@@ -19,18 +37,14 @@ public class User {
 		this.surname = surname;
 	}
 
-	public String getUserId() {
-		return userId;
-	}
-
-	public User(){userId="";}
+	public User(){}
 	
-	public User (String userId, String name, String surname){
+	public User (Long userId, String name, String surname){
 		this.userId = userId;
 		this.name = name;
 		this.surname = surname;
 	}
-	
+
 	public String getName (){
 		return name;
 	}
