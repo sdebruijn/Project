@@ -17,9 +17,9 @@ public class Team {
 	private Long teamId;
 	
 	private String name;
-	private List<User> members; // TODO: List or Set?
+	/*private List<User> members; // TODO: List or Set?
 	private User manager;
-	private User coach;
+	private User coach;*/
 
 	@Id
 	@GeneratedValue(generator="increment")
@@ -38,7 +38,7 @@ public class Team {
 	public Team (Long teamId){
 		this.teamId = teamId;
 	}
-	
+/*	
 	public	Team (Long teamId, String name, User manager){
 		this.teamId = teamId;
 		this.name = name;
@@ -58,7 +58,7 @@ public class Team {
 
 	public void setCoach(User coach) {
 		this.coach = coach;
-	}
+	}*/
 	
 	public String getName() {
 		return this.name;
@@ -68,7 +68,7 @@ public class Team {
 		this.name = name;
 	}
 	
-	public User getManager() {
+	/*public User getManager() {
 		return this.manager;
 	}
 	
@@ -103,7 +103,7 @@ public class Team {
 	
 	public void clearMembers(){
 		members.clear();
-	}
+	}*/
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -119,9 +119,9 @@ public class Team {
 		return this.teamId.equals(other.teamId) && this.name.equals(other.name);
 	}
 	
-	@Override
+/*	@Override
 	public String toString() {
 		return "Team " + this.name + " (manager: " + this.manager.getName() + ")";
 		
-	}
+	}*/
 }

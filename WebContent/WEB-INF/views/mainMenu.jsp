@@ -20,7 +20,7 @@
     <a href="newTeam"><button type="button" class="btn btn-primary">New team</button></a>
     
     <!-- for each team, add button -->
-    <c:forEach items="${teams }" var="i">
+    <c:forEach items="${teams}" var="i">
     <button type="button" class="btn btn-primary">${i.name }</button>
     </c:forEach>
     

@@ -1,5 +1,7 @@
 package nl.project.team;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -24,6 +26,19 @@ public abstract class TeamDao {
 		em.close();
 		
 		return team;
+	}
+	
+	/**
+	 * Haal alle teams op uit de database
+	 */
+	public static List<Team> all(){
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		List<Team> teams = em.createQuery("from Team", Team.class).getResultList();
+		t.commit();
+		em.close();
+		return teams;
 	}
 	
 
