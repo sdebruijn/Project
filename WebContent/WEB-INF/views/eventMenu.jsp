@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Teammenu</title>
+  <title>Mainmenu</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -15,10 +15,14 @@
 </head>
 <body>
 <div class="container">
-  <h2>${team.name }</h2>    
+  <h2>Events</h2>
   <div class="btn-group-vertical">
-  	<a href="<c:url value="/team/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Team management</button></a>
-    <a href="<c:url value="/events/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Events</button></a>
-    <a href="<c:url value="/mainMenu" />"><button type="button" class="btn btn-default btn-block">Back</button></a>
+    <a href="creatematch"><button type="button" class="btn btn-primary btn-block">New match</button></a>
+    
+
+    <c:forEach items="${events}" var="i">
+    	<a href="<c:url value="/teammenu/${i.id}" />"><button type="button" class="btn btn-primary btn-block">${i.name }</button></a>
+    </c:forEach>
+    
   </div>
 </div>

@@ -15,7 +15,7 @@
 </head>
 <body>
 <div class="container">
-  <h2>Create a new team</h2>
+  <h2>Create a new event</h2>
   <form:form commandname="event">
 	<div class="form-group">
   		<label for="teamName">Title:</label>

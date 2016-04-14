@@ -1,16 +1,32 @@
 package nl.project.event;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
-import nl.project.team.Team;
+import org.hibernate.annotations.GenericGenerator;
 
-public class DefaultEvent extends Event{
+@Entity
+public class DefaultEvent{
 	
 	private LocalDateTime start, end;
 	private String title, location, description;
-	private List<Team> attendingTeams;
+	
+	@Column(name="id")
+	private Long id;
+	
+	@Id
+	@GeneratedValue(generator="increment")
+	@GenericGenerator(name="increment", strategy = "increment")
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long teamId) {
+		this.id = teamId;
+	}
 	
 	public LocalDateTime getStart() {
 		return start;
@@ -75,24 +91,4 @@ public class DefaultEvent extends Event{
 		}
 		this.description = description;
 	}
-	
-	public List<Team> getAttendingTeams() {
-		return new ArrayList<>(attendingTeams);
-	}
-	
-	public boolean addAttendingTeam(Team team) {
-		if (team == null) { 
-			return false;
-		}
-		if (!attendingTeams.contains(team)) {
-			return attendingTeams.add(team);
-		}		
-		return false;
-	}
-	
-	public void clearAttendingTeams() {
-		attendingTeams.clear();
-	}
-	
-	
 }

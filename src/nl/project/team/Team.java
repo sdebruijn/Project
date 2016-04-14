@@ -6,11 +6,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import nl.project.event.DefaultEvent;
 import nl.project.user.User;
 
 @Entity
@@ -21,6 +24,8 @@ public class Team {
 	
 	private String name;
 	private List<User> members; 
+	private List<DefaultEvent> events;
+
 	//private User manager;
 	private User coach;
 	private String sport;
@@ -31,6 +36,16 @@ public class Team {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@OneToMany()
+	@JoinColumn(name="team_id")
+	public List<DefaultEvent> getDefaultEvents() {
+		return events;
+	}
+	
+	public void setEvents(List<DefaultEvent> events) {
+		this.events = events;
 	}
 	
 	@ManyToMany
