@@ -54,7 +54,8 @@ public class MenuController {
 			return null;
 		} else {
 			model.addAttribute("team", team);
-			model.addAttribute("users", UserDao.all());
+			model.addAttribute("coach", team.getCoach());
+			model.addAttribute("users", TeamDao.allTeamMembers(key));
 			return "teamMenu";
 		}
 	}
@@ -63,7 +64,7 @@ public class MenuController {
 	 * Verwijdert team -- zonder om bevestiging te vragen ;)
 	 * TODO: team moet eerst van users verwijderd worden
 	 */
-	@RequestMapping(value="/delete/{id}")
+	@RequestMapping(value="/deleteteam/{id}")
 	public String deleteView(@PathVariable String id){
 		Long key;
 		try{
@@ -74,6 +75,9 @@ public class MenuController {
 			return null;
 		}
 
+		for (User u: TeamDao.allTeamMembers(key)){
+			UserDao.removeTeamFromUser(u.getId(), key);
+		}
 		
 		TeamDao.remove(key);
 		return "redirect:/mainMenu";
@@ -93,16 +97,17 @@ public class MenuController {
 			return null;
 		}
 		
+		model.addAttribute("action", "addmember");
 		model.addAttribute("team", key);
 		model.addAttribute("users", UserDao.all());
 		return "userList";
 	}
 	
 	/**
-	 * Haalt alle users erbij zodat member toegevoegd kan worden
+	 * Voegt een member toe aan het team
 	 */
 	@RequestMapping(value="/addmember/{user}/{team}")
-	public String addmember(@PathVariable String user, @PathVariable String team){
+	public String addMember(@PathVariable String user, @PathVariable String team){
 		Long key1, key2;
 		try{
 			key1 = Long.valueOf(user);
@@ -114,16 +119,16 @@ public class MenuController {
 		}
 		
 		UserDao.addTeamToUser(key1, key2);
-		return "redirect:/mainMenu";
+		return "redirect:/team/" + key2;
 	}
 	
 	
 	
 	/**
-	 * Verwijdert een member
+	 * Haalt alle users van een team erbij, zodat die verwijderd kunnen wordn
 	 */
-	@RequestMapping(value="/removemember/{id}")
-	public String removeMember(@PathVariable String id){
+	@RequestMapping(value="/showmembers/{id}")
+	public String showMembers(@PathVariable String id, Model model){
 		Long key;
 		try{
 			key = Long.valueOf(id);
@@ -133,7 +138,89 @@ public class MenuController {
 			return null;
 		}
 		
-		UserDao.removeTeamFromUser(1l, TeamDao.find(key).getId());
-		return "redirect:/mainMenu";
+		model.addAttribute("action", "removemember");
+		model.addAttribute("team", key);
+		model.addAttribute("users", TeamDao.allTeamMembers(key));
+		return "userList";
 	}
+	
+	/**
+	 * Verwijderd een member van een team
+	 */
+	@RequestMapping(value="/removemember/{user}/{team}")
+	public String removeMember(@PathVariable String user, @PathVariable String team){
+		Long key1, key2;
+		try{
+			key1 = Long.valueOf(user);
+			key2 = Long.valueOf(team);
+		}
+		catch(NumberFormatException e){
+			// id is geen getal? error 404
+			return null;
+		}
+		
+		UserDao.removeTeamFromUser(key1, key2);
+		return "redirect:/team/" + key2;
+	}
+	
+	/**
+	 * Verwijderd alle members van een team
+	 */
+	@RequestMapping(value="/removeall/{id}")
+	public String removeAll(@PathVariable String id){
+		Long key;
+		try{
+			key = Long.valueOf(id);
+		}
+		catch(NumberFormatException e){
+			// id is geen getal? error 404
+			return null;
+		}
+		
+		for (User u: TeamDao.allTeamMembers(key)){
+			UserDao.removeTeamFromUser(u.getId(), key);
+		}
+		
+		return "redirect:/team/" + key;
+	}
+	
+	/**
+	 * Haalt alle users erbij zodat er een coach geselecteerd kan worden
+	 */
+	@RequestMapping(value="/showcoaches/{id}")
+	public String showCoaches(@PathVariable String id, Model model){
+		Long key;
+		try{
+			key = Long.valueOf(id);
+		}
+		catch(NumberFormatException e){
+			// id is geen getal? error 404
+			return null;
+		}
+		
+		model.addAttribute("action", "addcoach");
+		model.addAttribute("team", key);
+		model.addAttribute("users", UserDao.all());
+		return "userList";
+	}
+	
+	/**
+	 * Voegt een coach toe aan team
+	 */
+	@RequestMapping(value="/addcoach/{user}/{team}")
+	public String addCoach(@PathVariable String user, @PathVariable String team){
+		Long key1, key2;
+		try{
+			key1 = Long.valueOf(user);
+			key2 = Long.valueOf(team);
+		}
+		catch(NumberFormatException e){
+			// id is geen getal? error 404
+			return null;
+		}
+		
+		TeamDao.addCoach(key1, key2);
+		return "redirect:/team/" + key2;
+	}
+	
 }

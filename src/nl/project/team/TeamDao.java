@@ -1,5 +1,6 @@
 package nl.project.team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import nl.project.user.User;
+import nl.project.user.UserDao;
 
 public abstract class TeamDao {
 	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("teamapp");
@@ -59,7 +61,7 @@ public abstract class TeamDao {
 	}
 	
 	/**
-	 * Haal alle ritten op uit de database
+	 * Haal alle teams op uit de database
 	 */	
 	public static List<Team> all(){
 		EntityManager em = emf.createEntityManager();
@@ -69,5 +71,31 @@ public abstract class TeamDao {
 		t.commit();
 		em.close();
 		return teams;
+	}
+	
+	/**
+	 * Zoekt alle users op die bij dit team horen
+	 */
+	public static List<User> allTeamMembers(Long id){
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		List<User> allusers = em.createQuery("from User where team_id=" + id, User.class).getResultList();
+		t.commit();
+		em.close();
+		return allusers;
+	}
+	
+	/**
+	 * Voegt een coach toe aan het team
+	 */
+	public static void addCoach(Long id, Long teamId){
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		Team team = em.find(Team.class, teamId);
+		team.setCoach(UserDao.find(id));
+		t.commit();
+		em.close();
 	}
 }

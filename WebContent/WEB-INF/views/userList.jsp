@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <title>Add member</title>
+  <title>${action}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -16,10 +16,10 @@
 </head>
 <body>
 <div class="container">
-  <h2>Add member</h2>
+  <h2>${action}</h2>
   <div class="btn-group-vertical">
     <c:forEach items="${users }" var="i">
-    <br><a href="<c:url value="/addmember/${i.id}/${team}" />"><button type="button" class="btn btn-primary">${i.surname} ${i.name }</button></a>
+    <br><a href="<c:url value="/${action}/${i.id}/${team}" />"><button type="button" class="btn btn-primary">${i.surname} ${i.name }</button></a>
     </c:forEach>
   </div>
 </div>

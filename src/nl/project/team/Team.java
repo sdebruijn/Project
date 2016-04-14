@@ -4,8 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
+
+import nl.project.user.User;
 
 @Entity
 public class Team {
@@ -15,22 +18,11 @@ public class Team {
 	
 	private String name;
 	private String sport;
+	private User coach;
 	
-//	@OneToMany
-//	private List<User> members;
-//	
-/*	private List<User> members; // TODO: List or Set?
-	private User manager;
-	private User coach;*/
+	
+/*	private User manager;*/
 
-/*	public List<User> getMembers() {
-		return members;
-	}
-
-	public void setMembers(List<User> members) {
-		this.members = members;
-	}
-*/
 	public String getSport() {
 		return sport;
 	}
@@ -57,26 +49,14 @@ public class Team {
 		this.id = id;
 	}
 	
-/*	public	Team (Long id, String name, User manager){
-		this.teamId = teamId;
-		this.name = name;
-		this.manager = manager;
-	}
-
-	public Team(Long id, String name, List<User> members, User manager) {
-		this.teamId = teamId;
-		this.name = name;
-		this.members = members;
-		this.manager = manager;
-	}
-
+	@OneToOne
 	public User getCoach() {
 		return coach;
 	}
 
 	public void setCoach(User coach) {
 		this.coach = coach;
-	}*/
+	}
 	
 	public String getName() {
 		return this.name;
@@ -85,7 +65,7 @@ public class Team {
 	public void setName(String name) {
 		this.name = name;
 	}
-/*	
+	/*	
 	public User getManager() {
 		return this.manager;
 	}
@@ -98,30 +78,7 @@ public class Team {
 			throw new NullPointerException("Er is geen manager meegegeven");
 		}
 	}
-
-	public List<User> getMembers() {
-		return new ArrayList<>(members);
-	}
-
-	public boolean addMember(User member) {
-		if (member == null) { 
-			return false;
-		}
-		
-		if (!members.contains(member)) {
-			return members.add(member);
-		}
-		
-		return false;
-	}
-	
-	public boolean removeMember(User member) {
-		return members.remove(member);
-	}
-	
-	public void clearMembers(){
-		members.clear();
-	}*/
+ 	*/
 	
 	@Override
 	public boolean equals(Object obj) {

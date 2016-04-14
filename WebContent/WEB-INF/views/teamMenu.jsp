@@ -17,15 +17,18 @@
 <div class="container">
   <h2>${team.name }</h2>
   <p>Sport: ${team.sport }</p>
+  <p>Coach: ${coach.surname} ${coach.name}</p>
   <p>Members:</p>
   
   <c:forEach items="${users}" var="i">
-    <li>${i.team}</li>
+    <li>${i.surname} ${i.name}</li>
     </c:forEach>
     
   <div class="btn-group-vertical">
-    <a href="<c:url value="/showusers/${team.id}" />"><button type="button" class="btn btn-primary">Add member</button></a>
-    <br><a href="<c:url value="/removemember/${team.id}" />"><button type="button" class="btn btn-primary">Remove member</button></a>
-    <br><a href="<c:url value="/delete/${team.id}" />"><button type="button" class="btn btn-primary">Remove team</button></a> 
+  	<br><a href="<c:url value="/showcoaches/${team.id}" />"><button type="button" class="btn btn-primary">Add coach</button></a>
+    <br><a href="<c:url value="/showusers/${team.id}" />"><button type="button" class="btn btn-primary">Add member</button></a>
+    <br><a href="<c:url value="/showmembers/${team.id}" />"><button type="button" class="btn btn-primary">Remove member</button></a>
+    <br><a href="<c:url value="/removeall/${team.id}" />"><button type="button" class="btn btn-primary">Remove all</button></a>
+    <br><a href="<c:url value="/deleteteam/${team.id}" />"><button type="button" class="btn btn-primary">Remove team</button></a> 
   </div>
 </div>
