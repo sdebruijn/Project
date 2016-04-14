@@ -28,12 +28,7 @@ public class MenuController {
 	
 	@RequestMapping(value = "/createTeam", method = RequestMethod.POST)
 	public String createTeam(@RequestParam String teamName, @RequestParam String sport){
-/*		UserDao.create("Looise", "Sander");
-		UserDao.create("de Bruijn", "Sijmen");
-		UserDao.create("Reindert", "Reindert");*/
 		TeamDao.create(teamName, sport);
-		
-
 		
 		return "redirect:/mainMenu";
 	}
@@ -66,6 +61,7 @@ public class MenuController {
 	
 	/**
 	 * Verwijdert team -- zonder om bevestiging te vragen ;)
+	 * TODO: team moet eerst van users verwijderd worden
 	 */
 	@RequestMapping(value="/delete/{id}")
 	public String deleteView(@PathVariable String id){
@@ -78,15 +74,16 @@ public class MenuController {
 			return null;
 		}
 
+		
 		TeamDao.remove(key);
 		return "redirect:/mainMenu";
 	}
 	
 	/**
-	 * Voegt een member toe
+	 * Haalt alle users erbij zodat member toegevoegd kan worden
 	 */
-	@RequestMapping(value="/addmember/{id}")
-	public String addMember(@PathVariable String id){
+	@RequestMapping(value="/showusers/{id}")
+	public String showUsers(@PathVariable String id, Model model){
 		Long key;
 		try{
 			key = Long.valueOf(id);
@@ -95,9 +92,48 @@ public class MenuController {
 			// id is geen getal? error 404
 			return null;
 		}
-
-		System.out.println(key);
-		UserDao.find(1l).setTeam(TeamDao.find(key));
+		
+		model.addAttribute("team", key);
+		model.addAttribute("users", UserDao.all());
+		return "userList";
+	}
+	
+	/**
+	 * Haalt alle users erbij zodat member toegevoegd kan worden
+	 */
+	@RequestMapping(value="/addmember/{user}/{team}")
+	public String addmember(@PathVariable String user, @PathVariable String team){
+		Long key1, key2;
+		try{
+			key1 = Long.valueOf(user);
+			key2 = Long.valueOf(team);
+		}
+		catch(NumberFormatException e){
+			// id is geen getal? error 404
+			return null;
+		}
+		
+		UserDao.addTeamToUser(key1, key2);
+		return "redirect:/mainMenu";
+	}
+	
+	
+	
+	/**
+	 * Verwijdert een member
+	 */
+	@RequestMapping(value="/removemember/{id}")
+	public String removeMember(@PathVariable String id){
+		Long key;
+		try{
+			key = Long.valueOf(id);
+		}
+		catch(NumberFormatException e){
+			// id is geen getal? error 404
+			return null;
+		}
+		
+		UserDao.removeTeamFromUser(1l, TeamDao.find(key).getId());
 		return "redirect:/mainMenu";
 	}
 }

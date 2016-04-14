@@ -3,10 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html">
+<html>
 <head>
-  <title>Teammenu</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>Add member</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -15,17 +16,12 @@
 </head>
 <body>
 <div class="container">
-  <h2>${team.name }</h2>
-  <p>Sport: ${team.sport }</p>
-  <p>Members:</p>
-  
-  <c:forEach items="${users}" var="i">
-    <li>${i.team}</li>
-    </c:forEach>
-    
+  <h2>Add member</h2>
   <div class="btn-group-vertical">
-    <a href="<c:url value="/showusers/${team.id}" />"><button type="button" class="btn btn-primary">Add member</button></a>
-    <br><a href="<c:url value="/removemember/${team.id}" />"><button type="button" class="btn btn-primary">Remove member</button></a>
-    <br><a href="<c:url value="/delete/${team.id}" />"><button type="button" class="btn btn-primary">Remove team</button></a> 
+    <c:forEach items="${users }" var="i">
+    <br><a href="<c:url value="/addmember/${i.id}/${team}" />"><button type="button" class="btn btn-primary">${i.surname} ${i.name }</button></a>
+    </c:forEach>
   </div>
 </div>
+</body>
+</html>

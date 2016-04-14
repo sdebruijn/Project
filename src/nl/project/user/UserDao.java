@@ -7,7 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-import nl.project.team.Team;
+import nl.project.team.TeamDao;
 
 public class UserDao {
 	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("teamapp");
@@ -28,6 +28,33 @@ public class UserDao {
 		em.close();
 		
 		return user;
+	}
+	
+	
+	/**
+	 * Koppelt een user aan een team
+	 */
+	public static void addTeamToUser(Long id, Long teamId){
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		User user = em.find(User.class, id);
+		user.setTeam(TeamDao.find(teamId));
+		t.commit();
+		em.close();
+	}
+	
+	/**
+	 * Ontkoppelt een user en team
+	 */
+	public static void removeTeamFromUser(Long id, Long teamId){
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		User user = em.find(User.class, id);
+		user.setTeam(null);
+		t.commit();
+		em.close();
 	}
 	
 	/**
