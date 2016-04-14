@@ -20,14 +20,17 @@ public class UserDao {
 		user.setName(name);
 		user.setSurname(surname);
 		
+		create(user);		
+		return user;
+	}
+	
+	public static void create(User user) {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		em.persist( user );
 		t.commit();
 		em.close();
-		
-		return user;
 	}
 	
 	

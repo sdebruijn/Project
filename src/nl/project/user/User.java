@@ -7,15 +7,25 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
 
 import nl.project.team.Team;
 
 @Entity
 public class User {
-	
 	private Long id;
-	private String name, surname;
+	
+	@NotBlank
+	@Size(min=2,max=45)
+	private String name;
+	
+	@NotNull
+	@Size(min=2,max=45)
+	private String surname;
 	
 	private Team team;
 	
