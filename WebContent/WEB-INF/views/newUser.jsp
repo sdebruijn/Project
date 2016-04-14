@@ -22,14 +22,14 @@
 		
 		<form:form commandName="user">
 			<div class="form-group">
-				<label for="name">Name:</label>
-				<form:input path="name" class="form-control" />
-				<font color="red"><form:errors path="name"></form:errors></font><br />
+				<label for="name">First name:</label>
+				<form:input path="name" class="form-control" /><br/>
+				<font color="red"><form:errors path="name">Enter a valid first name (2 to 45 characters)</form:errors></font>
 			</div>
 			<div class="form-group">
-				<label for="name">Surname:</label>
+				<label for="name">Last name:</label>
 				<form:input path="surname" class="form-control" />
-				<font color="red"><form:errors path="surname"></form:errors></font><br />
+				<font color="red"><form:errors path="surname">Enter a valid last name (2 to 45 characters)</form:errors></font><br />
 			</div>
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</form:form>
