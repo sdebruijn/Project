@@ -5,7 +5,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
  
-import com.websystique.springsecurity.model.User;
+import nl.project.user.User;
  
 @Repository("userDao")
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {

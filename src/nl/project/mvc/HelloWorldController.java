@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
  
-import com.websystique.springsecurity.model.User;
-import com.websystique.springsecurity.model.UserProfile;
-import com.websystique.springsecurity.service.UserProfileService;
-import com.websystique.springsecurity.service.UserService;
+import nl.project.user.User;
+import nl.project.user.UserProfile;
+import nl.project.service.UserProfileService;
+import nl.project.service.UserService;
  
 @Controller
 public class HelloWorldController {

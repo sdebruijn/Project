@@ -1,7 +1,7 @@
 package nl.project.dao;
 //package com.websystique.springsecurity.dao;
  
-import com.websystique.springsecurity.model.User;
+import nl.project.user.User;
  
 public interface UserDao {
  

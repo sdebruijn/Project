@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import nl.project.user.User;
+import nl.project.user.UserOld;
 
 @Entity
 public class Team {
@@ -17,9 +17,9 @@ public class Team {
 	private Long teamId;
 	
 	private String name;
-	private List<User> members; // TODO: List or Set?
-	private User manager;
-	private User coach;
+	private List<UserOld> members; // TODO: List or Set?
+	private UserOld manager;
+	private UserOld coach;
 
 	@Id
 	@GeneratedValue(generator="increment")
@@ -39,24 +39,24 @@ public class Team {
 		this.teamId = teamId;
 	}
 	
-	public	Team (Long teamId, String name, User manager){
+	public	Team (Long teamId, String name, UserOld manager){
 		this.teamId = teamId;
 		this.name = name;
 		this.manager = manager;
 	}
 
-	public Team(Long teamId, String name, List<User> members, User manager) {
+	public Team(Long teamId, String name, List<UserOld> members, UserOld manager) {
 		this.teamId = teamId;
 		this.name = name;
 		this.members = members;
 		this.manager = manager;
 	}
 
-	public User getCoach() {
+	public UserOld getCoach() {
 		return coach;
 	}
 
-	public void setCoach(User coach) {
+	public void setCoach(UserOld coach) {
 		this.coach = coach;
 	}
 	
@@ -68,11 +68,11 @@ public class Team {
 		this.name = name;
 	}
 	
-	public User getManager() {
+	public UserOld getManager() {
 		return this.manager;
 	}
 	
-	public void setManager(User manager) {
+	public void setManager(UserOld manager) {
 		if (manager != null){
 			this.manager = manager;
 		}
@@ -81,11 +81,11 @@ public class Team {
 		}
 	}
 
-	public List<User> getMembers() {
+	public List<UserOld> getMembers() {
 		return new ArrayList<>(members);
 	}
 
-	public boolean addMember(User member) {
+	public boolean addMember(UserOld member) {
 		if (member == null) { 
 			return false;
 		}
@@ -97,7 +97,7 @@ public class Team {
 		return false;
 	}
 	
-	public boolean removeMember(User member) {
+	public boolean removeMember(UserOld member) {
 		return members.remove(member);
 	}
 	

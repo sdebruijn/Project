@@ -1,16 +1,16 @@
 package nl.project.event;
 
-import nl.project.user.User;
+import nl.project.user.UserOld;
 
 public class Training extends DefaultEvent {
 	
-	private User trainer;
+	private UserOld trainer;
 
-	public User getTrainer() {
+	public UserOld getTrainer() {
 		return trainer;
 	}
 
-	public void setTrainer(User trainer) {
+	public void setTrainer(UserOld trainer) {
 		if (trainer != null){
 			this.trainer = trainer;
 		}

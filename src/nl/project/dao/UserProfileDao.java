@@ -3,7 +3,7 @@ package nl.project.dao;
  
 import java.util.List;
  
-import com.websystique.springsecurity.model.UserProfile;
+import nl.project.user.UserProfile;
  
 public interface UserProfileDao {
  

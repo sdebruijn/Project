@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
  
-import com.websystique.springsecurity.model.UserProfile;
-import com.websystique.springsecurity.service.UserProfileService;
+import nl.project.user.UserProfile;
+import nl.project.service.UserProfileService;
  
 @Component
 public class RoleToUserProfileConverter implements Converter<Object, UserProfile>{
