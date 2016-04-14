@@ -1,5 +1,6 @@
 package nl.project.user;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -7,6 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import nl.project.team.Team;
 import nl.project.team.TeamDao;
 
 public class UserDao {
@@ -19,6 +21,7 @@ public class UserDao {
 		User user = new User();
 		user.setName(name);
 		user.setSurname(surname);
+		user.setTeams(new ArrayList<>());
 		
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction t = em.getTransaction();
@@ -39,7 +42,9 @@ public class UserDao {
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		User user = em.find(User.class, id);
-		user.setTeam(TeamDao.find(teamId));
+		List<Team> teams = user.getTeams();
+		teams.add(TeamDao.find(teamId));
+		user.setTeams(teams);
 		t.commit();
 		em.close();
 	}
@@ -52,7 +57,8 @@ public class UserDao {
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		User user = em.find(User.class, id);
-		user.setTeam(null);
+		List<Team> teams = user.getTeams();
+		teams.remove(TeamDao.find(teamId));
 		t.commit();
 		em.close();
 	}

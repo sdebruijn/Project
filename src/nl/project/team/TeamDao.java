@@ -1,5 +1,6 @@
 package nl.project.team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -20,6 +21,7 @@ public abstract class TeamDao {
 		Team team = new Team();
 		team.setName(name);
 		team.setSport(sport);
+		team.setMembers(new ArrayList<>());
 		
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction t = em.getTransaction();
@@ -79,10 +81,18 @@ public abstract class TeamDao {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
-		List<User> allusers = em.createQuery("from User where team_id=" + id, User.class).getResultList();
+		List<User> allusers = em.createQuery("from User", User.class).getResultList();
+		List<User> teamusers = new ArrayList<>();
+		for (User user : allusers){
+			for (Team team : user.getTeams()){
+				if (team.getId() == id){
+					teamusers.add(user);
+				}
+			}
+		}
 		t.commit();
 		em.close();
-		return allusers;
+		return teamusers;
 	}
 	
 	/**
