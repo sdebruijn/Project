@@ -17,11 +17,11 @@
 <div class="container">
   <h2>Welkom username</h2>
   <div class="btn-group-vertical">
-    <a href="newTeam"><button type="button" class="btn btn-primary">New team</button></a>
+    <a href="newTeam"><button type="button" class="btn btn-primary btn-block">New team</button></a>
     
 
     <c:forEach items="${teams }" var="i">
-    	<br><a href="<c:url value="/team/${i.id}" />"><button type="button" class="btn btn-primary">${i.name }</button></a>
+    	<a href="<c:url value="/teammenu/${i.id}" />"><button type="button" class="btn btn-primary btn-block">${i.name }</button></a>
     </c:forEach>
     
   </div>

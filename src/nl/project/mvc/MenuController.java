@@ -1,12 +1,19 @@
 package nl.project.mvc;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
+
+import nl.project.event.Event;
+import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
 import nl.project.user.User;
@@ -34,10 +41,10 @@ public class MenuController {
 	}
 	
 	/**
-	 * Toont de teampagina
+	 * Toont teammenu
 	 */
-	@RequestMapping(value="/team/{id}")
-	public String detailView(@PathVariable String id, Model model){
+	@RequestMapping(value="/teammenu/{id}")
+	public String teamMenu(@PathVariable String id, Model model){
 		Long key;
 		try{
 			key = Long.valueOf(id);
@@ -49,15 +56,30 @@ public class MenuController {
 		
 		Team team = TeamDao.find(key);
 		
-		if(team == null){
-			// geen rit met gegeven id? error 404
-			return null;
-		} else {
-			model.addAttribute("team", team);
-			model.addAttribute("coach", team.getCoach());
-			model.addAttribute("users", TeamDao.allTeamMembers(key));
-			return "teamMenu";
+		model.addAttribute("team", team);
+		model.addAttribute("coach", team.getCoach());
+		model.addAttribute("users", TeamDao.allTeamMembers(key));
+		return "teamMenu";
 		}
+	
+	/**
+	 * Toont teammanagement
+	 */
+	@RequestMapping(value="/team/{id}")
+	public String teamManagement(@PathVariable String id, Model model){
+		Long key;
+		try{
+			key = Long.valueOf(id);
+		}
+		catch(NumberFormatException e){
+			// id is geen getal? error 404
+			return null;
+		}
+		
+		Team team = TeamDao.find(key);
+		
+		model.addAttribute("team", team);
+		return "teamManagement";
 	}
 	
 	/**
@@ -125,7 +147,7 @@ public class MenuController {
 	
 	
 	/**
-	 * Haalt alle users van een team erbij, zodat die verwijderd kunnen wordn
+	 * Haalt alle users van een team erbij, zodat die verwijderd kunnen worden
 	 */
 	@RequestMapping(value="/showmembers/{id}")
 	public String showMembers(@PathVariable String id, Model model){
@@ -222,5 +244,26 @@ public class MenuController {
 		TeamDao.addCoach(key1, key2);
 		return "redirect:/team/" + key2;
 	}
+	
+	/**
+	 * Voegt een event toe
+	 */
+	@RequestMapping(value="/creatematch", method=RequestMethod.GET)
+	public String createMatch(Model model){
+		model.addAttribute("event", new Match());
+		return "newEvent";
+	}
+	
+	@RequestMapping(value="/creatematch", method=RequestMethod.POST)
+	public String createEvent(@Valid Event event, BindingResult bindingresult){
+		
+		if (bindingresult.hasErrors()){
+			return "newEvent";
+		}
+		EventDao.createMatch(event);
+		return "redirect:/mainMenu";
+
+	}
+	
 	
 }

@@ -16,17 +16,13 @@
 <body>
 <div class="container">
   <h2>${team.name }</h2>
-  <p>Sport: ${team.sport }</p>
-  <p>Coach: ${coach.surname} ${coach.name}</p>
-  <p>Members:</p>
-  
-  <c:forEach items="${users}" var="i">
-    <li>${i.surname} ${i.name}</li>
-    </c:forEach>
-    
+
   <div class="btn-group-vertical">
-  	<a href="<c:url value="/team/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Team management</button></a>
-    <a href="<c:url value="/events/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Events</button></a>
-    <a href="<c:url value="/mainMenu" />"><button type="button" class="btn btn-default btn-block">Back</button></a>
+  	<a href="<c:url value="/showcoaches/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Add coach</button></a>
+    <a href="<c:url value="/showusers/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Add member</button></a>
+    <a href="<c:url value="/showmembers/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Remove member</button></a>
+    <a href="<c:url value="/removeall/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Remove all</button></a>
+    <a href="<c:url value="/deleteteam/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Remove team</button></a> 
+    <a href="<c:url value="/teammenu/${team.id}" />"><button type="button" class="btn btn-default btn-block">Back</button></a> 
   </div>
 </div>
