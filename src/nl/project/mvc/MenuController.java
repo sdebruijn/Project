@@ -233,7 +233,7 @@ public class MenuController {
 	 */
 	@RequestMapping(value={"/newUser","/newuser"}, method=RequestMethod.GET)
 	public String newUser(Model model){
-		 model.addAttribute("user", new User()); 
+		model.addAttribute("user", new User()); 
 		return "newUser";
 	}
 	
@@ -241,7 +241,7 @@ public class MenuController {
 	 * Create new user and redirect
 	 */
 	@RequestMapping(value={"/newUser","/newuser"}, method=RequestMethod.POST)
-	public String newUsero(@Valid User user, BindingResult bindingResult) {
+	public String newUser(@Valid User user, BindingResult bindingResult) {
 		
 		if (bindingResult.hasErrors()) {
 			return "newUser";
