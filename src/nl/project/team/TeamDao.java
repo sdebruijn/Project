@@ -8,11 +8,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import nl.project.mvc.EntityManagerManager;
 import nl.project.user.User;
 import nl.project.user.UserDao;
 
 public abstract class TeamDao {
-	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("teamapp");
 	
 	/**
 	 * Maak een nieuw team aan en sla die op in de database
@@ -23,7 +23,7 @@ public abstract class TeamDao {
 		team.setSport(sport);
 		team.setMembers(new ArrayList<>());
 		
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		em.persist( team );
@@ -37,7 +37,7 @@ public abstract class TeamDao {
 	 * Verwijder een team uit de database
 	 */
 	public static void remove(Long id){
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		Team team = em.find(Team.class, id);
@@ -52,7 +52,7 @@ public abstract class TeamDao {
 	 * Haal een team op a.d.h.v. zijn id
 	 */
 	public static Team find(Long id){
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		Team team = em.find(Team.class, id);
@@ -65,7 +65,7 @@ public abstract class TeamDao {
 	 * Haal alle teams op uit de database
 	 */	
 	public static List<Team> all(){
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		List<Team> teams = em.createQuery("from Team", Team.class).getResultList();
@@ -78,7 +78,7 @@ public abstract class TeamDao {
 	 * Zoekt alle users op die bij dit team horen
 	 */
 	public static List<User> allTeamMembers(Long id){
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		List<User> allusers = em.createQuery("from User", User.class).getResultList();
@@ -99,7 +99,7 @@ public abstract class TeamDao {
 	 * Voegt een coach toe aan het team
 	 */
 	public static void addCoach(Long id, Long teamId){
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		Team team = em.find(Team.class, teamId);
