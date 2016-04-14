@@ -3,10 +3,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html">
+<html>
 <head>
-  <title>Mainmenu</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>${action}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -15,14 +16,12 @@
 </head>
 <body>
 <div class="container">
-  <h2>Welkom username</h2>
+  <h2>${action}</h2>
   <div class="btn-group-vertical">
-    <a href="newTeam"><button type="button" class="btn btn-primary">New team</button></a>
-    
-
-    <c:forEach items="${teams }" var="i">
-    	<br><a href="<c:url value="/team/${i.id}" />"><button type="button" class="btn btn-primary">${i.name }</button></a>
+    <c:forEach items="${users }" var="i">
+    <br><a href="<c:url value="/${action}/${i.id}/${team}" />"><button type="button" class="btn btn-primary">${i.surname} ${i.name }</button></a>
     </c:forEach>
-    
   </div>
 </div>
+</body>
+</html>
