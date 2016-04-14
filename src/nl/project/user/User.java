@@ -1,11 +1,11 @@
 package nl.project.user;
 
+import java.util.List;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -26,16 +26,15 @@ public class User {
 	@NotNull
 	@Size(min=2,max=45)
 	private String surname;
+	private List<Team> teams;
 	
-	private Team team;
-	
-	@ManyToOne
-	public Team getTeam() {
-		return team;
+	@ManyToMany
+	public List<Team> getTeams() {
+		return teams;
 	}
 
-	public void setTeam(Team team) {
-		this.team = team;
+	public void setTeams(List<Team> teams) {
+		this.teams = teams;
 	}
 
 	@Id

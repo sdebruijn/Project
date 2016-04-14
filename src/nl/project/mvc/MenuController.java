@@ -33,7 +33,6 @@ public class MenuController {
 	@RequestMapping(value = "/createTeam", method = RequestMethod.POST)
 	public String createTeam(@RequestParam String teamName, @RequestParam String sport){
 		TeamDao.create(teamName, sport);
-		
 		return "redirect:/mainMenu";
 
 	}

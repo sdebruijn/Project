@@ -1,9 +1,12 @@
 package nl.project.team;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -17,7 +20,7 @@ public class Team {
 	private Long id;
 	
 	private String name;
-	//private List<User> members; 
+	private List<User> members; 
 	//private User manager;
 	private User coach;
 	private String sport;
@@ -30,6 +33,15 @@ public class Team {
 		this.name = name;
 	}
 	
+	@ManyToMany
+	public List<User> getMembers() {
+		return members;
+	}
+
+	public void setMembers(List<User> members) {
+		this.members = members;
+	}
+
 	@OneToOne
 	public User getCoach() {
 		return coach;
