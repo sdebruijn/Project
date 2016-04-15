@@ -81,18 +81,17 @@ public abstract class TeamDao {
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
-		List<User> allusers = em.createQuery("from User", User.class).getResultList();
-		List<User> teamusers = new ArrayList<>();
-		for (User user : allusers){
-			for (Team team : user.getTeams()){
-				if (team.getId() == id){
-					teamusers.add(user);
-				}
-			}
+		
+		Team tm = em.find(Team.class, id);
+		System.out.println(tm.toString());
+		List<User> users = new ArrayList<>();
+		for (User u : tm.getMembers()){
+			users.add(u);
 		}
+
 		t.commit();
 		em.close();
-		return teamusers;
+		return users;
 	}
 	
 	/**

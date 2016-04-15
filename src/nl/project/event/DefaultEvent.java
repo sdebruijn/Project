@@ -1,18 +1,36 @@
 package nl.project.event;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import nl.project.team.Team;
 
 @Entity
 public class DefaultEvent{
 	
-	private LocalDateTime start, end;
-	private String title, location, description;
+	private String date;
+	private LocalDateTime start;
+
+	private LocalDateTime end;
+	
+	@Size(min=2, max=50)
+	private String title;
+	private String location;
+	
+	@NotEmpty
+	private String description;
+	private List<Team> teams;
 	
 	@Column(name="id")
 	private Long id;
@@ -28,67 +46,62 @@ public class DefaultEvent{
 		this.id = teamId;
 	}
 	
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
+	@ManyToMany(mappedBy="events")
+	public List<Team> getTeams() {
+		return teams;
+	}
+
+	public void setTeams(List<Team> teams) {
+		this.teams = teams;
+	}
+
 	public LocalDateTime getStart() {
 		return start;
 	}
+
 	public void setStart(LocalDateTime start) {
-		if (start == null){
-			throw new NullPointerException();
-		}
 		this.start = start;
-		if (this.end == null || this.end.isBefore(this.start)){
-			this.end = this.start.plusHours(1);
-		}
 	}
+
 	public LocalDateTime getEnd() {
 		return end;
 	}
+
 	public void setEnd(LocalDateTime end) {
-		if (end == null){
-			throw new NullPointerException();
-		}
-		if (this.start == null){
-			throw new NullPointerException();
-		}
-		if (end.isBefore(this.start)){
-			throw new IllegalArgumentException();
-		}
 		this.end = end;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
-		if (title == null){
-			throw new NullPointerException();
-		}
-		else if (title.isEmpty()){
-			throw new IllegalArgumentException();
-		}
 		this.title = title;
 	}
+
 	public String getLocation() {
 		return location;
 	}
+
 	public void setLocation(String location) {
-		if (location == null){
-			throw new NullPointerException();
-		}
-		else if (location.isEmpty()){
-			throw new IllegalArgumentException();
-		}
 		this.location = location;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
-		if (description == null){
-			throw new NullPointerException();
-		}
-		else if (description.isEmpty()){
-			throw new IllegalArgumentException();
-		}
 		this.description = description;
 	}
+
+	
 }

@@ -24,11 +24,11 @@ public abstract class EventDao {
 	/**
 	 * Haal alle events op uit de database
 	 */	
-	public static List<Event> all(){
+	public static List<DefaultEvent> all(){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
-		List<Event> events = em.createQuery("from Event", Event.class).getResultList();
+		List<DefaultEvent> events = em.createQuery("from DefaultEvent", DefaultEvent.class).getResultList();
 		t.commit();
 		em.close();
 		return events;

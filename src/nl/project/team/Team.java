@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -38,9 +39,9 @@ public class Team {
 		this.name = name;
 	}
 	
-	@OneToMany()
-	@JoinColumn(name="team_id")
-	public List<DefaultEvent> getDefaultEvents() {
+	@ManyToMany
+	@JoinTable(name="TEAMS_EVENTS")
+	public List<DefaultEvent> getEvents() {
 		return events;
 	}
 	
@@ -49,6 +50,7 @@ public class Team {
 	}
 	
 	@ManyToMany
+	@JoinTable(name="TEAMS_MEMBERS")
 	public List<User> getMembers() {
 		return members;
 	}
@@ -100,9 +102,9 @@ public class Team {
 		return this.id.equals(other.id) && this.name.equals(other.name);
 	}
 	
-/*	@Override
+	@Override
 	public String toString() {
 		return "Team " + this.name;
 		
-	}*/
+	}
 }

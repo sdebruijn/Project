@@ -19,7 +19,7 @@ public class User {
 	private String name, surname;
 	private List<Team> teams;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy="members")
 	public List<Team> getTeams() {
 		return teams;
 	}
