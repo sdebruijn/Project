@@ -1,5 +1,6 @@
 package nl.project.user;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class UserDao {
 	/**
 	 * Haal een user op a.d.h.v. zijn id
 	 */
-	public static User find(Long id){
+	public static User findById(Long id){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -94,7 +95,7 @@ public class UserDao {
 	/**
 	 * Haal een user op a.d.h.v. zijn naam
 	 */
-	public static User find(String name){
+	public static User findByName(String name){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -115,5 +116,34 @@ public class UserDao {
 		t.commit();
 		em.close();
 		return users;
+	}
+	
+	/**
+	 * Update een user adhv id
+	 */
+	public static void update(Long id, User userUpdate) {
+		EntityManager em = EntityManagerManager.getEntityManager();
+
+		EntityTransaction t = em.getTransaction();
+		try {
+			t.begin();
+			User user = em.find(User.class, id);
+			if (user == null) {
+				// user does not exist
+				// error message to 404 page
+				return;
+			}
+			(new org.apache.commons.beanutils.BeanUtilsBean()).copyProperties(user, userUpdate);
+			em.persist( user );
+			t.commit();
+		} catch (InvocationTargetException e) {
+			System.out.println("hmm error");
+		} catch (IllegalAccessException e) {
+			System.out.println("hmm error");
+		}
+		finally {
+			em.close();	
+		}
+		
 	}
 }

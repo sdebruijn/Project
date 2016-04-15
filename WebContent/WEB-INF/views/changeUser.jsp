@@ -14,11 +14,11 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<title>Create new user</title>
+<title>Change user</title>
 </head>
 <body>
 	<div class="container">
-		<h2>Create a new user</h2>
+		<h2>Change user</h2>
 		
 		<form:form commandName="user">
 			<div class="form-group">
@@ -31,7 +31,7 @@
 				<form:input path="surname" class="form-control" />
 				<font color="red"><form:errors path="surname">Enter a valid last name (2 to 45 characters)</form:errors></font><br />
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button type="submit" class="btn btn-primary">Update</button>
 		</form:form>
 
 

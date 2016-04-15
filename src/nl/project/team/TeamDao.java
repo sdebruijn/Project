@@ -101,7 +101,7 @@ public abstract class TeamDao {
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		Team team = em.find(Team.class, teamId);
-		team.setCoach(UserDao.find(id));
+		team.setCoach(UserDao.findById(id));
 		t.commit();
 		em.close();
 	}

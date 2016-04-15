@@ -17,7 +17,10 @@
 <div class="container">
   <h2>Welkom username</h2>
   <div class="btn-group-vertical">
+    <a href="newUser"><button type="button" class="btn btn-primary">New user</button></a>
+    <br/>
     <a href="newTeam"><button type="button" class="btn btn-primary">New team</button></a>
+    
     
 
     <c:forEach items="${teams }" var="i">
