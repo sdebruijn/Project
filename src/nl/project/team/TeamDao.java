@@ -179,11 +179,13 @@ public abstract class TeamDao {
 		t.begin();
 		
 		Team team = em.find(Team.class, id);
+
+		team.sortEvents();
 		List<DefaultEvent> events = new ArrayList<>();
 		for (DefaultEvent event : team.getEvents()){
 			events.add(event);
 		}
-
+		
 		t.commit();
 		em.close();
 		return events;

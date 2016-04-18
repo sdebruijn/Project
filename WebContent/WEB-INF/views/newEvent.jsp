@@ -22,17 +22,24 @@
 <div class="container">
   <h2>Create a new event</h2>
   <form:form commandName="defaultEvent">
-	<div class="form-group">
+  	<div class="form-group">
+  		<label for="eventtype">Type:</label>
+  		<br><form:radiobutton path="type" value="Match" onclick="getRadioValue(this.id)" /> Match 
+		<br><form:radiobutton path="type" value="Training" onclick="getRadioValue(this.id)" /> Training
+		<br><form:radiobutton path="type" value="Party" onclick="getRadioValue(this.id)" /> Party
+		<form:errors path="type"></form:errors>
+  	</div>
+	<div class="form-group" style="display:none" id="title">
   		<label for="title">Title:</label>
   		<form:input path="title" class="form-control" />
   		<form:errors path= "title"></form:errors>
 	</div>
-	<div class="form-group">
+	<div class="form-group" style="display:none" id="description">
   		<label for="description">Description:</label>
   		<form:input path="description" class="form-control" />
   		<form:errors path="description"></form:errors>
 	</div>
-	<div class="form-group">
+	<div class="form-group" style="display:none" id="date">
         <label for="date">Date:</label>
             <div class="input-group input-append date" id="datePicker">
                 <form:input path="date" class="form-control" type="text" />
@@ -52,7 +59,26 @@ $(document).ready(function() {
             format: 'yyyy-mm-dd'
         })
         .on('changeDate');});
+        
+function getRadioValue(id) {
+	var radioBtn = document.getElementById(id).value;
+		console.log(radioBtn);
+		if (radioBtn == "Match"){
+			$("#title").show(); 
+			$("#description").show();
+			$("#date").show();	
+		}
+		if (radioBtn == "Training"){
+			$("#title").show(); 
+			$("#description").hide(); 
+			$("#date").hide(); }
+		if (radioBtn == "Party"){
+			$("#title").show(); 
+			$("#description").hide(); 
+			$("#date").show(); }
+	}
 </script>
+
 
 </body>
 </html>

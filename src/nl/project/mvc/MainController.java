@@ -16,6 +16,7 @@ public class MainController {
 	@RequestMapping("/mainMenu")
 	public String mainMenu(Model model) {
 		model.addAttribute("teams", TeamDao.all());
+		
 		return "mainMenu";
 	}
 	

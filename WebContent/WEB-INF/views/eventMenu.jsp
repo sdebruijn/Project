@@ -17,10 +17,10 @@
 <div class="container">
   <h2>Events</h2>
   <div class="btn-group-vertical">
-    <a href="creatematch"><button type="button" class="btn btn-primary btn-block">New match</button></a>
+    <a href="createevent"><button type="button" class="btn btn-primary btn-block">New match</button></a>
 
     <c:forEach items="${events}" var="i">
-    	${i.date}<button type="button" class="btn btn-primary btn-block">${i.title }</button>
+    	<button type="button" class="btn btn-primary btn-block">${i.d} ${i.title}</button>
     </c:forEach>
     
   </div>

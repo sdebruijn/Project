@@ -44,21 +44,27 @@ public class EventController {
 		
 		Team team = TeamDao.find(key);
 		model.addAttribute("team", team);
-		//model.addAttribute("events", TeamDao.allEvents(key));
-		model.addAttribute("events", EventDao.all());
+		model.addAttribute("events", TeamDao.allEvents(key));
+		//model.addAttribute("events", EventDao.all());
 		return "eventMenu";
 		}
 	
 	/**
 	 * Voegt een event toe
 	 */
-	@RequestMapping(value="events/creatematch", method=RequestMethod.GET)
-	public String createMatch(Model model){
+	@RequestMapping(value="events/createevent", method=RequestMethod.GET)
+	public String createEvent(Model model){
 		model.addAttribute("defaultEvent", new DefaultEvent());
 		return "newEvent";
 	}
 	
-	@RequestMapping(value="events/creatematch", method=RequestMethod.POST)
+/*	@RequestMapping(value="events/creatematch", method=RequestMethod.GET)
+	public String createMatch(Model model){
+		model.addAttribute("match", new Match());
+		return "newEvent";
+	}*/
+	
+	@RequestMapping(value="events/createevent", method=RequestMethod.POST)
 	public String createEvent(@Valid DefaultEvent event, BindingResult bindingresult){
 		
 		if (bindingresult.hasErrors()){

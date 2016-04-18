@@ -1,5 +1,7 @@
 package nl.project.team;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -34,12 +36,22 @@ public class Team {
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+	public void sortEvents(){
+		Collections.sort(events, new Comparator<DefaultEvent>() {
+		    @Override
+		    public int compare(DefaultEvent r1, DefaultEvent r2) {
+		    	System.out.println(r1.getTitle() + " " + r2.getTitle());
+		        return r1.getD().compareTo(r2.getD());
+		    }
+		});
+	}
+	
+	@ManyToMany
 	@JoinTable(name="TEAMS_EVENTS")
 	public List<DefaultEvent> getEvents() {
 		return events;
