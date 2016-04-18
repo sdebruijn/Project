@@ -3,6 +3,7 @@ package nl.project.user;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -28,7 +29,7 @@ public class User {
 	private String surname;
 	private List<Team> teams;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy="members", fetch = FetchType.EAGER)
 	public List<Team> getTeams() {
 		return teams;
 	}

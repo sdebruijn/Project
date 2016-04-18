@@ -2,15 +2,19 @@ package nl.project.team;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import nl.project.event.DefaultEvent;
 import nl.project.user.User;
 
 @Entity
@@ -21,6 +25,8 @@ public class Team {
 	
 	private String name;
 	private List<User> members; 
+	private List<DefaultEvent> events;
+
 	//private User manager;
 	private User coach;
 	private String sport;
@@ -33,7 +39,18 @@ public class Team {
 		this.name = name;
 	}
 	
+	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+	@JoinTable(name="TEAMS_EVENTS")
+	public List<DefaultEvent> getEvents() {
+		return events;
+	}
+	
+	public void setEvents(List<DefaultEvent> events) {
+		this.events = events;
+	}
+	
 	@ManyToMany
+	@JoinTable(name="TEAMS_MEMBERS")
 	public List<User> getMembers() {
 		return members;
 	}
@@ -70,7 +87,22 @@ public class Team {
 		this.id = teamId;
 	}
 
-
+	public void addMember(User u){
+		this.members.add(u);
+	}
+	
+	public void removeMember(User u){
+		members.remove(u);
+	}
+	
+	public void removeAllMembers(){
+		members.clear();
+	}
+	
+	public void addEvent(DefaultEvent u){
+		this.events.add(u);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
@@ -85,9 +117,9 @@ public class Team {
 		return this.id.equals(other.id) && this.name.equals(other.name);
 	}
 	
-/*	@Override
+	@Override
 	public String toString() {
 		return "Team " + this.name;
 		
-	}*/
+	}
 }

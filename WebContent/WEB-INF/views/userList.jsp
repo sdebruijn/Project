@@ -19,7 +19,7 @@
   <h2>${action}</h2>
   <div class="btn-group-vertical">
     <c:forEach items="${users }" var="i">
-    <br><a href="<c:url value="/${action}/${i.id}/${team}" />"><button type="button" class="btn btn-primary">${i.surname} ${i.name }</button></a>
+    <a href="<c:url value="/${action}/${i.id}/${team}" />"><button type="button" class="btn btn-primary btn-block">${i.surname} ${i.name }</button></a>
     </c:forEach>
   </div>
 </div>
