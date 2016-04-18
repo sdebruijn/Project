@@ -7,7 +7,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -17,7 +18,23 @@ import org.hibernate.validator.constraints.NotBlank;
 import nl.project.team.Team;
 
 @Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames = {"name", "surname"})) 
 public class User {
+/*** CONSTRUCTORS ***/
+	public User(){}
+	
+	public User (Long id, String name, String surname){
+		this(name, surname);
+		this.id = id;
+	}
+	public User(String name, String surname) {
+		this();
+		this.setName(name);
+		this.setSurname(surname);
+	}
+	
+
+	/*** Fields ***/
 	private Long id;
 	
 	@NotBlank
@@ -29,15 +46,7 @@ public class User {
 	private String surname;
 	private List<Team> teams;
 	
-	@ManyToMany(mappedBy="members", fetch = FetchType.EAGER)
-	public List<Team> getTeams() {
-		return teams;
-	}
-
-	public void setTeams(List<Team> teams) {
-		this.teams = teams;
-	}
-
+	/*** Getters and stters***/
 	@Id
 	@GeneratedValue(generator="increment")
 	@GenericGenerator(name="increment", strategy = "increment")
@@ -49,28 +58,6 @@ public class User {
 		this.id = id;
 	}
 	
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		if (surname == null){
-			throw new NullPointerException();
-		}
-		else if (surname.isEmpty()){
-			throw new IllegalArgumentException();
-		}
-		this.surname = surname;
-	}
-
-	public User(){}
-	
-	public User (Long id, String name, String surname){
-		this.id = id;
-		this.name = name;
-		this.surname = surname;
-	}
-
 	public String getName (){
 		return name;
 	}
@@ -82,7 +69,30 @@ public class User {
 		else if (name.isEmpty()){
 			throw new IllegalArgumentException();
 		}
-		this.name = name;
+		this.name = name.trim();
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		if (surname == null){
+			throw new NullPointerException();
+		}
+		else if (surname.isEmpty()){
+			throw new IllegalArgumentException();
+		}
+		this.surname = surname.trim();
+	}
+	
+	@ManyToMany(mappedBy="members", fetch = FetchType.EAGER)
+	public List<Team> getTeams() {
+		return teams;
+	}
+	
+	public void setTeams(List<Team> teams) {
+		this.teams = teams;
 	}
 	
 	@Override
@@ -94,16 +104,16 @@ public class User {
 			return false;
 		}
 		User u = (User)o;
-		if (this.id.equals(u.id)){
-			if (this.name.equals(u.name)){
+		
+		if ( this.name.equals(u.name) && 
+			 this.surname.equals(u.surname) ) { 
 				return true;
-			}
 		}
 		return false;
 	}
 	
 	@Override
 	public String toString(){
-		return "User: " + name;
+		return "User: " + name + " " + surname;
 	}
 }

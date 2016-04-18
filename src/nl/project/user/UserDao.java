@@ -6,53 +6,84 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 import nl.project.mvc.EntityManagerManager;
-import nl.project.team.Team;
-import nl.project.team.TeamDao;
 
-public class UserDao {	
+public class UserDao {
 	/**
 	 * Maak een nieuw user aan en sla die op in de database
-	 */	
-	public static User create(String name, String surname){
+	 */
+	public static User create(String name, String surname) {
 		User user = new User();
 		user.setName(name);
 		user.setSurname(surname);
 		user.setTeams(new ArrayList<>());
-		
-		create(user);		
+		find(user);
+
+		create(user);
 		return user;
 	}
+
+	public static User find(User user) {
+		EntityManager em = EntityManagerManager.getEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.name='Myrte'");
+		user = (User) q.getSingleResult();
+		t.commit();
+		em.close();
+		System.out.println(user);
+		return user;
+	}
+	
+	public static User find(String name, String surname) {
+		User user = new User(name, surname);
+		return find(user);
+	}
+	
 	
 	public static void create(User user) {
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
-		em.persist( user );
+		/*
+		List<User> users = em.createQuery("from User", User.class).getResultList();
+		System.out.println(users);
+		if (users.contains(user) ) {
+			System.out.println("There is already a user with this name and surname.");
+		} else {
+			em.persist(user);
+		}
+		*/
+		find(user);
+		if (user != null) {
+			em.persist(user);
+		}		
+		
 		t.commit();
 		em.close();
 	}
-	
+
 	/**
 	 * Verwijder een user uit de database
 	 */
-	public static void remove(Long id){
+	public static void remove(Long id) {
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		User user = em.find(User.class, id);
-		if(user != null){
-			em.remove( user );
+		if (user != null) {
+			em.remove(user);
 		}
 		t.commit();
 		em.close();
 	}
-	
+
 	/**
 	 * Haal een user op a.d.h.v. zijn id
 	 */
-	public static User findById(Long id){
+	public static User findById(Long id) {
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -61,24 +92,25 @@ public class UserDao {
 		em.close();
 		return user;
 	}
-	
+
 	/**
 	 * Haal een user op a.d.h.v. zijn naam
 	 */
-	public static User findByName(String name){
+	public static User findByName(String name) {
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
-		User user = em.find(User.class, em.createQuery("SELECT id FROM TABLE user where user.name = :"+name).getSingleResult());
+		User user = em.find(User.class,
+				em.createQuery("SELECT id FROM TABLE user where user.name = :" + name).getSingleResult());
 		t.commit();
 		em.close();
 		return user;
 	}
-	
+
 	/**
 	 * Haal alle users op uit de database
-	 */	
-	public static List<User> all(){
+	 */
+	public static List<User> all() {
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -87,7 +119,7 @@ public class UserDao {
 		em.close();
 		return users;
 	}
-	
+
 	/**
 	 * Update een user adhv id
 	 */
@@ -104,16 +136,15 @@ public class UserDao {
 				return;
 			}
 			(new org.apache.commons.beanutils.BeanUtilsBean()).copyProperties(user, userUpdate);
-			em.persist( user );
+			em.persist(user);
 			t.commit();
 		} catch (InvocationTargetException e) {
 			System.out.println("hmm error");
 		} catch (IllegalAccessException e) {
 			System.out.println("hmm error");
+		} finally {
+			em.close();
 		}
-		finally {
-			em.close();	
-		}
-		
+
 	}
 }

@@ -1,7 +1,6 @@
 package nl.project.mvc;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.validation.Valid;
 
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
 import nl.project.event.DefaultEvent;
 import nl.project.event.EventDao;
