@@ -2,14 +2,14 @@ package nl.project.team;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -39,7 +39,7 @@ public class Team {
 		this.name = name;
 	}
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	@JoinTable(name="TEAMS_EVENTS")
 	public List<DefaultEvent> getEvents() {
 		return events;
@@ -87,7 +87,22 @@ public class Team {
 		this.id = teamId;
 	}
 
-
+	public void addMember(User u){
+		this.members.add(u);
+	}
+	
+	public void removeMember(User u){
+		members.remove(u);
+	}
+	
+	public void removeAllMembers(){
+		members.clear();
+	}
+	
+	public void addEvent(DefaultEvent u){
+		this.events.add(u);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

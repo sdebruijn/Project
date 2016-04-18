@@ -44,7 +44,7 @@ public class EventController {
 		
 		Team team = TeamDao.find(key);
 		model.addAttribute("team", team);
-		model.addAttribute("events", EventDao.all());
+		model.addAttribute("events", team.getEvents());
 		return "eventMenu";
 		}
 	
@@ -64,6 +64,7 @@ public class EventController {
 			return "newEvent";
 		}
 		EventDao.createMatch(event);
+		
 		return "redirect:/mainMenu";
 	}
 	

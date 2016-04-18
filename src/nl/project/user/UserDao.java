@@ -30,36 +30,6 @@ public class UserDao {
 		return user;
 	}
 	
-	
-	/**
-	 * Koppelt een user aan een team
-	 */
-	public static void addTeamToUser(Long id, Long teamId){
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		User user = em.find(User.class, id);
-		List<Team> teams = user.getTeams();
-		teams.add(TeamDao.find(teamId));
-		user.setTeams(teams);
-		t.commit();
-		em.close();
-	}
-	
-	/**
-	 * Ontkoppelt een user en team
-	 */
-	public static void removeTeamFromUser(Long id, Long teamId){
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		User user = em.find(User.class, id);
-		List<Team> teams = user.getTeams();
-		teams.remove(TeamDao.find(teamId));
-		t.commit();
-		em.close();
-	}
-	
 	/**
 	 * Verwijder een user uit de database
 	 */

@@ -51,10 +51,6 @@ public class TeamController {
 			return null;
 		}
 
-		for (User u: TeamDao.allTeamMembers(key)){
-			UserDao.removeTeamFromUser(u.getId(), key);
-		}
-		
 		TeamDao.remove(key);
 		return "redirect:/mainMenu";
 	}
@@ -94,7 +90,7 @@ public class TeamController {
 			return null;
 		}
 		
-		UserDao.addTeamToUser(key1, key2);
+		TeamDao.addMember(key1, key2);
 		return "redirect:/team/" + key2;
 	}
 	
@@ -135,7 +131,7 @@ public class TeamController {
 			return null;
 		}
 		
-		UserDao.removeTeamFromUser(key1, key2);
+		TeamDao.removeMember(key1, key2);
 		return "redirect:/team/" + key2;
 	}
 	
@@ -153,9 +149,7 @@ public class TeamController {
 			return null;
 		}
 		
-		for (User u: TeamDao.allTeamMembers(key)){
-			UserDao.removeTeamFromUser(u.getId(), key);
-		}
+		TeamDao.removeAllMembers(key);
 		
 		return "redirect:/team/" + key;
 	}

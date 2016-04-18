@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
 import nl.project.mvc.EntityManagerManager;
+import nl.project.team.Team;
 
 public abstract class EventDao {
 	
@@ -32,6 +33,19 @@ public abstract class EventDao {
 		t.commit();
 		em.close();
 		return events;
+	}
+	
+	/**
+	 * Haal een event op a.d.h.v. zijn id
+	 */
+	public static DefaultEvent find(Long id){
+		EntityManager em = EntityManagerManager.getEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		DefaultEvent event = em.find(DefaultEvent.class, id);
+		t.commit();
+		em.close();
+		return event;
 	}
 	
 }

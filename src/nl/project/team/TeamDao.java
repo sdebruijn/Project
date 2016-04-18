@@ -8,6 +8,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import nl.project.event.DefaultEvent;
+import nl.project.event.EventDao;
 import nl.project.mvc.EntityManagerManager;
 import nl.project.user.User;
 import nl.project.user.UserDao;
@@ -22,6 +24,7 @@ public abstract class TeamDao {
 		team.setName(name);
 		team.setSport(sport);
 		team.setMembers(new ArrayList<>());
+		team.setEvents(new ArrayList<>());
 		
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
@@ -82,10 +85,9 @@ public abstract class TeamDao {
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		
-		Team tm = em.find(Team.class, id);
-		System.out.println(tm.toString());
+		Team team = em.find(Team.class, id);
 		List<User> users = new ArrayList<>();
-		for (User u : tm.getMembers()){
+		for (User u : team.getMembers()){
 			users.add(u);
 		}
 
@@ -93,6 +95,52 @@ public abstract class TeamDao {
 		em.close();
 		return users;
 	}
+	
+	/**
+	 * Voegt een member toe aan team
+	 */	
+	public static void addMember(Long user_id, Long team_id){
+		EntityManager em = EntityManagerManager.getEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		
+		Team team = em.find(Team.class, team_id);
+		team.addMember(UserDao.find(user_id));
+		
+		t.commit();
+		em.close();
+	}
+	
+	/**
+	 * Verwijdert een member van het team
+	 */
+	public static void removeMember(Long user_id, Long team_id){
+		EntityManager em = EntityManagerManager.getEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		
+		Team team = em.find(Team.class, team_id);
+		team.removeMember(UserDao.find(user_id));
+
+		t.commit();
+		em.close();
+	}
+	
+	/**
+	 * Verwijdert alle members van het team
+	 */
+	public static void removeAllMembers(Long team_id){
+		EntityManager em = EntityManagerManager.getEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		
+		Team team = em.find(Team.class, team_id);
+		team.removeAllMembers();
+
+		t.commit();
+		em.close();
+	}
+	
 	
 	/**
 	 * Voegt een coach toe aan het team
@@ -103,6 +151,27 @@ public abstract class TeamDao {
 		t.begin();
 		Team team = em.find(Team.class, teamId);
 		team.setCoach(UserDao.find(id));
+		t.commit();
+		em.close();
+	}
+	
+	/**
+	 * Voegt een event toe aan het team
+	 */
+	public static void addEvent (Long event_id, Long team_id){
+		EntityManager em = EntityManagerManager.getEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		
+		Team team = em.find(Team.class, team_id);
+		List<DefaultEvent> events = new ArrayList<>();
+		for (DefaultEvent e : team.getEvents()){
+			events.add(e);
+		}
+		events.add(EventDao.find(event_id));
+		team.setEvents(events);
+		em.persist(team);
+		
 		t.commit();
 		em.close();
 	}
