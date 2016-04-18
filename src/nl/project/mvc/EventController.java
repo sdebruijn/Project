@@ -44,7 +44,8 @@ public class EventController {
 		
 		Team team = TeamDao.find(key);
 		model.addAttribute("team", team);
-		model.addAttribute("events", team.getEvents());
+		//model.addAttribute("events", TeamDao.allEvents(key));
+		model.addAttribute("events", EventDao.all());
 		return "eventMenu";
 		}
 	
@@ -66,14 +67,6 @@ public class EventController {
 		EventDao.createMatch(event);
 		
 		return "redirect:/mainMenu";
-	}
-	
-	@InitBinder     
-	public void initBinder(WebDataBinder binder){
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-		 
-	     binder.registerCustomEditor(DefaultEvent.class,new CustomDateEditor(dateFormat, false));   
 	}
 	
 }

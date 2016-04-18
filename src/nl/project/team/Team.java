@@ -103,6 +103,14 @@ public class Team {
 		this.events.add(u);
 	}
 	
+	public void removeEvent(DefaultEvent u){
+		events.remove(u);
+	}
+	
+	public void removeAllEvents(){
+		events.clear();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

@@ -21,7 +21,6 @@ public class DefaultEvent{
 	
 	private String date;
 	private LocalDateTime start;
-
 	private LocalDateTime end;
 	
 	@Size(min=2, max=50)

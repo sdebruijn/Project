@@ -20,7 +20,7 @@
     <a href="creatematch"><button type="button" class="btn btn-primary btn-block">New match</button></a>
 
     <c:forEach items="${events}" var="i">
-    	<a href="<c:url value="/teammenu/${i.id}" />"><button type="button" class="btn btn-primary btn-block">${i.title }</button></a>
+    	${i.date}<button type="button" class="btn btn-primary btn-block">${i.title }</button>
     </c:forEach>
     
   </div>

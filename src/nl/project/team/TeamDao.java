@@ -164,15 +164,28 @@ public abstract class TeamDao {
 		t.begin();
 		
 		Team team = em.find(Team.class, team_id);
-		List<DefaultEvent> events = new ArrayList<>();
-		for (DefaultEvent e : team.getEvents()){
-			events.add(e);
-		}
-		events.add(EventDao.find(event_id));
-		team.setEvents(events);
-		em.persist(team);
+		team.addEvent(EventDao.find(event_id));
 		
 		t.commit();
 		em.close();
+	}
+	
+	/**
+	 * Zoekt alle events op die bij dit team horen
+	 */
+	public static List<DefaultEvent> allEvents(Long id){
+		EntityManager em = EntityManagerManager.getEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		
+		Team team = em.find(Team.class, id);
+		List<DefaultEvent> events = new ArrayList<>();
+		for (DefaultEvent event : team.getEvents()){
+			events.add(event);
+		}
+
+		t.commit();
+		em.close();
+		return events;
 	}
 }
