@@ -28,39 +28,26 @@ public class UserDao {
 	public static User find(User user) {
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
-		t.begin();
-		Query q = em.createQuery("SELECT u FROM User u WHERE u.name='Myrte'");
-		user = (User) q.getSingleResult();
-		t.commit();
-		em.close();
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.name=:name AND u.surname=:surname");
+		user = (User) q.setParameter("name", user.getName()).setParameter("surname", user.getSurname())
+				.getSingleResult();
 		System.out.println(user);
 		return user;
 	}
-	
+
 	public static User find(String name, String surname) {
 		User user = new User(name, surname);
 		return find(user);
 	}
-	
-	
+
 	public static void create(User user) {
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
-		/*
-		List<User> users = em.createQuery("from User", User.class).getResultList();
-		System.out.println(users);
-		if (users.contains(user) ) {
-			System.out.println("There is already a user with this name and surname.");
-		} else {
-			em.persist(user);
-		}
-		*/
-		find(user);
 		if (user != null) {
 			em.persist(user);
-		}		
-		
+		}
+
 		t.commit();
 		em.close();
 	}
@@ -131,8 +118,6 @@ public class UserDao {
 			t.begin();
 			User user = em.find(User.class, id);
 			if (user == null) {
-				// user does not exist
-				// error message to 404 page
 				return;
 			}
 			(new org.apache.commons.beanutils.BeanUtilsBean()).copyProperties(user, userUpdate);
@@ -145,6 +130,32 @@ public class UserDao {
 		} finally {
 			em.close();
 		}
-
 	}
+	
+	/**
+	 * Returns true if a user exists. 
+	 */
+	public static boolean exist(User user) {
+		EntityManager em = EntityManagerManager.getEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		
+		Query q = em.createQuery("SELECT count(u) FROM User u WHERE u.name=:name AND u.surname=:surname AND NOT u.id=:id");
+		q.setParameter("name", user.getName());
+		q.setParameter("surname", user.getSurname());
+		q.setParameter("id", user.getId() == null ? 0 : user.getId() );
+		
+		Long count = (Long) q.getSingleResult();
+		
+		
+		t.commit();
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	
+
 }
