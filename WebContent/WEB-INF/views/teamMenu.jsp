@@ -18,7 +18,7 @@
   <h2>${team.name }</h2>    
   <div class="btn-group-vertical">
   	<a href="<c:url value="/team/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Team management</button></a>
-    <a href="<c:url value="/events/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Events</button></a>
+    <a href="<c:url value="/events" />"><button type="button" class="btn btn-primary btn-block">Events</button></a>
     <a href="<c:url value="/mainMenu" />"><button type="button" class="btn btn-default btn-block">Back</button></a>
   </div>
 </div>

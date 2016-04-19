@@ -4,10 +4,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
@@ -16,7 +14,7 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import nl.project.event.DefaultEvent;
+import nl.project.event.Event;
 import nl.project.user.User;
 
 @Entity
@@ -27,7 +25,7 @@ public class Team {
 	
 	private String name;
 	private List<User> members; 
-	private List<DefaultEvent> events;
+	private List<Event> events;
 
 	//private User manager;
 	private User coach;
@@ -42,22 +40,22 @@ public class Team {
 	}
 	
 	public void sortEvents(){
-		Collections.sort(events, new Comparator<DefaultEvent>() {
+		Collections.sort(events, new Comparator<Event>() {
 		    @Override
-		    public int compare(DefaultEvent r1, DefaultEvent r2) {
+		    public int compare(Event r1, Event r2) {
 		    	System.out.println(r1.getTitle() + " " + r2.getTitle());
-		        return r1.getD().compareTo(r2.getD());
+		        return r1.getDate().compareTo(r2.getDate());
 		    }
 		});
 	}
 	
 	@ManyToMany
 	@JoinTable(name="TEAMS_EVENTS")
-	public List<DefaultEvent> getEvents() {
+	public List<Event> getEvents() {
 		return events;
 	}
 	
-	public void setEvents(List<DefaultEvent> events) {
+	public void setEvents(List<Event> events) {
 		this.events = events;
 	}
 	
@@ -111,11 +109,11 @@ public class Team {
 		members.clear();
 	}
 	
-	public void addEvent(DefaultEvent u){
+	public void addEvent(Event u){
 		this.events.add(u);
 	}
 	
-	public void removeEvent(DefaultEvent u){
+	public void removeEvent(Event u){
 		events.remove(u);
 	}
 	

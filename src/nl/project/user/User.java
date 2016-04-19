@@ -7,10 +7,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import nl.project.event.Event;
 import nl.project.team.Team;
 
 @Entity
@@ -19,6 +19,8 @@ public class User {
 	private Long id;
 	private String name, surname;
 	private List<Team> teams;
+	private List<Event> eventsPresent;
+	private List<Event> eventsAbsent;
 	
 	@ManyToMany(mappedBy="members", fetch = FetchType.EAGER)
 	public List<Team> getTeams() {
@@ -76,6 +78,24 @@ public class User {
 		this.name = name;
 	}
 	
+	@ManyToMany(mappedBy="present")
+	public List<Event> getEventsPresent() {
+		return eventsPresent;
+	}
+
+	public void setEventsPresent(List<Event> eventsPresent) {
+		this.eventsPresent = eventsPresent;
+	}
+
+	@ManyToMany(mappedBy="absent")
+	public List<Event> getEventsAbsent() {
+		return eventsAbsent;
+	}
+
+	public void setEventsAbsent(List<Event> eventsAbsent) {
+		this.eventsAbsent = eventsAbsent;
+	}
+
 	@Override
 	public boolean equals(Object o){
 		if (this == o) { 

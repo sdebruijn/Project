@@ -1,5 +1,7 @@
 package nl.project.mvc;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +38,7 @@ public class MainController {
 	 * Toont teammenu
 	 */
 	@RequestMapping(value="/teammenu/{id}")
-	public String teamMenu(@PathVariable String id, Model model){
+	public String teamMenu(@PathVariable String id, Model model, HttpSession session){
 		Long key;
 		try{
 			key = Long.valueOf(id);
@@ -47,6 +49,7 @@ public class MainController {
 		}
 		
 		Team team = TeamDao.find(key);
+		session.setAttribute("currentteam", team);
 		
 		model.addAttribute("team", team);
 		return "teamMenu";

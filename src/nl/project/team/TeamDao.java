@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
 
-import nl.project.event.DefaultEvent;
+import nl.project.event.Event;
 import nl.project.event.EventDao;
 import nl.project.mvc.EntityManagerManager;
 import nl.project.user.User;
@@ -173,7 +171,7 @@ public abstract class TeamDao {
 	/**
 	 * Zoekt alle events op die bij dit team horen
 	 */
-	public static List<DefaultEvent> allEvents(Long id){
+	public static List<Event> allEvents(Long id){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -181,8 +179,8 @@ public abstract class TeamDao {
 		Team team = em.find(Team.class, id);
 
 		team.sortEvents();
-		List<DefaultEvent> events = new ArrayList<>();
-		for (DefaultEvent event : team.getEvents()){
+		List<Event> events = new ArrayList<>();
+		for (Event event : team.getEvents()){
 			events.add(event);
 		}
 		
