@@ -19,28 +19,11 @@ public class UserDao {
 		user.setName(name);
 		user.setSurname(surname);
 		user.setTeams(new ArrayList<>());
-		find(user);
-
 		create(user);
 		return user;
 	}
 
-	public static User find(User user) {
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		Query q = em.createQuery("SELECT u FROM User u WHERE u.name=:name AND u.surname=:surname");
-		user = (User) q.setParameter("name", user.getName()).setParameter("surname", user.getSurname())
-				.getSingleResult();
-		System.out.println(user);
-		return user;
-	}
-
-	public static User find(String name, String surname) {
-		User user = new User(name, surname);
-		return find(user);
-	}
-
-	public static void create(User user) {
+	public static User create(User user) {
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -50,7 +33,31 @@ public class UserDao {
 
 		t.commit();
 		em.close();
+		
+		return user;
 	}
+	
+	public static User find(User user) {
+		EntityManager em = EntityManagerManager.getEntityManager();
+		EntityTransaction t = em.getTransaction();
+		t.begin();
+		
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.name=:name AND u.surname=:surname");
+		user = (User) q.setParameter("name", user.getName()).setParameter("surname", user.getSurname())
+				.getSingleResult();
+		
+		t.commit();
+		em.close();
+		System.out.println(user);
+		return user;
+	}
+
+	public static User find(String name, String surname) {
+		User user = new User(name, surname);
+		return find(user);
+	}
+
+
 
 	/**
 	 * Verwijder een user uit de database

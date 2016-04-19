@@ -16,6 +16,11 @@ import nl.project.user.UserDao;
 @RequestMapping(value="/user")
 public class UserController {
 	
+	@RequestMapping(value="resttest", method=RequestMethod.GET)
+	public String testpage() {
+		return "overzicht";
+	}
+	
 	@RequestMapping(value="testpage", method=RequestMethod.GET)
 	public String testpage(Model model) {
 		
