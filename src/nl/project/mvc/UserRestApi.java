@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,7 @@ import nl.project.user.UserDao;
  */
 
 @RestController
+@Validated 
 @RequestMapping("/api/users/")
 public class UserRestApi {
 	@RequestMapping(method = RequestMethod.GET)
@@ -27,7 +30,10 @@ public class UserRestApi {
 	}
 	
 	@RequestMapping(value="", method = RequestMethod.POST)
-	public User create(@Valid User user) {
+	public User create(@RequestBody @Valid User user) {
+		System.err.println(user);
+		
+		System.err.println("in POST");
 		if (UserDao.exist(user)) {
 			return null;
 		}
@@ -39,6 +45,7 @@ public class UserRestApi {
 	
 	@RequestMapping(value="{id}", method = RequestMethod.GET)
 	public User user(@PathVariable String id) {
+		System.err.println("in GET");
 		Long key;
 		try {
 			key = Long.valueOf(id);
@@ -54,25 +61,26 @@ public class UserRestApi {
 	}
 
 	@RequestMapping(value="{id}", method = RequestMethod.PUT)
-	public void edit(@PathVariable String id, @Valid User user) {
+	public User edit(@RequestBody User user, @PathVariable String id) {
+		System.err.println("in PUT");
 		Long key;
 		try {
 			key = Long.valueOf(id);
 		} catch(NumberFormatException e){
-			return; // id is geen getal? error 404
+			return null; // id is geen getal? error 404
 		}
 
 		User u = UserDao.findById(key);
 		if (u == null) { // user not found
-			return; // TODO: error message attribute to custom 404 page.
+			return null; // TODO: error message attribute to custom 404 page.
 		}	
 		
 		if (UserDao.exist(user)) {
-			return;
+			return null;
 		}
 		
-		UserDao.update(key, user);	
-		return;
+		user = UserDao.update(key, user);	
+		return user;
 	}
 	
 	@RequestMapping(value="{id}", method = RequestMethod.DELETE)

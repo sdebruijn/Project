@@ -117,26 +117,31 @@ public class UserDao {
 	/**
 	 * Update een user adhv id
 	 */
-	public static void update(Long id, User userUpdate) {
+	public static User update(Long id, User userUpdate) {
 		EntityManager em = EntityManagerManager.getEntityManager();
 
 		EntityTransaction t = em.getTransaction();
-		try {
+		
 			t.begin();
 			User user = em.find(User.class, id);
-			if (user == null) {
-				return;
+			if (user == null || userUpdate == null) {
+				System.err.println("One of users is null...");
+				return null;
 			}
-			(new org.apache.commons.beanutils.BeanUtilsBean()).copyProperties(user, userUpdate);
+			//(new org.apache.commons.beanutils.BeanUtilsBean()).copyProperties(user, userUpdate);
+			if (userUpdate.getName() == null) {
+				System.err.println("New user name is null...");
+			} else {
+				user.setName(userUpdate.getName());
+				user.setSurname(userUpdate.getSurname());
+			}
 			em.persist(user);
 			t.commit();
-		} catch (InvocationTargetException e) {
-			System.out.println("hmm error");
-		} catch (IllegalAccessException e) {
-			System.out.println("hmm error");
-		} finally {
+		 
 			em.close();
-		}
+			
+			return user;
+		
 	}
 	
 	/**
