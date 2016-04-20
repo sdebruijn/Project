@@ -1,5 +1,6 @@
 package nl.project.mvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -11,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import nl.project.event.Event;
 import nl.project.event.EventDao;
@@ -148,6 +151,5 @@ public class EventController {
 		model.addAttribute("p", false);
 		model.addAttribute("a", true);
 		return "eventDetail";
-	}
-	
+	}	
 }

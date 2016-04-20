@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{event.title}</title>
+  <title>${event.title}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -35,7 +35,7 @@
     </c:forEach></p>
     
     <div class="btn-group-vertical">
-    	<a href="<c:url value="" />"><button type="button" class="btn btn-default btn-block">Back</button></a> 
+    	<a href="<c:url value="../events" />"><button type="button" class="btn btn-default btn-block">Back</button></a> 
     </div>
   	<script>
 
@@ -53,11 +53,11 @@
     	
 
     	function present() {
-    		  window.location.assign("/project/events/present");
+    		window.location.assign("/project/events/present");
         }
     	
     	function absent() {
-  		  window.location.assign("/project/events/absent");
+  		  	window.location.assign("/project/events/absent");
       	}
     }
 
