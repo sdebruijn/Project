@@ -1,5 +1,7 @@
 package nl.project.mvc;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -28,6 +30,11 @@ public class EventController {
 	public String eventMenu(Model model, HttpSession session){
 		
 		Team team = (Team) session.getAttribute("currentteam");
+		
+		if (team == null){
+			return "redirect:/mainMenu/";
+		}
+		
 		model.addAttribute("team", team);
 		model.addAttribute("events", TeamDao.allEvents(team.getId()));
 		return "eventMenu";
@@ -50,7 +57,16 @@ public class EventController {
 		
 		Event event = EventDao.find(key);
 		session.setAttribute("currentevent", event);
-		model.addAttribute("event", event);
+		
+		List<User> present = EventDao.allPresent(event.getId());
+		List<User> absent = EventDao.allAbsent(event.getId());
+		model.addAttribute("event",event);
+		model.addAttribute("present",present);
+		model.addAttribute("absent", absent);
+		
+		model.addAttribute("p", false);
+		model.addAttribute("a", false);
+		
 		return "eventDetail";
 		}	
 	
@@ -81,25 +97,56 @@ public class EventController {
 		return "redirect:/events/" + team.getId();
 	}
 	
+	/**
+	 * Zodra er op present gedrukt wordt, wordt de huidige user toegevoegd aan die lijst. Daarna terug naar eventdetail
+	 */
 	@RequestMapping(value="/events/present")
 	public String present (HttpSession session, Model model){
 
 		Event event = (Event) session.getAttribute("currentevent");
+		
+		if (event == null){
+			return "redirect:/mainMenu/";
+		}
+		
 		User user = UserDao.find(1l);
 		
 		EventDao.addPresent(event.getId(), user.getId());
+
+		List<User> present = EventDao.allPresent(event.getId());
+		List<User> absent = EventDao.allAbsent(event.getId());
 		model.addAttribute("event",event);
+		model.addAttribute("present",present);
+		model.addAttribute("absent", absent);
+		
+		model.addAttribute("p", true);
+		model.addAttribute("a", false);
 		return "eventDetail";
 	}
 	
+	/**
+	 * Zodra er op absent gedrukt wordt, wordt de huidige user toegevoegd aan die lijst. Daarna terug naar eventdetail
+	 */
 	@RequestMapping(value="/events/absent")
 	public String absent (HttpSession session, Model model){
 
 		Event event = (Event) session.getAttribute("currentevent");
+		
+		if (event == null){
+			return "redirect:/mainMenu/";
+		}
+		
 		User user = UserDao.find(1l);
 		
 		EventDao.addAbsent(event.getId(), user.getId());
+		
+		List<User> present = EventDao.allPresent(event.getId());
+		List<User> absent = EventDao.allAbsent(event.getId());
 		model.addAttribute("event",event);
+		model.addAttribute("present",present);
+		model.addAttribute("absent", absent);
+		model.addAttribute("p", false);
+		model.addAttribute("a", true);
 		return "eventDetail";
 	}
 	

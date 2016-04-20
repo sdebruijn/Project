@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
 
