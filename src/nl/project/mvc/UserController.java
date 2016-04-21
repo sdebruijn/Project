@@ -2,6 +2,7 @@ package nl.project.mvc;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,8 +14,10 @@ import nl.project.user.User;
 import nl.project.user.UserDao;
 
 @Controller
-@RequestMapping(value="/user")
 public class UserController {
+	@Autowired
+	private UserDao userDao;
+	
 	
 	@RequestMapping(value="resttest", method=RequestMethod.GET)
 	public String testpage() {
@@ -27,7 +30,7 @@ public class UserController {
 		User u = new User("Sijmen","de Bruijn");
 		model.addAttribute("u", u);
 		
-		if (UserDao.exist(u)) {
+		if (userDao.exist(u)) {
 			model.addAttribute("result", "user already exists");
 		} else {
 			model.addAttribute("result", "new user!");
@@ -56,13 +59,13 @@ public class UserController {
 		if (bindingResult.hasErrors()) {
 			return "user/new";
 		}
-		if (UserDao.exist(user)) {
+		if (userDao.exist(user)) {
 			model.addAttribute("error", "This name and surname is already recorded, please enter something else.");
 			return "user/new";
 		}
 		
 		
-		UserDao.create(user);
+		userDao.create(user);
 		
 		return "redirect:/mainMenu";
 	}
@@ -79,7 +82,7 @@ public class UserController {
 			return null; // id is geen getal? error 404
 		}
 		
-		User user = UserDao.findById(key);
+		User user = userDao.findById(key);
 		if (user == null) { // user not found
 			return null; // TODO: error message attribute to custom 404 page.
 		}
@@ -107,12 +110,12 @@ public class UserController {
 			return null; // id is geen getal? error 404
 		}
 
-		User u = UserDao.findById(key);
+		User u = userDao.findById(key);
 		if (u == null) { // user not found
 			return null; // TODO: error message attribute to custom 404 page.
 		}	
 		
-		if (UserDao.exist(user)) {
+		if (userDao.exist(user)) {
 			model.addAttribute("error", "This name and surname are already in use, please enter something else.");
 			return "user/edit";
 		}
@@ -121,7 +124,7 @@ public class UserController {
 			return "user/edit"; // Show errors in form
 		}
 	
-		UserDao.update(key, user);
+		userDao.update(key, user);
 		return "redirect:/mainMenu";
 	}
 }

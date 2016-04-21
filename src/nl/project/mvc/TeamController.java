@@ -1,5 +1,6 @@
 package nl.project.mvc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -12,6 +13,8 @@ import nl.project.user.UserDao;
 
 @Controller
 public class TeamController {
+	@Autowired
+	private UserDao userDao;
 	
 	/**
 	 * Toont teammanagement
@@ -70,7 +73,7 @@ public class TeamController {
 		
 		model.addAttribute("action", "addmember");
 		model.addAttribute("team", key);
-		model.addAttribute("users", UserDao.all());
+		model.addAttribute("users", userDao.all());
 		return "userList";
 	}
 	
@@ -169,7 +172,7 @@ public class TeamController {
 		
 		model.addAttribute("action", "addcoach");
 		model.addAttribute("team", key);
-		model.addAttribute("users", UserDao.all());
+		model.addAttribute("users", userDao.all());
 		return "userList";
 	}
 	

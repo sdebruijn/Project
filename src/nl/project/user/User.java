@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -33,7 +34,6 @@ public class User {
 		this.setSurname(surname);
 	}
 	
-
 	/*** Fields ***/
 	private Long id;
 	
@@ -44,6 +44,7 @@ public class User {
 	@NotNull
 	@Size(min=2,max=45)
 	private String surname;
+	
 	private List<Team> teams;
 	
 	/*** Getters and stters***/
@@ -86,7 +87,7 @@ public class User {
 		this.surname = surname.trim();
 	}
 	
-	@ManyToMany(mappedBy="members", fetch = FetchType.EAGER)
+	@ManyToMany(mappedBy="members")
 	public List<Team> getTeams() {
 		return teams;
 	}

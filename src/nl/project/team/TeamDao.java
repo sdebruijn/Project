@@ -6,18 +6,23 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import nl.project.event.DefaultEvent;
 import nl.project.event.EventDao;
 import nl.project.mvc.EntityManagerManager;
 import nl.project.user.User;
 import nl.project.user.UserDao;
 
-public abstract class TeamDao {
+public class TeamDao {
+	
+	@Autowired
+	private UserDao userDao;
 	
 	/**
 	 * Maak een nieuw team aan en sla die op in de database
 	 */	
-	public static Team create(String name, String sport){
+	public Team create(String name, String sport){
 		Team team = new Team();
 		team.setName(name);
 		team.setSport(sport);
@@ -37,7 +42,7 @@ public abstract class TeamDao {
 	/**
 	 * Verwijder een team uit de database
 	 */
-	public static void remove(Long id){
+	public void remove(Long id){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -52,7 +57,7 @@ public abstract class TeamDao {
 	/**
 	 * Haal een team op a.d.h.v. zijn id
 	 */
-	public static Team find(Long id){
+	public Team find(Long id){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -65,7 +70,7 @@ public abstract class TeamDao {
 	/**
 	 * Haal alle teams op uit de database
 	 */	
-	public static List<Team> all(){
+	public List<Team> all(){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -78,7 +83,7 @@ public abstract class TeamDao {
 	/**
 	 * Zoekt alle users op die bij dit team horen
 	 */
-	public static List<User> allTeamMembers(Long id){
+	public List<User> allTeamMembers(Long id){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -97,13 +102,13 @@ public abstract class TeamDao {
 	/**
 	 * Voegt een member toe aan team
 	 */	
-	public static void addMember(Long user_id, Long team_id){
+	public void addMember(Long user_id, Long team_id){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		
 		Team team = em.find(Team.class, team_id);
-		team.addMember(UserDao.findById(user_id));
+		team.addMember(userDao.findById(user_id));
 		
 		t.commit();
 		em.close();
@@ -112,13 +117,13 @@ public abstract class TeamDao {
 	/**
 	 * Verwijdert een member van het team
 	 */
-	public static void removeMember(Long user_id, Long team_id){
+	public void removeMember(Long user_id, Long team_id){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		
 		Team team = em.find(Team.class, team_id);
-		team.removeMember(UserDao.findById(user_id));
+		team.removeMember(userDao.findById(user_id));
 
 		t.commit();
 		em.close();
@@ -127,7 +132,7 @@ public abstract class TeamDao {
 	/**
 	 * Verwijdert alle members van het team
 	 */
-	public static void removeAllMembers(Long team_id){
+	public void removeAllMembers(Long team_id){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
@@ -143,12 +148,12 @@ public abstract class TeamDao {
 	/**
 	 * Voegt een coach toe aan het team
 	 */
-	public static void addCoach(Long id, Long teamId){
+	public void addCoach(Long id, Long teamId){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
 		Team team = em.find(Team.class, teamId);
-		team.setCoach(UserDao.findById(id));
+		team.setCoach(userDao.findById(id));
 		t.commit();
 		em.close();
 	}
@@ -156,7 +161,7 @@ public abstract class TeamDao {
 	/**
 	 * Voegt een event toe aan het team
 	 */
-	public static void addEvent (Long event_id, Long team_id){
+	public void addEvent (Long event_id, Long team_id){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();

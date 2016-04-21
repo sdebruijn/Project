@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,9 +25,13 @@ import nl.project.user.UserDao;
 @Validated 
 @RequestMapping("/api/users/")
 public class UserRestApi {
+	@Autowired
+	private UserDao userDao;
+	
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public List<User> users() {
-		return UserDao.all();
+		return userDao.all();
 	}
 	
 	@RequestMapping(value="", method = RequestMethod.POST)
@@ -34,11 +39,11 @@ public class UserRestApi {
 		System.err.println(user);
 		
 		System.err.println("in POST");
-		if (UserDao.exist(user)) {
+		if (userDao.exist(user)) {
 			return null;
 		}
 		
-		User newUser = UserDao.create(user);
+		User newUser = userDao.create(user);
 		
 		return newUser;
 	}
@@ -53,7 +58,7 @@ public class UserRestApi {
 			return null; 			// id is geen getal? error 404
 		}
 		
-		User user = UserDao.findById(key);
+		User user = userDao.findById(key);
 		if (user == null) {
 			return null; // no user with this id? error 404
 		}
@@ -70,16 +75,16 @@ public class UserRestApi {
 			return null; // id is geen getal? error 404
 		}
 
-		User u = UserDao.findById(key);
+		User u = userDao.findById(key);
 		if (u == null) { // user not found
 			return null; // TODO: error message attribute to custom 404 page.
 		}	
 		
-		if (UserDao.exist(user)) {
+		if (userDao.exist(user)) {
 			return null;
 		}
 		
-		user = UserDao.update(key, user);	
+		user = userDao.update(key, user);	
 		return user;
 	}
 	
@@ -92,7 +97,7 @@ public class UserRestApi {
 			return; // id is geen getal? error 404
 		}
 
-		UserDao.remove(key);
+		userDao.remove(key);
 		return;
 	}
 	
