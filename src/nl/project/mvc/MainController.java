@@ -1,5 +1,6 @@
 package nl.project.mvc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,15 +8,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
+import nl.project.user.UserDao;
 
 @Controller
 public class MainController {
 	
+	@Autowired
+	private TeamDao teamDao;
+	
 	@RequestMapping("/mainMenu")
 	public String mainMenu(Model model) {
-		model.addAttribute("teams", TeamDao.all());
+		model.addAttribute("teams", teamDao.all());
 		return "mainMenu";
 	}
 	
@@ -26,7 +32,7 @@ public class MainController {
 	
 	@RequestMapping(value = "/createTeam", method = RequestMethod.POST)
 	public String createTeam(@RequestParam String teamName, @RequestParam String sport){
-		TeamDao.create(teamName, sport);
+		teamDao.create(teamName, sport);
 		return "redirect:/mainMenu";
 
 	}
@@ -45,7 +51,7 @@ public class MainController {
 			return null;
 		}
 		
-		Team team = TeamDao.find(key);
+		Team team = teamDao.find(key);
 		
 		model.addAttribute("team", team);
 		return "teamMenu";
