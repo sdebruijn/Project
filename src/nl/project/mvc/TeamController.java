@@ -32,7 +32,7 @@ public class TeamController {
 		
 		model.addAttribute("team", team);
 		model.addAttribute("coach", team.getCoach());
-		model.addAttribute("users", TeamDao.allTeamMembers(key));
+		//model.addAttribute("users", TeamDao.allTeamMembers(key));
 		return "teamManagement";
 	}
 	

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import org.hibernate.Hibernate;
+
 import nl.project.event.Event;
 import nl.project.event.EventDao;
 import nl.project.mvc.EntityManagerManager;
@@ -84,14 +86,15 @@ public abstract class TeamDao {
 		t.begin();
 		
 		Team team = em.find(Team.class, id);
-		List<User> users = new ArrayList<>();
+		Hibernate.initialize(team.getMembers());
+/*		List<User> users = new ArrayList<>();
 		for (User u : team.getMembers()){
 			users.add(u);
-		}
+		}*/
 
 		t.commit();
 		em.close();
-		return users;
+		return team.getMembers();
 	}
 	
 	/**
