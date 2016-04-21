@@ -1,7 +1,6 @@
 package nl.project.mvc;
 
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -109,7 +108,7 @@ public class EventController {
 			return "redirect:/mainMenu/";
 		}
 		
-		User user = UserDao.find(1l);
+		User user = UserDao.findById(1l);
 		
 		EventDao.addPresent(event.getId(), user.getId());
 
@@ -136,7 +135,7 @@ public class EventController {
 			return "redirect:/mainMenu/";
 		}
 		
-		User user = UserDao.find(1l);
+		User user = UserDao.findById(1l);
 		
 		EventDao.addAbsent(event.getId(), user.getId());
 		

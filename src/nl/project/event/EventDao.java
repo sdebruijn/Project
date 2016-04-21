@@ -70,10 +70,10 @@ public abstract class EventDao {
 				exists = true;	}}
 		for (User u : ausers){
 			if (u.getId().equals(user_id)){
-				equ = UserDao.find(user_id);	}}
+				equ = UserDao.findById(user_id);	}}
 		
 		if (!exists){
-			event.addPresent(UserDao.find(user_id));
+			event.addPresent(UserDao.findById(user_id));
 		}
 		
 		if (equ != null){
@@ -103,10 +103,10 @@ public abstract class EventDao {
 				exists = true;	}}
 		for (User u : pusers){
 			if (u.getId().equals(user_id)){
-				equ = UserDao.find(user_id);	}}
+				equ = UserDao.findById(user_id);	}}
 		
 		if (!exists){	
-			event.addAbsent(UserDao.find(user_id));
+			event.addAbsent(UserDao.findById(user_id));
 		}
 		
 		if (equ != null){
