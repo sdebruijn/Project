@@ -35,27 +35,12 @@ public class Team {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-<<<<<<< HEAD
-	public void sortEvents(){
-		Collections.sort(events, new Comparator<Event>() {
-		    @Override
-		    public int compare(Event r1, Event r2) {
-		    	System.out.println(r1.getTitle() + " " + r2.getTitle());
-		        return r1.getDate().compareTo(r2.getDate());
-		    }
-		});
-	}
-	
-	@ManyToMany
-	@JoinTable(name="TEAMS_EVENTS")
-=======
 	@ManyToMany(mappedBy="teams")
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 	public List<Event> getEvents() {
 		return events;
 	}
@@ -118,14 +103,6 @@ public class Team {
 		this.events.add(u);
 	}
 	
-<<<<<<< HEAD
-	public void removeEvent(Event u){
-		events.remove(u);
-	}
-	
-	public void removeAllEvents(){
-		events.clear();
-=======
 	public void sortEvents(){
 		Collections.sort(events, new Comparator<Event>() {
 		    @Override
@@ -134,7 +111,6 @@ public class Team {
 		        return r1.getDate().compareTo(r2.getDate());
 		    }
 		});
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 	}
 	
 	@Override

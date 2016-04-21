@@ -15,33 +15,6 @@
 </head>
 <body>
 <div class="container">
-<<<<<<< HEAD
-  	<h1>${event.title}</h1>
-  	<p>Date: ${event.date}</p>
-  	<p>Location: ${event.location}</p>
-
-  	<input type="radio" name="pres" id="present" value="Present" />
-  	<label for="present">Present</label>
-  	<input type="radio" name="pres" id="absent" value="absent" />
-  	<label for="absent">absent</label>
-
-  	<p>Present:
-   	<c:forEach items="${present}" var="i">
-    ${i.surname} ${i.name},
-    </c:forEach></p>
-  	 
-  	<p>Absent:  
-  	<c:forEach items="${absent}" var="i">
-    ${i.surname} ${i.name},
-    </c:forEach></p>
-    
-    <div class="btn-group-vertical">
-    	<a href="<c:url value="" />"><button type="button" class="btn btn-default btn-block">Back</button></a> 
-    </div>
-  	<script>
-
-  	
-=======
   	<p>${event.title}</p>
   	<p>Date: ${event.date}</p>
   	<p>Location: ${event.location}</p>
@@ -60,23 +33,12 @@
   	<p>Absent:</p>
   	
   	<script>
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
   	window.onload = function() {
 
     	var pres = document.getElementById('present');
     	var absa = document.getElementById('absent');
-<<<<<<< HEAD
-    	
-      	pres.checked = ${p}; 
-   		absa.checked = ${a};  
-    	
     	pres.onclick = present;
     	absa.onclick = absent;
-    	
-=======
-    	pres.onclick = present;
-    	absa.onclick = absent;
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 
     	function present() {
     		  window.location.assign("/project/events/present");
@@ -84,11 +46,7 @@
     	
     	function absent() {
   		  window.location.assign("/project/events/absent");
-<<<<<<< HEAD
-      	}
-=======
       }
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
     }
 
   	</script>

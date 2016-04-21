@@ -7,18 +7,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-<<<<<<< HEAD
-=======
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
 
-import nl.project.event.Event;
 import nl.project.team.Team;
 
 @Entity
@@ -49,8 +45,6 @@ public class User {
 	private String surname;
 	
 	private List<Team> teams;
-	private List<Event> eventsPresent;
-	private List<Event> eventsAbsent;
 	
 	/*** Getters and stters***/
 	@Id
@@ -101,24 +95,6 @@ public class User {
 		this.teams = teams;
 	}
 	
-	@ManyToMany(mappedBy="present")
-	public List<Event> getEventsPresent() {
-		return eventsPresent;
-	}
-
-	public void setEventsPresent(List<Event> eventsPresent) {
-		this.eventsPresent = eventsPresent;
-	}
-
-	@ManyToMany(mappedBy="absent")
-	public List<Event> getEventsAbsent() {
-		return eventsAbsent;
-	}
-
-	public void setEventsAbsent(List<Event> eventsAbsent) {
-		this.eventsAbsent = eventsAbsent;
-	}
-
 	@Override
 	public boolean equals(Object o){
 		if (this == o) { 

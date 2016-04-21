@@ -4,18 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-<<<<<<< HEAD
-import javax.persistence.EntityTransaction;
-
-import org.hibernate.Hibernate;
-=======
 import javax.persistence.PersistenceContext;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 
 import nl.project.event.Event;
 import nl.project.event.EventDao;
@@ -82,19 +76,8 @@ public class TeamDao {
 	@Transactional
 	public List<User> allTeamMembers(Long id){
 		Team team = em.find(Team.class, id);
-<<<<<<< HEAD
-		Hibernate.initialize(team.getMembers());
-/*		List<User> users = new ArrayList<>();
-		for (User u : team.getMembers()){
-			users.add(u);
-		}*/
-
-		t.commit();
-		em.close();
-=======
 				
 		Hibernate.initialize(team.getMembers());
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		return team.getMembers();
 	}
 	
@@ -140,29 +123,14 @@ public class TeamDao {
 	@Transactional
 	public void addEvent (Long event_id, Long team_id){
 		Team team = em.find(Team.class, team_id);
-<<<<<<< HEAD
-		team.addEvent(EventDao.find(event_id));
-		
-		t.commit();
-		em.close();
-=======
 		team.addEvent(eventDao.find(event_id));
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 	}
 	
 	/**
 	 * Zoekt alle events op die bij dit team horen
 	 */
-<<<<<<< HEAD
-	public static List<Event> allEvents(Long id){
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		
-=======
 	@Transactional
 	public  List<Event> allEvents(Long id){
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		Team team = em.find(Team.class, id);
 
 		team.sortEvents();
@@ -170,12 +138,6 @@ public class TeamDao {
 		for (Event event : team.getEvents()){
 			events.add(event);
 		}
-<<<<<<< HEAD
-		
-		t.commit();
-		em.close();
-=======
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		return events;
 	}
 }

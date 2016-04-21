@@ -43,12 +43,7 @@ public class TeamController {
 		
 		Team team = teamDao.find(key);	
 		model.addAttribute("team", team);
-<<<<<<< HEAD
-		model.addAttribute("coach", team.getCoach());
-		//model.addAttribute("users", TeamDao.allTeamMembers(key));
-=======
 	
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		return "teamManagement";
 	}
 	

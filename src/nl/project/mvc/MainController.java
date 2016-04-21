@@ -2,10 +2,7 @@ package nl.project.mvc;
 
 import javax.servlet.http.HttpSession;
 
-<<<<<<< HEAD
-=======
 import org.springframework.beans.factory.annotation.Autowired;
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
 
@@ -25,12 +21,7 @@ public class MainController {
 	
 	@RequestMapping("/mainMenu")
 	public String mainMenu(Model model) {
-<<<<<<< HEAD
-		model.addAttribute("teams", TeamDao.all());
-		
-=======
 		model.addAttribute("teams", teamDao.all());
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		return "mainMenu";
 	}
 	
@@ -60,11 +51,7 @@ public class MainController {
 			return null;
 		}
 		
-<<<<<<< HEAD
-		Team team = TeamDao.find(key);
-=======
 		Team team = teamDao.find(key);
->>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		session.setAttribute("currentteam", team);
 		
 		model.addAttribute("team", team);
