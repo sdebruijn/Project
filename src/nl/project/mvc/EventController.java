@@ -15,17 +15,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import nl.project.event.DefaultEvent;
+import nl.project.event.Event;
 import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
-import nl.project.user.UserDao;
 
 @Controller
 public class EventController {
 
 	@Autowired
 	private TeamDao teamDao;
+	@Autowired
+	private EventDao eventDao;
 	
 	/**
 	 * Toont bestaande events en mogelijkheid tot nieuwe events
@@ -55,17 +56,17 @@ public class EventController {
 	 */
 	@RequestMapping(value="events/creatematch", method=RequestMethod.GET)
 	public String createMatch(Model model){
-		model.addAttribute("defaultEvent", new DefaultEvent());
+		model.addAttribute("defaultEvent", new Event());
 		return "newEvent";
 	}
 	
 	@RequestMapping(value="events/creatematch", method=RequestMethod.POST)
-	public String createEvent(@Valid DefaultEvent event, BindingResult bindingresult){
+	public String createEvent(@Valid Event event, BindingResult bindingresult){
 		
 		if (bindingresult.hasErrors()){
 			return "newEvent";
 		}
-		EventDao.createMatch(event);
+		eventDao.createMatch(event);
 		
 		return "redirect:/mainMenu";
 	}
@@ -75,7 +76,7 @@ public class EventController {
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
 		 
-	     binder.registerCustomEditor(DefaultEvent.class,new CustomDateEditor(dateFormat, false));   
+	     binder.registerCustomEditor(Event.class,new CustomDateEditor(dateFormat, false));   
 	}
 	
 }

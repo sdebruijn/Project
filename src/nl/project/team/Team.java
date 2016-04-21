@@ -14,7 +14,7 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import nl.project.event.DefaultEvent;
+import nl.project.event.Event;
 import nl.project.user.User;
 
 @Entity
@@ -25,7 +25,7 @@ public class Team {
 	
 	private String name;
 	private List<User> members; 
-	private List<DefaultEvent> events;
+	private List<Event> events;
 
 	//private User manager;
 	private User coach;
@@ -41,11 +41,11 @@ public class Team {
 	
 	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 	@JoinTable(name="TEAMS_EVENTS")
-	public List<DefaultEvent> getEvents() {
+	public List<Event> getEvents() {
 		return events;
 	}
 	
-	public void setEvents(List<DefaultEvent> events) {
+	public void setEvents(List<Event> events) {
 		this.events = events;
 	}
 	
@@ -99,7 +99,7 @@ public class Team {
 		members.clear();
 	}
 	
-	public void addEvent(DefaultEvent u){
+	public void addEvent(Event u){
 		this.events.add(u);
 	}
 	

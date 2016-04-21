@@ -4,48 +4,65 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import nl.project.mvc.EntityManagerManager;
-import nl.project.team.Team;
+import nl.project.user.UserDao;
 
-public abstract class EventDao {
+@Repository
+public class EventDao {
+	@PersistenceContext
+    private EntityManager em;	
+    
+	@Autowired
+	private UserDao userDao;
 	
 	/**
 	 * Maak een nieuwe wedstrijd aan en sla die op in de database
 	 */	
-	public static void createMatch(DefaultEvent event){
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
+	@Transactional
+	public void createMatch(Event event){
 		em.persist( event );
-		t.commit();
-		em.close();
 	}
 	
 	/**
 	 * Haal alle events op uit de database
 	 */	
-	public static List<DefaultEvent> all(){
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		List<DefaultEvent> events = em.createQuery("from DefaultEvent", DefaultEvent.class).getResultList();
-		t.commit();
-		em.close();
+	@Transactional
+	public List<Event> all(){
+		List<Event> events = em.createQuery("from Event", Event.class).getResultList();
 		return events;
 	}
 	
 	/**
 	 * Haal een event op a.d.h.v. zijn id
 	 */
-	public static DefaultEvent find(Long id){
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		DefaultEvent event = em.find(DefaultEvent.class, id);
-		t.commit();
-		em.close();
+	@Transactional
+	public Event find(Long id){
+		Event event = em.find(Event.class, id);
 		return event;
+	}
+	
+	/**
+	 * Voegt een present user toe aan het event
+	 */
+	@Transactional
+	public void addPresent (Long event_id, Long user_id){
+		Event event = em.find(Event.class, event_id);
+		event.addPresent(userDao.findById(user_id));
+	}
+	
+	/**
+	 * Voegt een absent user toe aan het event
+	 */
+	@Transactional
+	public void addAbsent (Long event_id, Long user_id){
+		Event event = em.find(Event.class, event_id);
+		event.addAbsent(userDao.findById(user_id));
 	}
 	
 }
