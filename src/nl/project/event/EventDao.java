@@ -4,30 +4,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
 
+<<<<<<< HEAD
 import nl.project.mvc.EntityManagerManager;
 import nl.project.team.Team;
 import nl.project.user.User;
 import nl.project.user.UserDao;
+=======
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 
-public abstract class EventDao {
+import nl.project.user.UserDao;
+
+@Repository
+public class EventDao {
+	@PersistenceContext
+    private EntityManager em;	
+    
+	@Autowired
+	private UserDao userDao;
 	
 	/**
 	 * Maak een nieuwe wedstrijd aan en sla die op in de database
 	 */	
+<<<<<<< HEAD
 	public static void createMatch(Event event){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
 		t.begin();
+=======
+	@Transactional
+	public void createMatch(Event event){
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		em.persist( event );
-		t.commit();
-		em.close();
 	}
 	
 	/**
 	 * Haal alle events op uit de database
 	 */	
+<<<<<<< HEAD
 	public static List<Event> all(){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
@@ -35,12 +54,18 @@ public abstract class EventDao {
 		List<Event> events = em.createQuery("from Event", Event.class).getResultList();
 		t.commit();
 		em.close();
+=======
+	@Transactional
+	public List<Event> all(){
+		List<Event> events = em.createQuery("from Event", Event.class).getResultList();
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		return events;
 	}
 	
 	/**
 	 * Haal een event op a.d.h.v. zijn id
 	 */
+<<<<<<< HEAD
 	public static Event find(Long id){
 		EntityManager em = EntityManagerManager.getEntityManager();
 		EntityTransaction t = em.getTransaction();
@@ -48,10 +73,16 @@ public abstract class EventDao {
 		Event event = em.find(Event.class, id);
 		t.commit();
 		em.close();
+=======
+	@Transactional
+	public Event find(Long id){
+		Event event = em.find(Event.class, id);
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		return event;
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Voegt een present user toe aan het event, als hij nog nergens bestaat
 	 */
 	public static void addPresent (Long event_id, Long user_id){
@@ -154,4 +185,23 @@ public abstract class EventDao {
 		em.close();
 		return users;
 	}
+=======
+	 * Voegt een present user toe aan het event
+	 */
+	@Transactional
+	public void addPresent (Long event_id, Long user_id){
+		Event event = em.find(Event.class, event_id);
+		event.addPresent(userDao.findById(user_id));
+	}
+	
+	/**
+	 * Voegt een absent user toe aan het event
+	 */
+	@Transactional
+	public void addAbsent (Long event_id, Long user_id){
+		Event event = em.find(Event.class, event_id);
+		event.addAbsent(userDao.findById(user_id));
+	}
+	
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 }

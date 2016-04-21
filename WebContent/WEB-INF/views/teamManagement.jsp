@@ -18,13 +18,13 @@
   <h2>${team.name }</h2>
 
   <p>Sport: ${team.sport }</p>
-  <p>Coach: ${coach.surname} ${coach.name}</p>
+  <p>Coach: ${team.coach.surname} ${team.coach.name}</p>
   <p>Members:</p>
   
-  <c:forEach items="${users}" var="i">
+  <c:forEach items="${team.members}" var="i">
     <li>${i.surname} ${i.name}</li>
     </c:forEach>
-
+    
   <div class="btn-group-vertical">
   	<a href="<c:url value="/showcoaches/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Add coach</button></a>
     <a href="<c:url value="/showusers/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Add member</button></a>

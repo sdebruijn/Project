@@ -1,86 +1,138 @@
 package nl.project.user;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
-import nl.project.mvc.EntityManagerManager;
-import nl.project.team.Team;
-import nl.project.team.TeamDao;
+import org.hibernate.Hibernate;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-public class UserDao {	
+@Repository
+public class UserDao {
+	/**
+	 * Spring provides an Entitymanager at runtime.
+	 */
+    @PersistenceContext
+    private EntityManager em;
+	
 	/**
 	 * Maak een nieuw user aan en sla die op in de database
-	 */	
-	public static User create(String name, String surname){
-		User user = new User();
-		user.setName(name);
-		user.setSurname(surname);
-		user.setTeams(new ArrayList<>());
-		
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		em.persist( user );
-		t.commit();
-		em.close();
-		
-		return user;
-	}
-	
-	/**
-	 * Verwijder een user uit de database
 	 */
-	public static void remove(Long id){
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		User user = em.find(User.class, id);
-		if(user != null){
-			em.remove( user );
+    @Transactional
+	public User create(String name, String surname) {
+		User user = new User(name, surname);
+		return create(user);
+	}
+
+	@Transactional
+	public User create(User user) {
+		if (user != null) {
+			em.persist(user);
 		}
-		t.commit();
-		em.close();
+		return user;
+	}
+
+	/**
+	 * Finds a user based on name and surname
+	 * @param user or (name, surname)
+	 * @return user
+	 */
+	@Transactional
+	public User find(User user) {
+		return find(user.getName(), user.getSurname());
+	}
+
+	@Transactional
+	public User find(String name, String surname) {
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.name=:name AND u.surname=:surname");
+		return (User) q.setParameter("name", name)
+                       .setParameter("surname", surname)
+				       .getSingleResult();
+	}
+
+	/**
+	 * Find user by id
+	 * @param id
+	 * @return user
+	 */
+	@Transactional
+	public User findById(Long id) {
+		return em.find(User.class, id);
 	}
 	
 	/**
-	 * Haal een user op a.d.h.v. zijn id
+	 * Remove user from database based on id
+	 * @param id
+	 * @return void
 	 */
-	public static User find(Long id){
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
+	@Transactional
+	public void remove(Long id) {
 		User user = em.find(User.class, id);
-		t.commit();
-		em.close();
-		return user;
+		if (user != null) {
+			em.remove(user);
+		}
+		
 	}
 	
 	/**
-	 * Haal een user op a.d.h.v. zijn naam
+	 * Get all users from database
 	 */
-	public static User find(String name){
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		User user = em.find(User.class, em.createQuery("SELECT id FROM TABLE user where user.name = :"+name).getSingleResult());
-		t.commit();
-		em.close();
+	@Transactional
+	public List<User> all() {
+		List<User> ret =  em.createQuery("from User", User.class).getResultList();
+		for( User u : ret) {
+			Hibernate.initialize(u.getTeams());
+		}		
+		return ret;
+	}
+
+	/**
+	 * Update een user adhv id
+	 */
+	@Transactional
+	public User update(Long id, User userUpdate) {
+		if (userUpdate == null) {
+			throw new IllegalStateException("Updated user cannot be null");
+		}
+		if (userUpdate.getName() == null) {
+			throw new IllegalStateException("Updated user has a name with value null");
+		} 
+		if (userUpdate.getSurname() == null) {
+			throw new IllegalStateException("Updated user has a surname with value null");
+		} 
+		
+		User user = em.find(User.class, id);
+		if (user == null) {
+			throw new IllegalStateException("User with id:"+id+"does not exist");
+		}
+		
+		user.setName( userUpdate.getName());
+		user.setSurname( userUpdate.getSurname());
 		return user;
+		
 	}
 	
 	/**
-	 * Haal alle users op uit de database
-	 */	
-	public static List<User> all(){
-		EntityManager em = EntityManagerManager.getEntityManager();
-		EntityTransaction t = em.getTransaction();
-		t.begin();
-		List<User> users = em.createQuery("from User", User.class).getResultList();
-		t.commit();
-		em.close();
-		return users;
+	 * Returns true if a user exists. 
+	 */
+	@Transactional
+	public boolean exist(User user) {
+		Query q = em.createQuery("SELECT count(u) FROM User u WHERE u.name=:name AND u.surname=:surname AND NOT u.id=:id");
+		q.setParameter("name", user.getName());
+		q.setParameter("surname", user.getSurname());
+		q.setParameter("id", user.getId() == null ? 0 : user.getId() );
+		
+		Long count = (Long) q.getSingleResult();
+		if (count > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
+	
+	
+
 }

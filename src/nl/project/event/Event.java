@@ -137,7 +137,11 @@ public class Event {
 		this.location = location;
 	}
 
+<<<<<<< HEAD
 	@ManyToMany(mappedBy="events")
+=======
+	@ManyToMany
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 	public List<Team> getTeams() {
 		return teams;
 	}

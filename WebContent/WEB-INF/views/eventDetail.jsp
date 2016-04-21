@@ -15,6 +15,7 @@
 </head>
 <body>
 <div class="container">
+<<<<<<< HEAD
   	<h1>${event.title}</h1>
   	<p>Date: ${event.date}</p>
   	<p>Location: ${event.location}</p>
@@ -40,10 +41,31 @@
   	<script>
 
   	
+=======
+  	<p>${event.title}</p>
+  	<p>Date: ${event.date}</p>
+  	<p>Location: ${event.location}</p>
+
+  	<input type="radio" name="present" id="present" value="Present" />
+  	<label for="present">Present</label>
+  	<input type="radio" name="absent" id="absent" value="absent" />
+  	<label for="absent">absent</label>
+
+  	<p>Present:</p>
+  	
+<%--   	<c:forEach items="${event.present}" var="i">
+    <li>${i.surname} ${i.name}</li>
+    </c:forEach>
+  	 --%>
+  	<p>Absent:</p>
+  	
+  	<script>
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
   	window.onload = function() {
 
     	var pres = document.getElementById('present');
     	var absa = document.getElementById('absent');
+<<<<<<< HEAD
     	
       	pres.checked = ${p}; 
    		absa.checked = ${a};  
@@ -51,6 +73,10 @@
     	pres.onclick = present;
     	absa.onclick = absent;
     	
+=======
+    	pres.onclick = present;
+    	absa.onclick = absent;
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 
     	function present() {
     		  window.location.assign("/project/events/present");
@@ -58,7 +84,11 @@
     	
     	function absent() {
   		  window.location.assign("/project/events/absent");
+<<<<<<< HEAD
       	}
+=======
+      }
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
     }
 
   	</script>

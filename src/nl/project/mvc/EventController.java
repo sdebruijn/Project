@@ -1,10 +1,17 @@
 package nl.project.mvc;
 
+<<<<<<< HEAD
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+=======
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +29,13 @@ import nl.project.user.UserDao;
 @Controller
 public class EventController {
 
+	@Autowired
+	private TeamDao teamDao;
+	@Autowired
+	private EventDao eventDao;
+	@Autowired
+	private UserDao userDao;
+	
 	/**
 	 * Toont bestaande events en mogelijkheid tot nieuwe events
 	 */
@@ -30,6 +44,7 @@ public class EventController {
 	public String eventMenu(Model model, HttpSession session){
 		
 		Team team = (Team) session.getAttribute("currentteam");
+<<<<<<< HEAD
 		
 		if (team == null){
 			return "redirect:/mainMenu/";
@@ -37,6 +52,10 @@ public class EventController {
 		
 		model.addAttribute("team", team);
 		model.addAttribute("events", TeamDao.allEvents(team.getId()));
+=======
+		model.addAttribute("team", team);
+		model.addAttribute("events", teamDao.allEvents(team.getId()));
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		return "eventMenu";
 		}
 	
@@ -55,6 +74,7 @@ public class EventController {
 			return null;
 		}
 		
+<<<<<<< HEAD
 		Event event = EventDao.find(key);
 		session.setAttribute("currentevent", event);
 		
@@ -67,6 +87,11 @@ public class EventController {
 		model.addAttribute("p", false);
 		model.addAttribute("a", false);
 		
+=======
+		Event event = eventDao.find(key);
+		session.setAttribute("currentevent", event);
+		model.addAttribute("event", event);
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		return "eventDetail";
 		}	
 	
@@ -88,22 +113,34 @@ public class EventController {
 		if (bindingresult.hasErrors()){
 			return "newEvent";
 		}
+<<<<<<< HEAD
 		
 		EventDao.createMatch(event);
 		
 		Team team = (Team) session.getAttribute("currentteam");
 		TeamDao.addEvent(event.getId(), team.getId());
+=======
+		
+		eventDao.createMatch(event);
+		
+		Team team = (Team) session.getAttribute("currentteam");
+		teamDao.addEvent(event.getId(), team.getId());
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		
 		return "redirect:/events/" + team.getId();
 	}
 	
+<<<<<<< HEAD
 	/**
 	 * Zodra er op present gedrukt wordt, wordt de huidige user toegevoegd aan die lijst. Daarna terug naar eventdetail
 	 */
+=======
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 	@RequestMapping(value="/events/present")
 	public String present (HttpSession session, Model model){
 
 		Event event = (Event) session.getAttribute("currentevent");
+<<<<<<< HEAD
 		
 		if (event == null){
 			return "redirect:/mainMenu/";
@@ -127,10 +164,20 @@ public class EventController {
 	/**
 	 * Zodra er op absent gedrukt wordt, wordt de huidige user toegevoegd aan die lijst. Daarna terug naar eventdetail
 	 */
+=======
+		User user = userDao.findById(1l);
+		
+		eventDao.addPresent(event.getId(), user.getId());
+		model.addAttribute("event",event);
+		return "eventDetail";
+	}
+	
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 	@RequestMapping(value="/events/absent")
 	public String absent (HttpSession session, Model model){
 
 		Event event = (Event) session.getAttribute("currentevent");
+<<<<<<< HEAD
 		
 		if (event == null){
 			return "redirect:/mainMenu/";
@@ -147,6 +194,12 @@ public class EventController {
 		model.addAttribute("absent", absent);
 		model.addAttribute("p", false);
 		model.addAttribute("a", true);
+=======
+		User user = userDao.findById(1l);
+		
+		eventDao.addAbsent(event.getId(), user.getId());
+		model.addAttribute("event",event);
+>>>>>>> 651e66823299e807d7e66dd350bf7f074c3da588
 		return "eventDetail";
 	}
 	
