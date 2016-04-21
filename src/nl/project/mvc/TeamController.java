@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
-import nl.project.user.User;
 import nl.project.user.UserDao;
 
 @Controller

@@ -7,30 +7,46 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
 
-import nl.project.event.Event;
 import nl.project.team.Team;
 
 @Entity
+@Table(uniqueConstraints=@UniqueConstraint(columnNames = {"name", "surname"})) 
 public class User {
+/*** CONSTRUCTORS ***/
+	public User(){}
 	
+	public User (Long id, String name, String surname){
+		this(name, surname);
+		this.id = id;
+	}
+	public User(String name, String surname) {
+		this();
+		this.setName(name);
+		this.setSurname(surname);
+	}
+	
+
+	/*** Fields ***/
 	private Long id;
-	private String name, surname;
-	private List<Team> teams;
-	private List<Event> eventsPresent;
-	private List<Event> eventsAbsent;
 	
-	@ManyToMany(mappedBy="members", fetch = FetchType.EAGER)
-	public List<Team> getTeams() {
-		return teams;
-	}
-
-	public void setTeams(List<Team> teams) {
-		this.teams = teams;
-	}
-
+	@NotBlank
+	@Size(min=2,max=45)
+	private String name;
+	
+	@NotNull
+	@Size(min=2,max=45)
+	private String surname;
+	private List<Team> teams;
+	
+	/*** Getters and stters***/
 	@Id
 	@GeneratedValue(generator="increment")
 	@GenericGenerator(name="increment", strategy = "increment")
@@ -42,28 +58,6 @@ public class User {
 		this.id = id;
 	}
 	
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		if (surname == null){
-			throw new NullPointerException();
-		}
-		else if (surname.isEmpty()){
-			throw new IllegalArgumentException();
-		}
-		this.surname = surname;
-	}
-
-	public User(){}
-	
-	public User (Long id, String name, String surname){
-		this.id = id;
-		this.name = name;
-		this.surname = surname;
-	}
-
 	public String getName (){
 		return name;
 	}
@@ -75,27 +69,32 @@ public class User {
 		else if (name.isEmpty()){
 			throw new IllegalArgumentException();
 		}
-		this.name = name;
+		this.name = name.trim();
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		if (surname == null){
+			throw new NullPointerException();
+		}
+		else if (surname.isEmpty()){
+			throw new IllegalArgumentException();
+		}
+		this.surname = surname.trim();
 	}
 	
-	@ManyToMany(mappedBy="present")
-	public List<Event> getEventsPresent() {
-		return eventsPresent;
+	@ManyToMany(mappedBy="members", fetch = FetchType.EAGER)
+	public List<Team> getTeams() {
+		return teams;
 	}
-
-	public void setEventsPresent(List<Event> eventsPresent) {
-		this.eventsPresent = eventsPresent;
+	
+	public void setTeams(List<Team> teams) {
+		this.teams = teams;
 	}
-
-	@ManyToMany(mappedBy="absent")
-	public List<Event> getEventsAbsent() {
-		return eventsAbsent;
-	}
-
-	public void setEventsAbsent(List<Event> eventsAbsent) {
-		this.eventsAbsent = eventsAbsent;
-	}
-
+	
 	@Override
 	public boolean equals(Object o){
 		if (this == o) { 
@@ -105,16 +104,16 @@ public class User {
 			return false;
 		}
 		User u = (User)o;
-		if (this.id.equals(u.id)){
-			if (this.name.equals(u.name)){
+		
+		if ( this.name.equals(u.name) && 
+			 this.surname.equals(u.surname) ) { 
 				return true;
-			}
 		}
 		return false;
 	}
 	
 	@Override
 	public String toString(){
-		return "User: " + name;
+		return "User: " + name + " " + surname;
 	}
 }
