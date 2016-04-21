@@ -63,8 +63,6 @@
 		var user = get_user_data(); 
 		empty_form();
 		
-		user = {name: "Voornaam", surname:""};
-		
 		 $.ajax( {
 	            "contentType": 'application/json', 
 	            "method": "POST", 

@@ -15,6 +15,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import nl.project.team.Team;
 
 @Entity
@@ -44,6 +46,7 @@ public class User {
 	@Size(min=2,max=45)
 	private String surname;
 	
+	@JsonIgnore
 	private List<Team> teams;
 	
 	/*** Getters and stters***/
