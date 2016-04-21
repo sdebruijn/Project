@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,7 +82,11 @@ public class UserDao {
 	 */
 	@Transactional
 	public List<User> all() {
-		return (List<User>) em.createQuery("from User", User.class).getResultList();
+		List<User> ret =  em.createQuery("from User", User.class).getResultList();
+		for( User u : ret) {
+			Hibernate.initialize(u.getTeams());
+		}		
+		return ret;
 	}
 
 	/**

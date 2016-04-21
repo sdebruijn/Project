@@ -137,7 +137,7 @@ public class Event {
 		this.location = location;
 	}
 
-	@ManyToMany(mappedBy="events")
+	@ManyToMany
 	public List<Team> getTeams() {
 		return teams;
 	}

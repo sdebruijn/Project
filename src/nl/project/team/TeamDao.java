@@ -1,14 +1,17 @@
 package nl.project.team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import nl.project.event.Event;
 import nl.project.event.EventDao;
 import nl.project.user.User;
 import nl.project.user.UserDao;
@@ -53,6 +56,8 @@ public class TeamDao {
 	@Transactional
 	public Team find(Long id){
 		Team team = em.find(Team.class, id);
+		Hibernate.initialize(team.getMembers());
+		Hibernate.initialize(team.getEvents());
 		return team;
 	}
 	
@@ -71,6 +76,8 @@ public class TeamDao {
 	@Transactional
 	public List<User> allTeamMembers(Long id){
 		Team team = em.find(Team.class, id);
+				
+		Hibernate.initialize(team.getMembers());
 		return team.getMembers();
 	}
 	
@@ -117,5 +124,20 @@ public class TeamDao {
 	public void addEvent (Long event_id, Long team_id){
 		Team team = em.find(Team.class, team_id);
 		team.addEvent(eventDao.find(event_id));
+	}
+	
+	/**
+	 * Zoekt alle events op die bij dit team horen
+	 */
+	@Transactional
+	public  List<Event> allEvents(Long id){
+		Team team = em.find(Team.class, id);
+
+		team.sortEvents();
+		List<Event> events = new ArrayList<>();
+		for (Event event : team.getEvents()){
+			events.add(event);
+		}
+		return events;
 	}
 }

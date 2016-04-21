@@ -1,16 +1,12 @@
 package nl.project.mvc;
 
-import java.text.SimpleDateFormat;
-
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +15,8 @@ import nl.project.event.Event;
 import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
+import nl.project.user.User;
+import nl.project.user.UserDao;
 
 @Controller
 public class EventController {
@@ -27,15 +25,28 @@ public class EventController {
 	private TeamDao teamDao;
 	@Autowired
 	private EventDao eventDao;
+	@Autowired
+	private UserDao userDao;
 	
 	/**
 	 * Toont bestaande events en mogelijkheid tot nieuwe events
 	 */
+
+	@RequestMapping(value="/events")
+	public String eventMenu(Model model, HttpSession session){
+		
+		Team team = (Team) session.getAttribute("currentteam");
+		model.addAttribute("team", team);
+		model.addAttribute("events", teamDao.allEvents(team.getId()));
+		return "eventMenu";
+		}
+	
 	/**
-	 * Toont teammenu
+	 * Toont eventdetails
 	 */
+	
 	@RequestMapping(value="/events/{id}")
-	public String teamMenu(@PathVariable String id, Model model){
+	public String eventDetail(@PathVariable String id, Model model, HttpSession session){
 		Long key;
 		try{
 			key = Long.valueOf(id);
@@ -45,38 +56,59 @@ public class EventController {
 			return null;
 		}
 		
-		Team team = teamDao.find(key);
-		model.addAttribute("team", team);
-		model.addAttribute("events", team.getEvents());
-		return "eventMenu";
-		}
+		Event event = eventDao.find(key);
+		session.setAttribute("currentevent", event);
+		model.addAttribute("event", event);
+		return "eventDetail";
+		}	
+	
 	
 	/**
 	 * Voegt een event toe
 	 */
-	@RequestMapping(value="events/creatematch", method=RequestMethod.GET)
-	public String createMatch(Model model){
-		model.addAttribute("defaultEvent", new Event());
+	@RequestMapping(value="events/createevent", method=RequestMethod.GET)
+	public String createEvent(Model model, HttpSession session){
+		model.addAttribute("event", new Event());
+		model.addAttribute("team", session.getAttribute("currentteam"));
 		return "newEvent";
 	}
 	
-	@RequestMapping(value="events/creatematch", method=RequestMethod.POST)
-	public String createEvent(@Valid Event event, BindingResult bindingresult){
+	
+	@RequestMapping(value="events/createevent", method=RequestMethod.POST)
+	public String createEvent(@Valid Event event, BindingResult bindingresult, HttpSession session){
 		
 		if (bindingresult.hasErrors()){
 			return "newEvent";
 		}
+		
 		eventDao.createMatch(event);
 		
-		return "redirect:/mainMenu";
+		Team team = (Team) session.getAttribute("currentteam");
+		teamDao.addEvent(event.getId(), team.getId());
+		
+		return "redirect:/events/" + team.getId();
 	}
 	
-	@InitBinder     
-	public void initBinder(WebDataBinder binder){
+	@RequestMapping(value="/events/present")
+	public String present (HttpSession session, Model model){
+
+		Event event = (Event) session.getAttribute("currentevent");
+		User user = userDao.findById(1l);
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-		 
-	     binder.registerCustomEditor(Event.class,new CustomDateEditor(dateFormat, false));   
+		eventDao.addPresent(event.getId(), user.getId());
+		model.addAttribute("event",event);
+		return "eventDetail";
+	}
+	
+	@RequestMapping(value="/events/absent")
+	public String absent (HttpSession session, Model model){
+
+		Event event = (Event) session.getAttribute("currentevent");
+		User user = userDao.findById(1l);
+		
+		eventDao.addAbsent(event.getId(), user.getId());
+		model.addAttribute("event",event);
+		return "eventDetail";
 	}
 	
 }

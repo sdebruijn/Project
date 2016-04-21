@@ -10,7 +10,8 @@ public class Test {
 		String name = "Sijmen";
 		String surname= "de Bruijn";
 		
-		User user = UserDao.find(new User(name,surname));
+		UserDao userDao = new UserDao();
+		User user = userDao.find(new User(name,surname));
 		
 		System.out.println(user);
 		

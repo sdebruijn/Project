@@ -14,6 +14,7 @@ import nl.project.user.User;
 import nl.project.user.UserDao;
 
 @Controller
+@RequestMapping(value="user/")
 public class UserController {
 	@Autowired
 	private UserDao userDao;

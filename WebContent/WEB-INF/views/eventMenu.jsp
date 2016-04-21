@@ -17,10 +17,10 @@
 <div class="container">
   <h2>Events</h2>
   <div class="btn-group-vertical">
-    <a href="creatematch"><button type="button" class="btn btn-primary btn-block">New match</button></a>
+    <a href="/project/events/createevent"><button type="button" class="btn btn-primary btn-block">New match</button></a>
 
     <c:forEach items="${events}" var="i">
-    	<a href="<c:url value="/teammenu/${i.id}" />"><button type="button" class="btn btn-primary btn-block">${i.title }</button></a>
+    	<a href="<c:url value="events/${i.id}" />"><button type="button" class="btn btn-primary btn-block">${i.start} ${i.title}</button></a>
     </c:forEach>
     
   </div>

@@ -1,14 +1,13 @@
 package nl.project.team;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 
@@ -31,6 +30,8 @@ public class Team {
 	private User coach;
 	private String sport;
 	
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -39,8 +40,7 @@ public class Team {
 		this.name = name;
 	}
 	
-	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-	@JoinTable(name="TEAMS_EVENTS")
+	@ManyToMany(mappedBy="teams")
 	public List<Event> getEvents() {
 		return events;
 	}
@@ -49,8 +49,8 @@ public class Team {
 		this.events = events;
 	}
 	
+	
 	@ManyToMany
-	@JoinTable(name="TEAMS_MEMBERS")
 	public List<User> getMembers() {
 		return members;
 	}
@@ -101,6 +101,16 @@ public class Team {
 	
 	public void addEvent(Event u){
 		this.events.add(u);
+	}
+	
+	public void sortEvents(){
+		Collections.sort(events, new Comparator<Event>() {
+		    @Override
+		    public int compare(Event r1, Event r2) {
+		    	System.out.println(r1.getTitle() + " " + r2.getTitle());
+		        return r1.getDate().compareTo(r2.getDate());
+		    }
+		});
 	}
 	
 	@Override

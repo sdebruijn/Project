@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public class UserRestApi {
 	@Autowired
 	private UserDao userDao;
 	
-	
+	@Transactional
 	@RequestMapping(method = RequestMethod.GET)
 	public List<User> users() {
 		return userDao.all();
