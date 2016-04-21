@@ -1,6 +1,7 @@
 package nl.project.poll;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -20,8 +21,8 @@ public class Poll {
 	private Long id;
 	private String title;
 	private List<String> options;
-	private List<String> users;
-	private List<Integer> choices;
+	
+	Map<String, Integer> choices;
 	private String result;
 	
 	public String getTitle() {
@@ -42,26 +43,12 @@ public class Poll {
 	public void setOptions(List<String> options) {
 		this.options = options;
 	}
-	
-	@ElementCollection
-	@CollectionTable(name="Users", joinColumns=@JoinColumn(name="poll_id"))
-	@Column(name="user")
-	public List<String> getUsers() {
-		return users;
-	}
 
-	public void setUsers(List<String> users) {
-		this.users = users;
-	}
-
-	@ElementCollection
-	@CollectionTable(name="Choices", joinColumns=@JoinColumn(name="poll_id"))
-	@Column(name="choice")
-	public List<Integer> getChoices() {
+	public Map<String, Integer> getChoices() {
 		return choices;
 	}
 
-	public void setChoices(List<Integer> choices) {
+	public void setChoices(Map<String, Integer> choices) {
 		this.choices = choices;
 	}
 
