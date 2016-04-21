@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +19,14 @@ import nl.project.event.DefaultEvent;
 import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
+import nl.project.user.UserDao;
 
 @Controller
 public class EventController {
 
+	@Autowired
+	private TeamDao teamDao;
+	
 	/**
 	 * Toont bestaande events en mogelijkheid tot nieuwe events
 	 */
@@ -39,7 +44,7 @@ public class EventController {
 			return null;
 		}
 		
-		Team team = TeamDao.find(key);
+		Team team = teamDao.find(key);
 		model.addAttribute("team", team);
 		model.addAttribute("events", team.getEvents());
 		return "eventMenu";

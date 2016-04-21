@@ -1,17 +1,27 @@
 package nl.project.mvc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
 import nl.project.user.UserDao;
 
 @Controller
 public class TeamController {
+	
+	@Autowired
+	private TeamDao teamDao;
+	@Autowired
+	private UserDao userDao;
+	@Autowired
+	private EventDao eventDao;
+
 	
 	/**
 	 * Toont teammanagement
@@ -27,11 +37,11 @@ public class TeamController {
 			return null;
 		}
 		
-		Team team = TeamDao.find(key);
+		Team team = teamDao.find(key);
 		
 		model.addAttribute("team", team);
 		model.addAttribute("coach", team.getCoach());
-		model.addAttribute("users", TeamDao.allTeamMembers(key));
+		model.addAttribute("users", teamDao.allTeamMembers(key));
 		return "teamManagement";
 	}
 	
@@ -50,7 +60,7 @@ public class TeamController {
 			return null;
 		}
 
-		TeamDao.remove(key);
+		teamDao.remove(key);
 		return "redirect:/mainMenu";
 	}
 	
@@ -89,7 +99,7 @@ public class TeamController {
 			return null;
 		}
 		
-		TeamDao.addMember(key1, key2);
+		teamDao.addMember(key1, key2);
 		return "redirect:/team/" + key2;
 	}
 	
@@ -111,7 +121,7 @@ public class TeamController {
 		
 		model.addAttribute("action", "removemember");
 		model.addAttribute("team", key);
-		model.addAttribute("users", TeamDao.allTeamMembers(key));
+		model.addAttribute("users", teamDao.allTeamMembers(key));
 		return "userList";
 	}
 	
@@ -130,7 +140,7 @@ public class TeamController {
 			return null;
 		}
 		
-		TeamDao.removeMember(key1, key2);
+		teamDao.removeMember(key1, key2);
 		return "redirect:/team/" + key2;
 	}
 	
@@ -148,7 +158,7 @@ public class TeamController {
 			return null;
 		}
 		
-		TeamDao.removeAllMembers(key);
+		teamDao.removeAllMembers(key);
 		
 		return "redirect:/team/" + key;
 	}
@@ -188,7 +198,7 @@ public class TeamController {
 			return null;
 		}
 		
-		TeamDao.addCoach(key1, key2);
+		teamDao.addCoach(key1, key2);
 		return "redirect:/team/" + key2;
 	}
 	
