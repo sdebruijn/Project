@@ -15,8 +15,6 @@ import nl.project.event.Event;
 import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
-import nl.project.user.User;
-import nl.project.user.UserDao;
 
 @Controller
 public class EventController {
@@ -25,8 +23,6 @@ public class EventController {
 	private TeamDao teamDao;
 	@Autowired
 	private EventDao eventDao;
-	@Autowired
-	private UserDao userDao;
 	
 	/**
 	 * Toont bestaande events en mogelijkheid tot nieuwe events
@@ -87,28 +83,5 @@ public class EventController {
 		teamDao.addEvent(event.getId(), team.getId());
 		
 		return "redirect:/events/" + team.getId();
-	}
-	
-	@RequestMapping(value="/events/present")
-	public String present (HttpSession session, Model model){
-
-		Event event = (Event) session.getAttribute("currentevent");
-		User user = userDao.findById(1l);
-		
-		eventDao.addPresent(event.getId(), user.getId());
-		model.addAttribute("event",event);
-		return "eventDetail";
-	}
-	
-	@RequestMapping(value="/events/absent")
-	public String absent (HttpSession session, Model model){
-
-		Event event = (Event) session.getAttribute("currentevent");
-		User user = userDao.findById(1l);
-		
-		eventDao.addAbsent(event.getId(), user.getId());
-		model.addAttribute("event",event);
-		return "eventDetail";
-	}
-	
+	}	
 }

@@ -1,43 +1,36 @@
 package nl.project.event;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import nl.project.team.Team;
-import nl.project.user.User;
 
 @Entity
 public class Event {
 
-	@NotEmpty
 	private String type;
 	
-	@DateTimeFormat(pattern="yyyy/MM/dd")
 	private String date;
 	private String starttime;
 	private String endtime;
 	private LocalDateTime start;
 	private LocalDateTime end;
 	
-	private List<User> present;
-	private List<User> absent;
-	
 	@NotEmpty
 	private String title;
 	private String description;
 	private String location;
-	private List<Team> teams;
+	private Team team;
 	
 	//Match
 	private String homeTeam;
@@ -137,13 +130,14 @@ public class Event {
 		this.location = location;
 	}
 
-	@ManyToMany
-	public List<Team> getTeams() {
-		return teams;
+	@ManyToOne
+	@JoinColumn(name="team_id")
+	public Team getTeam() {
+		return team;
 	}
 
-	public void setTeams(List<Team> teams) {
-		this.teams = teams;
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 
 	public String getHomeTeam() {
@@ -200,49 +194,5 @@ public class Event {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-	
-	@ManyToMany
-	@JoinTable(name="EVENTS_USERS")
-	public List<User> getPresent() {
-		return present;
-	}
-
-	public void setPresent(List<User> present) {
-		this.present = present;
-	}
-
-	@ManyToMany
-	@JoinTable(name="EVENTS_USERSNOT")
-	public List<User> getAbsent() {
-		return absent;
-	}
-
-	public void setAbsent(List<User> absent) {
-		this.absent = absent;
-	}
-	
-	public void addPresent(User u){
-		this.present.add(u);
-	}
-	
-	public void removePresent(User u){
-		present.remove(u);
-	}
-	
-	public void removeAllPresent(){
-		present.clear();
-	}
-
-	public void addAbsent(User u){
-		this.absent.add(u);
-	}
-	
-	public void removeAbsent(User u){
-		absent.remove(u);
-	}
-	
-	public void removeAllAbsent(){
-		absent.clear();
 	}
 }

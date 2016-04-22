@@ -1,7 +1,5 @@
 package nl.project.mvc;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 //import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
-import nl.project.user.User;
 import nl.project.user.UserDao;
 
 @Controller
@@ -104,7 +101,7 @@ public class TeamController {
 			return null;
 		}
 		
-		teamDao.addMember(key1, key2);
+		teamDao.addMember(userDao.findById(key1), teamDao.find(key2));
 		return "redirect:/team/" + key2;
 	}
 	

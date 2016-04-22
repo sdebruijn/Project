@@ -8,7 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -40,7 +40,7 @@ public class Team {
 		this.name = name;
 	}
 	
-	@ManyToMany(mappedBy="teams")
+	@OneToMany(mappedBy="team")
 	public List<Event> getEvents() {
 		return events;
 	}
@@ -50,7 +50,7 @@ public class Team {
 	}
 	
 	
-	@ManyToMany
+	@OneToMany(mappedBy="team")
 	public List<User> getMembers() {
 		return members;
 	}
