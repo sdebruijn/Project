@@ -5,8 +5,11 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -46,8 +49,7 @@ public class User {
 	@Size(min=2,max=45)
 	private String surname;
 	
-	@JsonIgnore
-	private List<Team> teams;
+	private Team team;
 	
 	/*** Getters and stters***/
 	@Id
@@ -89,13 +91,15 @@ public class User {
 		this.surname = surname.trim();
 	}
 	
-	@ManyToMany(mappedBy="members")
-	public List<Team> getTeams() {
-		return teams;
+	@ManyToOne
+	@JoinColumn(name="team_id")
+	public Team getTeam() {
+		return team;
 	}
 	
-	public void setTeams(List<Team> teams) {
-		this.teams = teams;
+	public void setTeam(Team team) {
+		this.team = team;
+		//team.addMember(this);
 	}
 	
 	@Override
