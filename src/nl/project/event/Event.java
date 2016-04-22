@@ -5,10 +5,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -30,15 +33,27 @@ public class Event {
 	private LocalDateTime start;
 	private LocalDateTime end;
 	
-	private List<User> present;
-	private List<User> absent;
+	//private List<User> present;
+	//private List<User> absent;
+	
+	private User eventOwner;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="owner_id")
+	public User getEventOwner() {
+		return eventOwner;
+	}
+	
+	public void setEventOwner(User newOwner) {
+		this.eventOwner = newOwner;
+	}
+	
 	
 	@NotEmpty
 	private String title;
 	private String description;
 	private String location;
-	private List<Team> teams;
-	
+		
 	//Match
 	private String homeTeam;
 	private String awayTeam;
@@ -137,15 +152,6 @@ public class Event {
 		this.location = location;
 	}
 
-	@ManyToMany
-	public List<Team> getTeams() {
-		return teams;
-	}
-
-	public void setTeams(List<Team> teams) {
-		this.teams = teams;
-	}
-
 	public String getHomeTeam() {
 		return homeTeam;
 	}
@@ -202,6 +208,7 @@ public class Event {
 		this.type = type;
 	}
 	
+	/*
 	@ManyToMany
 	@JoinTable(name="EVENTS_USERS")
 	public List<User> getPresent() {
@@ -245,4 +252,5 @@ public class Event {
 	public void removeAllAbsent(){
 		absent.clear();
 	}
+	*/
 }

@@ -12,8 +12,6 @@ import nl.project.user.User;
 
 public class Test {
 
-	
-	
 	public static void main(String[] args) {
 		User u = new User("Player", "Achternaam");
 		User v = new User("Player", "de Boer");
