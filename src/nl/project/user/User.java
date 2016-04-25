@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -86,15 +87,12 @@ public class User {
 	
   @ManyToOne
   @JoinColumn(name="team_id")
-
 	public Team getTeam() {
 		return team;
 	}
 	
 	public void setTeam(Team team) {
 		this.team = team;
-
-		//team.addMember(this);
 	}
 	
 	@Override

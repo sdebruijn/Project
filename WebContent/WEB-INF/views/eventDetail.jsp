@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{event.title}</title>
+  <title>${event.title}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -24,7 +24,25 @@
   	<input type="radio" name="absent" id="absent" value="absent" />
   	<label for="absent">absent</label>
 
+<<<<<<< HEAD
   	<p>Present:</p>
+=======
+  	<p>Present:
+   	<c:forEach items="${present}" var="i">
+    ${i.surname} ${i.name},
+    </c:forEach></p>
+  	 
+  	<p>Absent:  
+  	<c:forEach items="${absent}" var="i">
+    ${i.surname} ${i.name},
+    </c:forEach></p>
+    
+    <div class="btn-group-vertical">
+    	<a href="<c:url value="../events" />"><button type="button" class="btn btn-default btn-block">Back</button></a> 
+    </div>
+  	<script>
+
+>>>>>>> master
   	
 <%--   	<c:forEach items="${event.present}" var="i">
     <li>${i.surname} ${i.name}</li>
@@ -41,12 +59,17 @@
     	absa.onclick = absent;
 
     	function present() {
-    		  window.location.assign("/project/events/present");
+    		window.location.assign("/project/events/present");
         }
     	
     	function absent() {
+<<<<<<< HEAD
   		  window.location.assign("/project/events/absent");
       }
+=======
+  		  	window.location.assign("/project/events/absent");
+      	}
+>>>>>>> master
     }
 
   	</script>

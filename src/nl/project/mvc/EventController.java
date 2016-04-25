@@ -15,7 +15,6 @@ import nl.project.event.Event;
 import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
-import nl.project.user.User;
 import nl.project.user.UserDao;
 
 @Controller
@@ -25,8 +24,6 @@ public class EventController {
 	private TeamDao teamDao;
 	@Autowired
 	private EventDao eventDao;
-	@Autowired
-	private UserDao userDao;
 	
 	/**
 	 * Toont bestaande events en mogelijkheid tot nieuwe events
@@ -109,7 +106,7 @@ public class EventController {
 		
 		eventDao.addAbsent(event.getId(), user.getId());
 		model.addAttribute("event",event);
-		return "eventDetail";
-	}
-	*/
+		return "eventDetail";*/
+
+
 }
