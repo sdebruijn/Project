@@ -83,5 +83,33 @@ public class EventController {
 		teamDao.addEvent(event.getId(), team.getId());
 		
 		return "redirect:/events/" + team.getId();
+<<<<<<< HEAD
 	}	
+=======
+	}
+	
+	/*
+	@RequestMapping(value="/events/present")
+	public String present (HttpSession session, Model model){
+
+		Event event = (Event) session.getAttribute("currentevent");
+		User user = userDao.findById(1l);
+		
+		eventDao.addPresent(event.getId(), user.getId());
+		model.addAttribute("event",event);
+		return "eventDetail";
+	}
+	
+	@RequestMapping(value="/events/absent")
+	public String absent (HttpSession session, Model model){
+
+		Event event = (Event) session.getAttribute("currentevent");
+		User user = userDao.findById(1l);
+		
+		eventDao.addAbsent(event.getId(), user.getId());
+		model.addAttribute("event",event);
+		return "eventDetail";
+	}
+	*/
+>>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 }

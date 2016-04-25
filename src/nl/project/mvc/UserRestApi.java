@@ -36,7 +36,7 @@ public class UserRestApi {
 	}
 	
 	@RequestMapping(value="", method = RequestMethod.POST)
-	public User create(@RequestBody @Valid User user) {
+	public User create(@RequestBody User user) {
 		System.err.println(user);
 		
 		System.err.println("in POST");

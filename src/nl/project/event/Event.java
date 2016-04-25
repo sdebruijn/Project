@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -20,18 +21,46 @@ public class Event {
 
 	private String type;
 	
+<<<<<<< HEAD
+=======
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+>>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	private String date;
 	private String starttime;
 	private String endtime;
 	private LocalDateTime start;
 	private LocalDateTime end;
 	
+<<<<<<< HEAD
+=======
+	//private List<User> present;
+	//private List<User> absent;
+	
+	
+	private Team eventOwner;
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="owner_id")
+	public Team getEventOwner() {
+		return eventOwner;
+	}
+	
+	public void setEventOwner(Team newOwner) {
+		this.eventOwner = newOwner;
+	}
+	
+	
+>>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	@NotEmpty
 	private String title;
 	private String description;
 	private String location;
+<<<<<<< HEAD
 	private Team team;
 	
+=======
+		
+>>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	//Match
 	private String homeTeam;
 	private String awayTeam;
@@ -69,8 +98,8 @@ public class Event {
 		int month = Integer.valueOf(parts[1]);
 		int day = Integer.valueOf(parts[2]);
 		
-		start = LocalDateTime.of(year, month, day, 0, 0);
-		end = LocalDateTime.of(year, month, day, 0, 0);
+		this.start = LocalDateTime.of(year, month, day, 0, 0);
+		this.end = LocalDateTime.of(year, month, day, 0, 0);
 		}
 	}
 
@@ -130,6 +159,7 @@ public class Event {
 		this.location = location;
 	}
 
+<<<<<<< HEAD
 	@ManyToOne
 	@JoinColumn(name="team_id")
 	public Team getTeam() {
@@ -140,6 +170,8 @@ public class Event {
 		this.team = team;
 	}
 
+=======
+>>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	public String getHomeTeam() {
 		return homeTeam;
 	}
@@ -195,4 +227,53 @@ public class Event {
 	public void setType(String type) {
 		this.type = type;
 	}
+<<<<<<< HEAD
+=======
+	
+	/*
+	@ManyToMany
+	@JoinTable(name="EVENTS_USERS")
+	public List<User> getPresent() {
+		return present;
+	}
+
+	public void setPresent(List<User> present) {
+		this.present = present;
+	}
+
+	@ManyToMany
+	@JoinTable(name="EVENTS_USERSNOT")
+	public List<User> getAbsent() {
+		return absent;
+	}
+
+	public void setAbsent(List<User> absent) {
+		this.absent = absent;
+	}
+	
+	public void addPresent(User u){
+		this.present.add(u);
+	}
+	
+	public void removePresent(User u){
+		present.remove(u);
+	}
+	
+	public void removeAllPresent(){
+		present.clear();
+	}
+
+	public void addAbsent(User u){
+		this.absent.add(u);
+	}
+	
+	public void removeAbsent(User u){
+		absent.remove(u);
+	}
+	
+	public void removeAllAbsent(){
+		absent.clear();
+	}
+	*/
+>>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 }

@@ -84,7 +84,11 @@ public class UserDao {
 	public List<User> all() {
 		List<User> ret =  em.createQuery("from User", User.class).getResultList();
 		for( User u : ret) {
+<<<<<<< HEAD
 			Hibernate.initialize(u.getTeam());
+=======
+			u.getTeam();
+>>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 		}		
 		return ret;
 	}

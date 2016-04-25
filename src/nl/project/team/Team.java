@@ -1,15 +1,25 @@
 package nl.project.team;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+<<<<<<< HEAD
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+=======
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+>>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,11 +36,10 @@ public class Team {
 	private List<User> members; 
 	private List<Event> events;
 
-	//private User manager;
+	//@NotNull	
+	private User manager;
 	private User coach;
 	private String sport;
-	
-	
 	
 	public String getName() {
 		return name;
@@ -40,7 +49,12 @@ public class Team {
 		this.name = name;
 	}
 	
+<<<<<<< HEAD
 	@OneToMany(mappedBy="team")
+=======
+
+	@OneToMany(mappedBy="eventOwner")
+>>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	public List<Event> getEvents() {
 		return events;
 	}
@@ -49,8 +63,14 @@ public class Team {
 		this.events = events;
 	}
 	
+<<<<<<< HEAD
 	
 	@OneToMany(mappedBy="team")
+=======
+	@OneToMany(mappedBy="team",
+			cascade={CascadeType.PERSIST, CascadeType.MERGE}
+			)
+>>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	public List<User> getMembers() {
 		return members;
 	}
@@ -59,7 +79,9 @@ public class Team {
 		this.members = members;
 	}
 
-	@OneToOne
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="coach_id")
 	public User getCoach() {
 		return coach;
 	}
@@ -68,6 +90,16 @@ public class Team {
 		this.coach = coach;
 	}
 
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="manager_id")
+	public User getManager() {
+		return manager;
+	}
+
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
+	
 	public String getSport() {
 		return sport;
 	}
@@ -75,6 +107,7 @@ public class Team {
 	public void setSport(String sport) {
 		this.sport = sport;
 	}
+	
 
 	@Id
 	@GeneratedValue(generator="increment")
@@ -88,6 +121,9 @@ public class Team {
 	}
 
 	public void addMember(User u){
+		if (this.members == null) {
+			this.members = new ArrayList<User>();
+		}
 		this.members.add(u);
 	}
 	
@@ -99,10 +135,11 @@ public class Team {
 		members.clear();
 	}
 	
+	/*
 	public void addEvent(Event u){
 		this.events.add(u);
 	}
-	
+	*/
 	public void sortEvents(){
 		Collections.sort(events, new Comparator<Event>() {
 		    @Override
