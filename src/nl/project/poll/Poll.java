@@ -13,8 +13,6 @@ import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.GenericGenerator;
 
-
-@Entity
 public class Poll {
 
 	@Column(name="id")
@@ -22,7 +20,7 @@ public class Poll {
 	private String title;
 	private List<String> options;
 	
-	Map<String, Integer> choices;
+	//Map<String, Integer> choices;
 	private String result;
 	
 	public String getTitle() {
@@ -44,13 +42,13 @@ public class Poll {
 		this.options = options;
 	}
 
-	public Map<String, Integer> getChoices() {
+	/*public Map<String, Integer> getChoices() {
 		return choices;
 	}
 
 	public void setChoices(Map<String, Integer> choices) {
 		this.choices = choices;
-	}
+	}*/
 
 	public String getResult() {
 		return result;
