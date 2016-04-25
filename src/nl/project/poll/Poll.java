@@ -5,21 +5,35 @@ import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 
 import org.hibernate.annotations.GenericGenerator;
 
+@Entity
 public class Poll {
 
 	@Column(name="id")
 	private Long id;
 	private String title;
-	private List<String> options;
+	
 	
 	//Map<String, Integer> choices;
+	private String options;
 	private String result;
+
+	@Id
+	@GeneratedValue(generator="increment")
+	@GenericGenerator(name="increment", strategy = "increment")
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 	public String getTitle() {
 		return title;
@@ -28,9 +42,17 @@ public class Poll {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	public String getOptions() {
+		return options;
+	}
 
-	@ElementCollection
-	@CollectionTable(name="Options", joinColumns=@JoinColumn(name="poll_id"))
+	public void setOptions(String options) {
+		this.options = options;
+	}
+
+/*	@ElementCollection
+	@CollectionTable(name="option_poll", joinColumns=@JoinColumn(name="poll_id"))
 	@Column(name="option")
 	public List<String> getOptions() {
 		return options;
@@ -38,7 +60,7 @@ public class Poll {
 
 	public void setOptions(List<String> options) {
 		this.options = options;
-	}
+	}*/
 
 	/*public Map<String, Integer> getChoices() {
 		return choices;
@@ -56,15 +78,4 @@ public class Poll {
 		this.result = result;
 	}
 
-	@Id
-	@GeneratedValue(generator="increment")
-	@GenericGenerator(name="increment", strategy = "increment")
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
 }
