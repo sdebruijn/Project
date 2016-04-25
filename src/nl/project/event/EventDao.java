@@ -8,6 +8,8 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import nl.project.user.User;
+
 @Repository
 public class EventDao {
 	@PersistenceContext
@@ -40,6 +42,21 @@ public class EventDao {
 	public Event find(Long id){
 		Event event = em.find(Event.class, id);
 		return event;
+	}
+	
+	
+	/**
+	 * Remove event from database based on id
+	 * @param id
+	 * @return void
+	 */
+	@Transactional
+	public void remove(Long id) {
+		Event event= em.find(Event.class, id);
+		if (event != null) {
+			em.remove(event);
+		}
+		
 	}
 	
 	

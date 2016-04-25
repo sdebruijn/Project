@@ -30,6 +30,7 @@
 	<beans:bean class="nl.project.user.UserDao"></beans:bean>
 	<beans:bean class="nl.project.team.TeamDao"></beans:bean>
 	<beans:bean class="nl.project.event.EventDao"></beans:bean>
+	<beans:bean class="nl.project.user.User"></beans:bean>
 
 	<!-- Aanmaken van een EntityManagerFactory -->
 	<beans:bean id="myEmf"

@@ -12,11 +12,12 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.context.annotation.Scope;
 
 import nl.project.team.Team;
 
 @Entity
-@Table(uniqueConstraints=@UniqueConstraint(columnNames = {"name", "surname"})) 
+@Table(uniqueConstraints=@UniqueConstraint(columnNames = {"name", "surname"}))
 public class User {
 /*** CONSTRUCTORS ***/
 	public User(){}

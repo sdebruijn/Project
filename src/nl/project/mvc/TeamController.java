@@ -1,18 +1,24 @@
 package nl.project.mvc;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 //import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
+import nl.project.user.User;
 import nl.project.user.UserDao;
 
 @Controller
+@RequestMapping(value="team/")
 public class TeamController {
 
 	@Autowired
@@ -23,10 +29,46 @@ public class TeamController {
 //	private EventDao eventDao;
 
 	
+	@RequestMapping(value = "/new", method = RequestMethod.GET)
+	public String newTeam() {
+		return "team/new";
+	}
+	
+	@RequestMapping(value = "/new", method = RequestMethod.POST)
+	public String createTeam(@RequestParam String teamName, @RequestParam String sport){
+		Team t = teamDao.create(teamName, sport);
+		return "redirect:/team/"+t.getId();
+
+	}
+	
+	/**
+	 * Toont teammenu
+	 */
+	@RequestMapping(value="{id}")
+	public String teamMenu(@PathVariable String id, Model model, HttpSession session){
+		Long key;
+		try{
+			key = Long.valueOf(id);
+		}
+		catch(NumberFormatException e){
+			// id is geen getal? error 404
+			return null;
+		}
+		
+		Team team = teamDao.findById(key);
+		session.setAttribute("currentteam", team);
+		
+		model.addAttribute("team", team);
+		return "team/overzicht";
+		}	
+	
+	
+	
+	
 	/**
 	 * Toont teammanagement
 	 */
-	@RequestMapping(value="/team/{id}")
+	@RequestMapping(value="{id}/manage")
 	@Transactional
 	public String teamManagement(@PathVariable String id, Model model){
 		Long key;
@@ -38,10 +80,10 @@ public class TeamController {
 			return null;
 		}
 		
-		Team team = teamDao.find(key);	
+		Team team = teamDao.findById(key);	
 		model.addAttribute("team", team);
 	
-		return "teamManagement";
+		return "team/management";
 	}
 	
 	/**
@@ -49,7 +91,7 @@ public class TeamController {
 	 * TODO: team moet eerst van users verwijderd worden
 	 */
 	@Transactional
-	@RequestMapping(value="/deleteteam/{id}")
+	@RequestMapping(value="{id}/remove")
 	public String deleteView(@PathVariable String id){
 		Long key;
 		try{
@@ -68,7 +110,7 @@ public class TeamController {
 	 * Haalt alle users erbij zodat member toegevoegd kan worden
 	 */
 	@Transactional
-	@RequestMapping(value="/showusers/{id}")
+	@RequestMapping(value="{id}/members")
 	public String showUsers(@PathVariable String id, Model model){
 		Long key;
 		try{
@@ -82,14 +124,14 @@ public class TeamController {
 		model.addAttribute("action", "addmember");
 		model.addAttribute("team", key);
 		model.addAttribute("users", userDao.all());
-		return "userList";
+		return "team/userList";
 	}
 	
 	/**
 	 * Voegt een member toe aan het team
 	 */
 	@Transactional
-	@RequestMapping(value="/addmember/{user}/{team}")
+	@RequestMapping(value="{team}/addmember/{user}")
 	public String addMember(@PathVariable String user, @PathVariable String team){
 		Long key1, key2;
 		try{
@@ -102,81 +144,83 @@ public class TeamController {
 		}
 		
 		teamDao.addMember(key1, key2);
-		return "redirect:/team/" + key2;
+		return "redirect:/team/" + key2 +"/manage";
 	}
-	
-	
+
 	
 	/**
 	 * Haalt alle users van een team erbij, zodat die verwijderd kunnen worden
 	 */
 	@Transactional
-	@RequestMapping(value="/showmembers/{id}")
-	public String showMembers(@PathVariable String id, Model model){
+	@RequestMapping(value="{teamId}/removeMember")
+	public String showMembers(@PathVariable String teamId, Model model){
 		Long key;
 		try{
-			key = Long.valueOf(id);
+			key = Long.valueOf(teamId);
 		}
 		catch(NumberFormatException e){
 			// id is geen getal? error 404
 			return null;
 		}
 		
-		model.addAttribute("action", "removemember");
+		model.addAttribute("action", "removeMember");
 		model.addAttribute("team", key);
 		model.addAttribute("users", teamDao.allTeamMembers(key));
-		return "userList";
+		return "team/userList";
 	}
 	
 	/**
 	 * Verwijderd een member van een team
 	 */
 	@Transactional
-	@RequestMapping(value="/removemember/{user}/{team}")
+	@RequestMapping(value="{team}/removeMember/{user}")
 	public String removeMember(@PathVariable String user, @PathVariable String team){
-		Long key1, key2;
+		Long keyUser, keyTeam;
 		try{
-			key1 = Long.valueOf(user);
-			key2 = Long.valueOf(team);
+			keyUser = Long.valueOf(user);
+			keyTeam = Long.valueOf(team);
 		}
 		catch(NumberFormatException e){
 			// id is geen getal? error 404
 			return null;
 		}
 		
-		teamDao.removeMember(key1, key2);
-		return "redirect:/team/" + key2;
+		User u = userDao.findById(keyUser);
+		u.setTeam(null);
+		//teamDao.removeMember(keyUser, keyTeam);
+		return "redirect:/team/" + keyTeam + "/manage";
 	}
 	
 	/**
 	 * Verwijderd alle members van een team
 	 */
 	@Transactional
-	@RequestMapping(value="/removeall/{id}")
-	public String removeAll(@PathVariable String id){
-		Long key;
+	@RequestMapping(value="{teamId}/removeMembers")
+	public String removeAll(@PathVariable String teamId){
+		Long keyTeam;
 		try{
-			key = Long.valueOf(id);
+			keyTeam = Long.valueOf(teamId);
 		}
 		catch(NumberFormatException e){
 			// id is geen getal? error 404
 			return null;
 		}
+		Team t = teamDao.findById(keyTeam);
+		t.removeAllMembers();
+		t.removeAllEvents();
 		
-		teamDao.removeAllMembers(key);
-		
-		return "redirect:/team/" + key;
+		return "redirect:/team/" + keyTeam + "/manage";
 	}
 	
 	/**
 	 * Haalt alle users erbij zodat er een coach geselecteerd kan worden
 	 */
 	@Transactional
-	@RequestMapping(value="/showcoaches/{id}")
-	public String showCoaches(@PathVariable String id, Model model){
+	@RequestMapping(value="{teamId}/coach")
+	public String showCoaches(@PathVariable String teamId, Model model){
 		Long key;
 		try{
-			key = Long.valueOf(id);
+			key = Long.valueOf(teamId);
 		}
 		catch(NumberFormatException e){
 			// id is geen getal? error 404
@@ -186,14 +230,14 @@ public class TeamController {
 		model.addAttribute("action", "addcoach");
 		model.addAttribute("team", key);
 		model.addAttribute("users", userDao.all());
-		return "userList";
+		return "team/userList";
 	}
 	
 	/**
 	 * Voegt een coach toe aan team
 	 */
 	@Transactional
-	@RequestMapping(value="/addcoach/{user}/{team}")
+	@RequestMapping(value="{team}/addcoach/{user}")
 	public String addCoach(@PathVariable String user, @PathVariable String team){
 		Long key1, key2;
 		try{
@@ -206,7 +250,7 @@ public class TeamController {
 		}
 		
 		teamDao.addCoach(key1, key2);
-		return "redirect:/team/" + key2;
+		return "redirect:/team/" + key2 + "/manage";
 	}
 	
 }
