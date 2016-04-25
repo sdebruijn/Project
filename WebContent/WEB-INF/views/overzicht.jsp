@@ -11,7 +11,7 @@
 <title>TESTING</title>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
-	<script type="text/javascript" language="javascript">
+	<script>
 	// configureer JQuery om csrf-token mee te sturen
 	var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
 	var csrfHeader = $("meta[name='_csrf_header']").attr("content");

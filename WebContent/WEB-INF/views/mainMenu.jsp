@@ -25,7 +25,7 @@
 
 
 
-			<c:forEach items="${teams }" var="i">
+			<c:forEach items="${teams}" var="i">
 				<a href="<c:url value="/teammenu/${i.id}" />"><button
 						type="button" class="btn btn-primary btn-block">${i.name }</button></a>
 			</c:forEach>

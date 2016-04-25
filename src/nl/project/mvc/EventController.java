@@ -1,9 +1,9 @@
 package nl.project.mvc;
 
-import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,12 +15,15 @@ import nl.project.event.Event;
 import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
-import nl.project.user.User;
-import nl.project.user.UserDao;
 
 @Controller
 public class EventController {
 
+	@Autowired
+	private TeamDao teamDao;
+	@Autowired
+	private EventDao eventDao;
+	
 	/**
 	 * Toont bestaande events en mogelijkheid tot nieuwe events
 	 */
@@ -29,13 +32,8 @@ public class EventController {
 	public String eventMenu(Model model, HttpSession session){
 		
 		Team team = (Team) session.getAttribute("currentteam");
-		
-		if (team == null){
-			return "redirect:/mainMenu/";
-		}
-		
 		model.addAttribute("team", team);
-		model.addAttribute("events", TeamDao.allEvents(team.getId()));
+		model.addAttribute("events", teamDao.allEvents(team.getId()));
 		return "eventMenu";
 		}
 	
@@ -54,18 +52,9 @@ public class EventController {
 			return null;
 		}
 		
-		Event event = EventDao.find(key);
+		Event event = eventDao.find(key);
 		session.setAttribute("currentevent", event);
-		
-		List<User> present = EventDao.allPresent(event.getId());
-		List<User> absent = EventDao.allAbsent(event.getId());
-		model.addAttribute("event",event);
-		model.addAttribute("present",present);
-		model.addAttribute("absent", absent);
-		
-		model.addAttribute("p", false);
-		model.addAttribute("a", false);
-		
+		model.addAttribute("event", event);
 		return "eventDetail";
 		}	
 	
@@ -88,65 +77,35 @@ public class EventController {
 			return "newEvent";
 		}
 		
-		EventDao.createMatch(event);
+		eventDao.createMatch(event);
 		
 		Team team = (Team) session.getAttribute("currentteam");
-		TeamDao.addEvent(event.getId(), team.getId());
+		teamDao.addEvent(event.getId(), team.getId());
 		
 		return "redirect:/events/" + team.getId();
 	}
 	
-	/**
-	 * Zodra er op present gedrukt wordt, wordt de huidige user toegevoegd aan die lijst. Daarna terug naar eventdetail
-	 */
+	/*
 	@RequestMapping(value="/events/present")
 	public String present (HttpSession session, Model model){
 
 		Event event = (Event) session.getAttribute("currentevent");
+		User user = userDao.findById(1l);
 		
-		if (event == null){
-			return "redirect:/mainMenu/";
-		}
-		
-		User user = UserDao.findById(1l);
-		
-		EventDao.addPresent(event.getId(), user.getId());
-
-		List<User> present = EventDao.allPresent(event.getId());
-		List<User> absent = EventDao.allAbsent(event.getId());
+		eventDao.addPresent(event.getId(), user.getId());
 		model.addAttribute("event",event);
-		model.addAttribute("present",present);
-		model.addAttribute("absent", absent);
-		
-		model.addAttribute("p", true);
-		model.addAttribute("a", false);
 		return "eventDetail";
 	}
 	
-	/**
-	 * Zodra er op absent gedrukt wordt, wordt de huidige user toegevoegd aan die lijst. Daarna terug naar eventdetail
-	 */
 	@RequestMapping(value="/events/absent")
 	public String absent (HttpSession session, Model model){
 
 		Event event = (Event) session.getAttribute("currentevent");
+		User user = userDao.findById(1l);
 		
-		if (event == null){
-			return "redirect:/mainMenu/";
-		}
-		
-		User user = UserDao.findById(1l);
-		
-		EventDao.addAbsent(event.getId(), user.getId());
-		
-		List<User> present = EventDao.allPresent(event.getId());
-		List<User> absent = EventDao.allAbsent(event.getId());
+		eventDao.addAbsent(event.getId(), user.getId());
 		model.addAttribute("event",event);
-		model.addAttribute("present",present);
-		model.addAttribute("absent", absent);
-		model.addAttribute("p", false);
-		model.addAttribute("a", true);
-		return "eventDetail";
-	}
-	
+		return "eventDetail";*/
+
+
 }

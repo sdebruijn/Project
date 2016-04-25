@@ -14,11 +14,9 @@
   
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
- <link rel="stylesheet" type="text/css" href="https://dist/bootstrap-clockpicker.min.css">
  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
- <script type="text/javascript" src="https://dist/bootstrap-clockpicker.min.js"></script>
   
-	<title>Create new event</title>
+<title>Create new event</title>
 </head>
 <body>
 <div class="container">
@@ -95,14 +93,10 @@ $(document).ready(function() {
         })
         .on('changeDate');});
 
-$(document).ready(function() {
-	$('.clockpicker').clockpicker().on('changeTime');});
-
 function getRadioValue(id) {
 	var radioBtn = document.getElementById(id).value;
-		console.log(radioBtn);
 		if (radioBtn == "Match"){
-			$("#scores").show(); 
+			$("#scores").hide(); 
 			$("#teams").show(); 
 			$("#trainer").hide(); 
 			$("#location").attr('value', '')

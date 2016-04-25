@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{event.title}</title>
+  <title>${event.title}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -15,51 +15,14 @@
 </head>
 <body>
 <div class="container">
-  	<h1>${event.title}</h1>
+  	<p>${event.title}</p>
   	<p>Date: ${event.date}</p>
   	<p>Location: ${event.location}</p>
 
-  	<input type="radio" name="pres" id="present" value="Present" />
-  	<label for="present">Present</label>
-  	<input type="radio" name="pres" id="absent" value="absent" />
-  	<label for="absent">absent</label>
 
-  	<p>Present:
-   	<c:forEach items="${present}" var="i">
-    ${i.surname} ${i.name},
-    </c:forEach></p>
-  	 
-  	<p>Absent:  
-  	<c:forEach items="${absent}" var="i">
-    ${i.surname} ${i.name},
-    </c:forEach></p>
-    
+
     <div class="btn-group-vertical">
-    	<a href="<c:url value="" />"><button type="button" class="btn btn-default btn-block">Back</button></a> 
+    	<a href="<c:url value="../events" />"><button type="button" class="btn btn-default btn-block">Back</button></a> 
     </div>
-  	<script>
 
-  	
-  	window.onload = function() {
-
-    	var pres = document.getElementById('present');
-    	var absa = document.getElementById('absent');
-    	
-      	pres.checked = ${p}; 
-   		absa.checked = ${a};  
-    	
-    	pres.onclick = present;
-    	absa.onclick = absent;
-    	
-
-    	function present() {
-    		  window.location.assign("/project/events/present");
-        }
-    	
-    	function absent() {
-  		  window.location.assign("/project/events/absent");
-      	}
-    }
-
-  	</script>
 </div>
