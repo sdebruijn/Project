@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import nl.project.event.Event;
 import nl.project.team.Team;
 import nl.project.user.User;
 
@@ -21,7 +22,11 @@ public class Test {
 		t.setName("Silly names");
 		t.setManager(m);
 		t.setCoach(c);
-
+		
+		Event e = new Event();
+		e.setTitle("The event name");
+		e.setType("Party");
+		e.setDate("2016-10-21");
 
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("teamapp");
 		
@@ -34,9 +39,11 @@ public class Test {
 			
 			u.setTeam(t);
 			v.setTeam(t);
+			e.setEventOwner(t);
 			
 			em.persist(u);
 			em.persist(v);
+			em.persist(e);
 			
 			Long tid = t.getId();
 		

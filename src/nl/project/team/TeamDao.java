@@ -123,7 +123,8 @@ public class TeamDao {
 	@Transactional
 	public void addEvent (Long event_id, Long team_id){
 		Team team = em.find(Team.class, team_id);
-		team.addEvent(eventDao.find(event_id));
+		//team.addEvent(eventDao.find(event_id));
+		team.getEvents().add(eventDao.find(event_id));
 	}
 	
 	/**

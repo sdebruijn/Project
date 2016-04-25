@@ -46,22 +46,23 @@ public class EventDao {
 		return event;
 	}
 	
-	/**
-	 * Voegt een present user toe aan het event
-	 */
-	@Transactional
-	public void addPresent (Long event_id, Long user_id){
-		Event event = em.find(Event.class, event_id);
-		event.addPresent(userDao.findById(user_id));
-	}
 	
 	/**
-	 * Voegt een absent user toe aan het event
-	 */
-	@Transactional
-	public void addAbsent (Long event_id, Long user_id){
-		Event event = em.find(Event.class, event_id);
-		event.addAbsent(userDao.findById(user_id));
-	}
-	
+//	 * Voegt een present user toe aan het event
+//	 */
+//	@Transactional
+//	public void addPresent (Long event_id, Long user_id){
+//		Event event = em.find(Event.class, event_id);
+//		event.addPresent(userDao.findById(user_id));
+//	}
+//	
+//	/**
+//	 * Voegt een absent user toe aan het event
+//	 */
+//	@Transactional
+//	public void addAbsent (Long event_id, Long user_id){
+//		Event event = em.find(Event.class, event_id);
+//		event.addAbsent(userDao.findById(user_id));
+//	}
+//	
 }

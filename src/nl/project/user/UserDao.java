@@ -84,7 +84,7 @@ public class UserDao {
 	public List<User> all() {
 		List<User> ret =  em.createQuery("from User", User.class).getResultList();
 		for( User u : ret) {
-			u.getTeams();
+			u.getTeam();
 		}		
 		return ret;
 	}

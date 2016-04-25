@@ -89,6 +89,7 @@ public class EventController {
 		return "redirect:/events/" + team.getId();
 	}
 	
+	/*
 	@RequestMapping(value="/events/present")
 	public String present (HttpSession session, Model model){
 
@@ -110,5 +111,5 @@ public class EventController {
 		model.addAttribute("event",event);
 		return "eventDetail";
 	}
-	
+	*/
 }

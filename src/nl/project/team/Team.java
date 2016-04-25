@@ -1,6 +1,8 @@
 package nl.project.team;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,6 +18,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import nl.project.event.Event;
 import nl.project.user.User;
 
 @Entity
@@ -26,14 +29,12 @@ public class Team {
 	
 	private String name;
 	private List<User> members; 
-	//private List<Event> events;
+	private List<Event> events;
 
-	@NotNull
+	//@NotNull	
 	private User manager;
 	private User coach;
 	private String sport;
-	
-	
 	
 	public String getName() {
 		return name;
@@ -43,8 +44,8 @@ public class Team {
 		this.name = name;
 	}
 	
-	/*
-	@ManyToMany(mappedBy="teams")
+
+	@OneToMany(mappedBy="eventOwner")
 	public List<Event> getEvents() {
 		return events;
 	}
@@ -52,7 +53,6 @@ public class Team {
 	public void setEvents(List<Event> events) {
 		this.events = events;
 	}
-	*/
 	
 	@OneToMany(mappedBy="team",
 			cascade={CascadeType.PERSIST, CascadeType.MERGE}
@@ -125,7 +125,7 @@ public class Team {
 	public void addEvent(Event u){
 		this.events.add(u);
 	}
-	
+	*/
 	public void sortEvents(){
 		Collections.sort(events, new Comparator<Event>() {
 		    @Override
@@ -135,7 +135,7 @@ public class Team {
 		    }
 		});
 	}
-	*/
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

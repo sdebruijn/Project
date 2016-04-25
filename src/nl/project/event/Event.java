@@ -1,7 +1,6 @@
 package nl.project.event;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -18,7 +15,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import nl.project.team.Team;
-import nl.project.user.User;
 
 @Entity
 public class Event {
@@ -26,7 +22,7 @@ public class Event {
 	@NotEmpty
 	private String type;
 	
-	@DateTimeFormat(pattern="yyyy/MM/dd")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private String date;
 	private String starttime;
 	private String endtime;
@@ -36,15 +32,16 @@ public class Event {
 	//private List<User> present;
 	//private List<User> absent;
 	
-	private User eventOwner;
+	
+	private Team eventOwner;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="owner_id")
-	public User getEventOwner() {
+	public Team getEventOwner() {
 		return eventOwner;
 	}
 	
-	public void setEventOwner(User newOwner) {
+	public void setEventOwner(Team newOwner) {
 		this.eventOwner = newOwner;
 	}
 	
@@ -91,8 +88,8 @@ public class Event {
 		int month = Integer.valueOf(parts[1]);
 		int day = Integer.valueOf(parts[2]);
 		
-		start = LocalDateTime.of(year, month, day, 0, 0);
-		end = LocalDateTime.of(year, month, day, 0, 0);
+		this.start = LocalDateTime.of(year, month, day, 0, 0);
+		this.end = LocalDateTime.of(year, month, day, 0, 0);
 		}
 	}
 
