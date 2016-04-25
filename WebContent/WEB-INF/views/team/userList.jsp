@@ -6,27 +6,22 @@
 <!DOCTYPE html">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>${action}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<title>Create new team</title>
 </head>
 <body>
 <div class="container">
-  <h2>Create a new team</h2>
-  <form:form method="post" action="/project/createTeam">
-	<div class="form-group">
-  		<label for="teamName">Team name:</label>
-  		<input type="text" class="form-control" name="teamName">
-	</div>
-	<div class="form-group">
-  		<label for="sport">Sport:</label>
-  		<input type="text" class="form-control" name="sport">
-	</div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form:form>
+  <h2>${action}</h2>
+  <div class="btn-group-vertical">
+    <c:forEach items="${users }" var="i">
+    <a href="<c:url value="/team/${team}/${action}/${i.id}" />"><button type="button" class="btn btn-primary btn-block">${i.surname} ${i.name }</button></a>
+    </c:forEach>
+  </div>
 </div>
 </body>
 </html>

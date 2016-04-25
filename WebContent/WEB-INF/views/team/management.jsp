@@ -26,11 +26,11 @@
     </c:forEach>
     
   <div class="btn-group-vertical">
-  	<a href="<c:url value="/showcoaches/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Add coach</button></a>
-    <a href="<c:url value="/showusers/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Add member</button></a>
-    <a href="<c:url value="/showmembers/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Remove member</button></a>
-    <a href="<c:url value="/removeall/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Remove all</button></a>
-    <a href="<c:url value="/deleteteam/${team.id}" />"><button type="button" class="btn btn-primary btn-block">Remove team</button></a> 
-    <a href="<c:url value="/teammenu/${team.id}" />"><button type="button" class="btn btn-default btn-block">Back</button></a> 
+  	<a href="<c:url value="/team/${team.id}/coach" />"><button type="button" class="btn btn-primary btn-block">Add coach</button></a>
+    <a href="<c:url value="/team/${team.id}/members" />"><button type="button" class="btn btn-primary btn-block">Add member</button></a>
+    <a href="<c:url value="/team/${team.id}/removeMember" />"><button type="button" class="btn btn-primary btn-block">Remove member</button></a>
+    <a href="<c:url value="/team/${team.id}/removeMembers" />"><button type="button" class="btn btn-primary btn-block">Remove all</button></a>
+    <a href="<c:url value="/team/${team.id}/remove" />"><button type="button" class="btn btn-primary btn-block">Remove team</button></a> 
+    <a href="<c:url value="/team/${team.id}" />"><button type="button" class="btn btn-default btn-block">Back</button></a> 
   </div>
 </div>

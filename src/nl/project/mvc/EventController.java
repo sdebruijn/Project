@@ -34,7 +34,7 @@ public class EventController {
 		Team team = (Team) session.getAttribute("currentteam");
 		model.addAttribute("team", team);
 		model.addAttribute("events", teamDao.allEvents(team.getId()));
-		return "eventMenu";
+		return "event/menu";
 		}
 	
 	/**
@@ -55,26 +55,25 @@ public class EventController {
 		Event event = eventDao.find(key);
 		session.setAttribute("currentevent", event);
 		model.addAttribute("event", event);
-		return "eventDetail";
+		return "details";
 		}	
 	
 	
 	/**
 	 * Voegt een event toe
 	 */
-	@RequestMapping(value="events/createevent", method=RequestMethod.GET)
+	@RequestMapping(value="events/new", method=RequestMethod.GET)
 	public String createEvent(Model model, HttpSession session){
 		model.addAttribute("event", new Event());
 		model.addAttribute("team", session.getAttribute("currentteam"));
-		return "newEvent";
+		return "event/new";
 	}
 	
-	
-	@RequestMapping(value="events/createevent", method=RequestMethod.POST)
+	@RequestMapping(value="events/new", method=RequestMethod.POST)
 	public String createEvent(@Valid Event event, BindingResult bindingresult, HttpSession session){
 		
 		if (bindingresult.hasErrors()){
-			return "newEvent";
+			return "event/new";
 		}
 		
 		eventDao.createMatch(event);
@@ -82,7 +81,7 @@ public class EventController {
 		Team team = (Team) session.getAttribute("currentteam");
 		teamDao.addEvent(event.getId(), team.getId());
 		
-		return "redirect:/events/" + team.getId();
+		return "redirect:/events/";
 	}
 	
 	/*

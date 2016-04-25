@@ -17,16 +17,20 @@
 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
+Current User:
+${sessionScope["curUser"]}
+
+
 	<div class="container">
 		<h2>Welkom username</h2>
 		<div class="btn-group-vertical">
 			<a href="user/new"><button type="button" class="btn btn-primary"> New user</button></a> <br /> 
-			<a href="newTeam"><button type="button"	class="btn btn-primary btn-block">New team</button></a>
+			<a href="team/new"><button type="button"	class="btn btn-primary btn-block">New team</button></a>
 
 
 
 			<c:forEach items="${teams}" var="i">
-				<a href="<c:url value="/teammenu/${i.id}" />"><button
+				<a href="<c:url value="/team/${i.id}" />"><button
 						type="button" class="btn btn-primary btn-block">${i.name }</button></a>
 			</c:forEach>
 

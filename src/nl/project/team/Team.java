@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.GenericGenerator;
 
 import nl.project.event.Event;
+import nl.project.event.EventDao;
 import nl.project.user.User;
 
 @Entity
@@ -113,11 +114,22 @@ public class Team {
 	}
 	
 	public void removeMember(User u){
+		u.setTeam(null);
 		members.remove(u);
 	}
 	
 	public void removeAllMembers(){
+		for (User u : this.getMembers() ) {
+			u.setTeam(null);			
+		}
 		members.clear();
+	}
+	
+	public void removeAllEvents() {
+		for (Event e : this.getEvents() ) {
+			EventDao eventDao = new EventDao();
+			eventDao.remove(e.getId());			
+		}
 	}
 	
 	/*

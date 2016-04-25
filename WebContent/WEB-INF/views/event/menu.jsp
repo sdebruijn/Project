@@ -3,11 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
-<!DOCTYPE html">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <title>${action}</title>
+  <title>Mainmenu</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -16,12 +15,16 @@
 </head>
 <body>
 <div class="container">
-  <h2>${action}</h2>
+  <h2>Events</h2>
   <div class="btn-group-vertical">
-    <c:forEach items="${users }" var="i">
-    <a href="<c:url value="/${action}/${i.id}/${team}" />"><button type="button" class="btn btn-primary btn-block">${i.surname} ${i.name }</button></a>
+    <a href="/project/events/new"><button type="button" class="btn btn-primary btn-block">New match</button></a>
+
+    <c:forEach items="${events}" var="i">
+    	<a href="<c:url value="events/${i.id}" />"><button type="button" class="btn btn-primary btn-block">${i.start} ${i.title}</button></a>
     </c:forEach>
+    
+   	<a href="<c:url value="/mainMenu" />"><button type="button"	class="btn btn-default btn-block">Main</button></a>
+   	<a href="<c:url value="/team/${team.id}" />"><button type="button"	class="btn btn-default btn-block">Back to Team</button></a>
+    
   </div>
 </div>
-</body>
-</html>
