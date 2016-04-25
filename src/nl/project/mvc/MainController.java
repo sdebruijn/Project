@@ -32,28 +32,8 @@ public class MainController {
 	@Transactional
 	@RequestMapping("/mainMenu")
 	public String mainMenu(Model model) {
-		//model.addAttribute("teams", teamDao.all());
-		teamDao.create("Sport", "Sport");
-		teamDao.create("Sposdrt", "Sport");
-		userDao.create(new User("Fiets", "Fiets"));
-		Event e = new Event();
-		e.setTitle("Woohoo");
-		eventDao.createMatch(e);
 		
-		
-		Team t = teamDao.find(1l);
-		Team p = teamDao.find(2l);
-		User u = userDao.findById(1l);
-		teamDao.addMember(u, t);
-		System.out.println("Team t:" + teamDao.allTeamMembers(t.getId()));
-		System.out.println("Team p:" + teamDao.allTeamMembers(p.getId()));
-		teamDao.addMember(u, p);
-		
-		System.out.println("Team t:" + teamDao.allTeamMembers(t.getId()));
-		System.out.println("Team p:" + teamDao.allTeamMembers(p.getId()));
-		System.out.println(u.getTeam());
-		
-		return "test";
+		return "mainMenu";
 	}
 	
 	@RequestMapping("/newTeam")

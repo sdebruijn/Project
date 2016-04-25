@@ -85,11 +85,9 @@ public class TeamDao {
 	 * Voegt een member toe aan team
 	 */	
 	@Transactional
-	public void addMember(User user, Team team){
-		System.out.println(team.getMembers());
-		user.setTeam(team);
-		System.out.println(team.getMembers());
-		em.persist(user);
+	public void addMember(Long user_id, Long team_id){
+		Team team = em.find(Team.class, team_id);
+		team.addMember(userDao.findById(user_id));
 	}
 	
 	/**

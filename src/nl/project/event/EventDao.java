@@ -5,13 +5,20 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import nl.project.user.UserDao;
 
 @Repository
 public class EventDao {
 	@PersistenceContext
     private EntityManager em;	
+    
+	@Autowired
+	private UserDao userDao;
 	
 	/**
 	 * Maak een nieuwe wedstrijd aan en sla die op in de database
@@ -39,8 +46,6 @@ public class EventDao {
 		return event;
 	}
 	
-<<<<<<< HEAD
-=======
 	
 	/**
 //	 * Voegt een present user toe aan het event
@@ -60,5 +65,4 @@ public class EventDao {
 //		event.addAbsent(userDao.findById(user_id));
 //	}
 //	
->>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 }

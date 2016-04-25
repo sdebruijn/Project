@@ -19,20 +19,16 @@ import nl.project.team.Team;
 @Entity
 public class Event {
 
+	@NotEmpty
 	private String type;
 	
-<<<<<<< HEAD
-=======
 	@DateTimeFormat(pattern="yyyy-MM-dd")
->>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	private String date;
 	private String starttime;
 	private String endtime;
 	private LocalDateTime start;
 	private LocalDateTime end;
 	
-<<<<<<< HEAD
-=======
 	//private List<User> present;
 	//private List<User> absent;
 	
@@ -50,17 +46,11 @@ public class Event {
 	}
 	
 	
->>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	@NotEmpty
 	private String title;
 	private String description;
 	private String location;
-<<<<<<< HEAD
-	private Team team;
-	
-=======
 		
->>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	//Match
 	private String homeTeam;
 	private String awayTeam;
@@ -159,19 +149,6 @@ public class Event {
 		this.location = location;
 	}
 
-<<<<<<< HEAD
-	@ManyToOne
-	@JoinColumn(name="team_id")
-	public Team getTeam() {
-		return team;
-	}
-
-	public void setTeam(Team team) {
-		this.team = team;
-	}
-
-=======
->>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	public String getHomeTeam() {
 		return homeTeam;
 	}
@@ -227,8 +204,6 @@ public class Event {
 	public void setType(String type) {
 		this.type = type;
 	}
-<<<<<<< HEAD
-=======
 	
 	/*
 	@ManyToMany
@@ -275,5 +250,4 @@ public class Event {
 		absent.clear();
 	}
 	*/
->>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 }

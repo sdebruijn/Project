@@ -15,6 +15,8 @@ import nl.project.event.Event;
 import nl.project.event.EventDao;
 import nl.project.team.Team;
 import nl.project.team.TeamDao;
+import nl.project.user.User;
+import nl.project.user.UserDao;
 
 @Controller
 public class EventController {
@@ -23,6 +25,8 @@ public class EventController {
 	private TeamDao teamDao;
 	@Autowired
 	private EventDao eventDao;
+	@Autowired
+	private UserDao userDao;
 	
 	/**
 	 * Toont bestaande events en mogelijkheid tot nieuwe events
@@ -83,9 +87,6 @@ public class EventController {
 		teamDao.addEvent(event.getId(), team.getId());
 		
 		return "redirect:/events/" + team.getId();
-<<<<<<< HEAD
-	}	
-=======
 	}
 	
 	/*
@@ -111,5 +112,4 @@ public class EventController {
 		return "eventDetail";
 	}
 	*/
->>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 }

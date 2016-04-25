@@ -11,15 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-<<<<<<< HEAD
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-=======
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
->>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -49,12 +44,8 @@ public class Team {
 		this.name = name;
 	}
 	
-<<<<<<< HEAD
-	@OneToMany(mappedBy="team")
-=======
 
 	@OneToMany(mappedBy="eventOwner")
->>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	public List<Event> getEvents() {
 		return events;
 	}
@@ -63,14 +54,9 @@ public class Team {
 		this.events = events;
 	}
 	
-<<<<<<< HEAD
-	
-	@OneToMany(mappedBy="team")
-=======
 	@OneToMany(mappedBy="team",
 			cascade={CascadeType.PERSIST, CascadeType.MERGE}
 			)
->>>>>>> 2afc8bf7bcf231d8985092ae72be3efd31280580
 	public List<User> getMembers() {
 		return members;
 	}

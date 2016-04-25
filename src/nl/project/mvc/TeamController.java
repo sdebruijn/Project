@@ -101,7 +101,7 @@ public class TeamController {
 			return null;
 		}
 		
-		teamDao.addMember(userDao.findById(key1), teamDao.find(key2));
+		teamDao.addMember(key1, key2);
 		return "redirect:/team/" + key2;
 	}
 	
