@@ -45,7 +45,7 @@
 						<li>Toepassen in:
 							<ul>
 								<li>project</li>
-								<li><a href="http://localhost/my_mvc/welkom">andere </a>dingen</li>
+								<li><a href="http://10.2.22.61/my_mvc/welkom">andere </a>dingen</li>
 							</ul>
 						</li> 
 					</ul>
@@ -58,11 +58,12 @@
 							<li>Hoe?</li>
 						</ul>
 				</section>
-				<section>
+			</section>
+			<section>
 				<img width="600" height="400" data-src="plaatje.png">
-				<p><a href="http://localhost/project/mainMenu">Teamapp</a></p>
-				</section>
-				
+				<p><a href="http://10.2.22.61/project/mainMenu">Teamapp</a></p>
+			</section>
+			<section>
 				<section>
 					<h2>Model</h2>
 						<ul>
@@ -75,25 +76,39 @@
 							<li class="fragment highlight-red">Competitie informatie</li>
 						</ul>
 				</section>
+				<section>
+					<h2>Eerst</h2>
+					<img data-src="uml1.png">
+				</section>
+				<section>
+					<h2>Later</h2>
+					<img data-src="uml2.png">
+				</section>
+				<section>
+					<h2>Hibernate</h2>
+					<p class="fragment highlight-red">failed to lazily initialize a collection of role</p>
+					<img class="fragment" width="400" height="400" data-src="lazy.jpg">
+				</section>
+				<section data-markdown>
+					<h2>Een oplossing</h2>
+    				 <pre><code data-trim data-noescape>
+		/**
+		* Haal een team op a.d.h.v. zijn id
+		*/
+		@Transactional
+		public Team findById(Long id) {
+			Team team = em.find(Team.class, id);
+			Hibernate.initialize(team.getMembers());
+			Hibernate.initialize(team.getEvents());
+		return team;
+		}				
+					</pre></code>
+				</section>
 			</section>
-			<section>
-				<h2>Java</h2>
-					<ul>
-						<li>Data classes</li>
-						<li>Input validatie</li>
-						<li>Class diagram</li>
-					</ul>
+		    <section>
+				<h2>AngularJS</h2>
+				<p><a href="http://10.2.22.61/project/poll">Poll</a></p>
 			</section>
-			<section>
-				<h2>Frontend</h2>
-				<p>Afbeelding</p>
-			</section>
-
-			<section>
-				<h2>Spring Web MVC</h2>
-				<p><a href="/project/mainMenu">Demo</a></p>
-			</section>
-			
 			</div>
 		</div>
 
