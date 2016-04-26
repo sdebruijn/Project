@@ -94,9 +94,95 @@
 				<p><a href="/project/mainMenu">Demo</a></p>
 			</section>
 			
+			
+			<section>
+			
+				<section>
+					<h2>Spring Security</h2>
+
+					<ul>
+						<li class="fragment">Voor welke URL inloggen?</li>
+                  <li class="fragment">Wie heeft toegang?</li>
+						<li class="fragment">Regelt inloggen</li>
+						<li class="fragment">Regelt uitloggen</li>
+						<li class="fragment">Beveiligt tegen allerlei aanvallen</li>
+                  </ul>
+               </script>
+				</section>
+				
+				
+				<section>
+					<h2>Security: Set up</h2>
+						<pre><code data-trim data-noescape>
+protected void configure(HttpSecurity http) throws Exception {
+   http
+     .authorizeRequests()
+        .antMatchers("/resources/**", "/signup", "/about").permitAll()
+        .antMatchers("/admin/**").hasRole("ADMIN")            
+        .antMatchers("/user/**").hasRole("USER")
+        .antMatchers("/team/**").hasRole("USER")
+        .anyRequest().authenticated()
+        .and()
+     .formLogin()
+        .loginPage("/login")
+        .permitAll()
+        .and()
+     .logout()
+        .permitAll();
+}
+		</code></pre>
+				</section>
+				<section>
+					<h2>Security: Problemen</h2>
+					<ul>
+						<li>XML Configuratie</li>
+						<li>Database</li>
+					</ul>
+				</section>
+
+			</section> <!-- End section SPRING SECURITY -->
+         
+         <section>
+            <section>
+               <h2>New User</h2>
+               <ul>
+                  <li class="fragment">Ajax call to REST</li>
+                  <li class="fragment">Spring validation</li>
+               </ul>
+               <pre class="fragment"><code data-trim data-noescape>
+@RequestMapping(value="user/new", method=RequestMethod.POST)
+public String newUser( @Valid User user, 
+                       BindingResult bindingResult, 
+                       Model model ) {
+   if (bindingResult.hasErrors()) {
+      return "user/new";
+   }
+   if (userDao.exist(user)) {
+      model.addAttribute("error", "First and last name already exist.");
+      return "user/new";
+   }
+   userDao.create(user);
+   return "redirect:/mainMenu";
+}
+               </code></pre>
+               <a class="fragment" href="/project/user/new">Demo</a>
+            </section>
+            
+            
+         </section>
+			
+			
+			
 			</div>
 		</div>
 
+		
+		
+		
+		
+		
+		
+		
 		<script src="lib/js/head.min.js"></script>
 		<script src="js/reveal.js"></script>
 
