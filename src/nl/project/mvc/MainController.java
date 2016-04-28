@@ -33,6 +33,4 @@ public class MainController {
 	public String newTeam() {
 		return "Poll";
 	}
-	
-	
 }
