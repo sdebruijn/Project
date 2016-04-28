@@ -20,7 +20,7 @@
     <a href="/project/events/new"><button type="button" class="btn btn-primary btn-block">New match</button></a>
 
     <c:forEach items="${events}" var="i">
-    	<a href="<c:url value="events/${i.id}" />"><button type="button" class="btn btn-primary btn-block">${i.start} ${i.title}</button></a>
+    	<a href="<c:url value="events/${i.id}" />"><button type="button" class="btn btn-primary btn-block">${i.date} ${i.title}</button></a>
     </c:forEach>
     
    	<a href="<c:url value="/mainMenu" />"><button type="button"	class="btn btn-default btn-block">Main</button></a>
