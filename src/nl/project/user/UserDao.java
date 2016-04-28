@@ -132,6 +132,15 @@ public class UserDao {
 		}
 	}
 	
+	@Transactional
+	public boolean exist(String name, String surname) {
+		User u = new User();
+		u.setName(name);
+		u.setSurname(surname);
+		return exist(u);
+		
+	}
+	
 	
 
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import nl.project.user.User;
@@ -26,6 +28,24 @@ import nl.project.user.UserDao;
 public class UserRestApi {
 	@Autowired
 	private UserDao userDao;
+	
+
+	
+	@RequestMapping(value = "exists/{name}/{surname}", method = RequestMethod.GET)
+	@ResponseBody
+	public String exists(@PathVariable String name, @PathVariable String surname)  {
+		System.err.println("Inside user exist");
+
+		
+		if (userDao.exist(name, surname)) {
+			System.err.println("true");
+			return "true";
+		} else {
+			System.err.println("false");
+			return "false";
+		}
+	}
+	
 	
 	@Transactional
 	@RequestMapping(method = RequestMethod.GET)
@@ -100,4 +120,9 @@ public class UserRestApi {
 		return;
 	}
 	
+}
+
+class FormData {
+	public String name;
+	public String surname;
 }

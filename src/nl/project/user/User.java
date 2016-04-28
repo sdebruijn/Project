@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.context.annotation.Scope;
 
 import nl.project.team.Team;
 
@@ -42,6 +41,10 @@ public class User {
 	@NotNull
 	@Size(min=2,max=45)
 	private String surname;
+	
+	private Integer age;
+	private String email;
+	
 	
 	private Team team;
 	
@@ -83,6 +86,21 @@ public class User {
 			throw new IllegalArgumentException();
 		}
 		this.surname = surname.trim();
+	}
+	
+	public Integer getAge() {
+		return this.age;
+	}
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+	
+	public String getEmail() {
+		return this.email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
   @ManyToOne

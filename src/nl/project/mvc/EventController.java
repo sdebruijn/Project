@@ -35,7 +35,7 @@ public class EventController {
 		model.addAttribute("team", team);
 		model.addAttribute("events", teamDao.allEvents(team.getId()));
 		return "event/menu";
-		}
+	}
 	
 	/**
 	 * Toont eventdetails

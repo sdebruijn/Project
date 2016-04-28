@@ -64,8 +64,7 @@ public class UserController {
 			model.addAttribute("error", "This name and surname is already recorded, please enter something else.");
 			return "user/new";
 		}
-		
-		
+
 		userDao.create(user);
 		
 		return "redirect:/mainMenu";
