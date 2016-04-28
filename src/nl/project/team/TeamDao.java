@@ -125,10 +125,27 @@ public class TeamDao {
 	@Transactional
 	public void addEvent(Long event_id, Long team_id) {
 		Team team = em.find(Team.class, team_id);
-		// team.addEvent(eventDao.find(event_id));
-		team.getEvents().add(eventDao.find(event_id));
+		Event event = em.find(Event.class, event_id);
+		event.setEventOwner(team);
 	}
 
+	/**
+	 * Kijkt of user in dit team zit
+	 */
+	@Transactional
+	public boolean check(Long user_id, Long team_id){
+		Team team = em.find(Team.class, team_id);
+		User user = userDao.findById(user_id);
+		boolean bla = false;
+		for (User u : team.getMembers()){
+			if (user.equals(u)){
+				bla = true;
+			}
+		}
+		return bla;
+		
+	}
+	
 	/**
 	 * Zoekt alle events op die bij dit team horen
 	 */

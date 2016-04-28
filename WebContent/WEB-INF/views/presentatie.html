@@ -45,23 +45,9 @@
 						<li>Toepassen in:
 							<ul>
 								<li>project</li>
-								<li>andere dingen</li>
+								<li><a href="http://10.2.22.61/my_mvc/welkom">andere </a>dingen</li>
 							</ul>
 						</li> 
-					</ul>
-				</section>
-				<section>
-					<h2>Doelen Sander</h2>
-					<ul>
-						<li>Nieuwe technieken
-							<ul>
-								<li>Database</li>
-								<li>MVC</li>
-								<li>Frontend</li>
-							</ul>
-						</li>
-						<li>Git/samenwerken</li>
-						<li>Code netjes houden</li>
 					</ul>
 				</section>
 				<section>
@@ -75,6 +61,7 @@
 			</section>
 			<section>
 				<img width="600" height="400" data-src="plaatje.png">
+				<p><a href="http://10.2.22.61/project/mainMenu">Teamapp</a></p>
 			</section>
 			<section>
 				<section>
@@ -98,10 +85,6 @@
 					<img data-src="uml2.png">
 				</section>
 				<section>
-					<h2>Bootstrap/CSS</h2>
-					<p><a href="http://10.2.22.61/project/mainMenu">Demo</a></p>
-				</section>
-				<section>
 					<h2>Hibernate</h2>
 					<p class="fragment highlight-red">failed to lazily initialize a collection of role</p>
 					<img class="fragment" width="400" height="400" data-src="lazy.jpg">
@@ -122,80 +105,10 @@
 					</pre></code>
 				</section>
 			</section>
-			<section> <!-- section SPRING SECURITY -->
-			
-				<section>
-					<h2>Spring Security</h2>
-
-					<ul>
-						<li class="fragment">Voor welke URL inloggen?</li>
-                  <li class="fragment">Wie heeft toegang?</li>
-						<li class="fragment">Regelt inloggen</li>
-						<li class="fragment">Regelt uitloggen</li>
-						<li class="fragment">Beveiligt tegen allerlei aanvallen</li>
-                  </ul>
-               </script>
-				</section>
-						
-				<section>
-					<h2>Security: Set up</h2>
-						<pre><code data-trim data-noescape>
-protected void configure(HttpSecurity http) throws Exception {
-   http
-     .authorizeRequests()
-        .antMatchers("/resources/**", "/signup", "/about").permitAll()
-        .antMatchers("/admin/**").hasRole("ADMIN")            
-        .antMatchers("/user/**").hasRole("USER")
-        .antMatchers("/team/**").hasRole("USER")
-        .anyRequest().authenticated()
-        .and()
-     .formLogin()
-        .loginPage("/login")
-        .permitAll()
-        .and()
-     .logout()
-        .permitAll();
-}
-		</code></pre>
-				</section>
-				<section>
-					<h2>Security: Problemen</h2>
-					<ul>
-						<li>XML Configuratie</li>
-						<li>Database</li>
-					</ul>
-				</section>
-
-			</section> <!-- End section SPRING SECURITY -->
-         
-         <section>
-            <section>
-               <h2>New User</h2>
-               <ul>
-                  <li class="fragment">Ajax call to REST</li>
-                  <li class="fragment">Spring validation</li>
-               </ul>
-               <pre class="fragment"><code data-trim data-noescape>
-@RequestMapping(value="user/new", method=RequestMethod.POST)
-public String newUser( @Valid User user, 
-                       BindingResult bindingResult, 
-                       Model model ) {
-   if (bindingResult.hasErrors()) {
-      return "user/new";
-   }
-   if (userDao.exist(user)) {
-      model.addAttribute("error", "First and last name already exist.");
-      return "user/new";
-   }
-   userDao.create(user);
-   return "redirect:/mainMenu";
-}
-               </code></pre>
-               <a class="fragment" href="/project/user/new">Demo</a>
-            </section>
-            
-            
-         </section>
+		    <section>
+				<h2>AngularJS</h2>
+				<p><a href="http://10.2.22.61/project/poll">Poll</a></p>
+			</section>
 			</div>
 		</div>
 
