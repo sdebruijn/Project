@@ -136,6 +136,35 @@
 				</section>
 			</section>
 
+         <section>
+            <section>
+               <h2>New User</h2>
+               <ul>
+                  <li class="fragment">At POST: Spring validation (REST)</li>
+                  <li class="fragment">During: Ajax call validation (REST)</li>
+                  <li class="fragment">Interactieve button: jQuery</li>                  
+               </ul>
+               <pre class="fragment"><code data-trim data-noescape>
+@RequestMapping(value="user/new", method=RequestMethod.POST)
+public String newUser( @Valid User user, 
+                       BindingResult bindingResult, 
+                       Model model ) {
+   if (bindingResult.hasErrors()) {
+      return "user/new";
+   }
+   if (userDao.exist(user)) {
+      model.addAttribute("error", "First and last name already exist.");
+      return "user/new";
+   }
+   userDao.create(user);
+   return "redirect:/mainMenu";
+}
+               </code></pre>
+               <a class="fragment" href="/project/user/new">Demo</a>
+            </section>
+         </section>
+
+
 
 			<section> <!-- section SPRING SECURITY -->
             <section>
@@ -204,37 +233,14 @@ protected void configure(HttpSecurity http) throws Exception {
 						<li>Configuratie (Java, XML)</li>
 						<li>Database</li>
 					</ul>
+					<p class=fragment>
+					<a href="http://10.2.22.63:8080/">Security Demo</a>
+					</p>
 				</section>
 
 			</section> <!-- End section SPRING SECURITY -->
          
-         <section>
-            <section>
-               <h2>New User</h2>
-               <ul>
-                  <li class="fragment">At POST: Spring validation (REST)</li>
-                  <li class="fragment">During: Ajax call validation (REST)</li>
-                  <li class="fragment">Interactieve button: jQuery</li>                  
-               </ul>
-               <pre class="fragment"><code data-trim data-noescape>
-@RequestMapping(value="user/new", method=RequestMethod.POST)
-public String newUser( @Valid User user, 
-                       BindingResult bindingResult, 
-                       Model model ) {
-   if (bindingResult.hasErrors()) {
-      return "user/new";
-   }
-   if (userDao.exist(user)) {
-      model.addAttribute("error", "First and last name already exist.");
-      return "user/new";
-   }
-   userDao.create(user);
-   return "redirect:/mainMenu";
-}
-               </code></pre>
-               <a class="fragment" href="/project/user/new">Demo</a>
-            </section>
-         </section>
+
          
           <section>
             <section>
